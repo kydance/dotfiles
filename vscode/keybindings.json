@@ -55,13 +55,19 @@
     {
         "key": "escape",
         "command": "workbench.action.focusFirstEditorGroup",
-        "when": "inSearchEditor && inputBoxFocus|| inputBoxFocus && searchViewletVisible"
+        "when": "inSearchEditor && inputBoxFocus|| inputBoxFocus && searchViewletVisible" 
     },
     // 在文件浏览界面，只需按 esc，就可回到编辑器
     {
         "key": "escape",
         "command": "workbench.action.focusFirstEditorGroup",
         "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+    },
+    // 在 Source Control 浏览界面，只需按 esc，就可回到编辑器
+    {
+        "key": "escape",
+        "command": "workbench.action.focusFirstEditorGroup",
+        "when": "sideBarFocus && !findWidgetVisible"
     },
 
     {
