@@ -36,6 +36,11 @@ return require("packer").startup(function(use)
     -- Packer can manage itself
     use("wbthomason/packer.nvim")
 
+    -- Note:
+    --     the default search path for `require` is ~/.config/nvim/lua
+    --     use a `.` as a path seperator
+    --     the suffix `.lua` is not needed
+
     ---------------------------------------
     -- NOTE: PUT YOUR THIRD PLUGIN HERE --
     ---------------------------------------
@@ -77,10 +82,86 @@ return require("packer").startup(function(use)
     -- 6. Show indentation and blankline
     use { 'lukas-reineke/indent-blankline.nvim', config = [[require('config.nvim-indent-blankline')]] }
 
-    -- Git integration
+    -- 7. Git integration
     use("tpope/vim-fugitive")
     use({ "lewis6991/gitsigns.nvim",
           config = [[require('config.nvim-gitsigns')]]
+    })
+
+    -- 8. Vscode-like pictograms
+    use({ "onsails/lspkind.nvim", event = "VimEnter" })
+
+    -- 9. Auto-completion engine
+    use({ "hrsh7th/nvim-cmp", after = "lspkind.nvim",
+          config = [[require('config.nvim-cmp')]] })
+    use({ "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" })
+    -- buffer auto-completion
+    use({ "hrsh7th/cmp-buffer", after = "nvim-cmp" }) 
+    -- path auto-completion
+    use({ "hrsh7th/cmp-path", after = "nvim-cmp" })
+    -- cmdline auto-completion
+    use({ "hrsh7th/cmp-cmdline", after = "nvim-cmp" }) 
+
+    -- 10. Autopairs: [], (), "", '', ete. It relies on nvim-cmp
+    use({ "windwp/nvim-autopairs",
+        after = "nvim-cmp",
+        config = [[require('config.nvim-autopairs')]],
+    })
+
+    -- 11. Code comment helper
+        -- 1. `gcc` to comment a line
+        -- 2. select lines in visual mode and run `gc` to comment/uncomment lines
+    use("tpope/vim-commentary")
+
+    -- 12. Buffer line
+    use({ "akinsho/bufferline.nvim",
+          config = [[require('config.nvim-bufferline')]],
+    })
+
+    -- 13. Smart motion
+        -- FIXME 不知如何使用
+    use {'smoka7/hop.nvim',
+      tag = '*', -- optional but strongly recommended
+      config = function()
+        -- you can configure Hop the way you like here; see :h hop-config
+        require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+      end
+    }
+
+    -- 14. Better terminal integration
+        -- tag = string,
+        -- Specifies a git tag to use. Supports '*' for "latest tag"
+    use({ "akinsho/toggleterm.nvim",
+          tag = "*",
+          config = [[require('config.nvim-toggleterm')]],
+    })
+
+    -- 15. Todo
+    use({ "folke/todo-comments.nvim",
+          config = function() require"todo-comments".setup{} end
+    })
+
+    -- 16. Telescope
+    use({ "nvim-telescope/telescope.nvim",
+      requires = { { "nvim-lua/plenary.nvim" } },
+      config = [[require('config.nvim-telescope')]],
+    })
+
+    -- 17. LSP manager
+    use({ "williamboman/mason.nvim" })
+    use({ "williamboman/mason-lspconfig.nvim" })
+    use({ "neovim/nvim-lspconfig" })
+    -- Add hooks to LSP to support Linter && Formatter
+    use({ "nvim-lua/plenary.nvim" })
+    use({ "jay-babu/mason-null-ls.nvim",
+          after = "plenary.nvim",
+          requires = { "jose-elias-alvarez/null-ls.nvim" },
+          config = [[require('config.nvim-mason-null-ls')]],
+    })
+    use( {
+        "folke/trouble.nvim",
+        requires = "nvim-tree/nvim-web-devicons",
+        config = function() require("trouble").setup{} end,
     })
 
     -- Automatically set up your configuration after cloning packer.nvim
