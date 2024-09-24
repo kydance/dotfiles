@@ -68,6 +68,12 @@ return require("packer").startup(function(use)
     use({ "nvim-treesitter/nvim-treesitter",
           "nvim-treesitter/nvim-treesitter-textobjects",
           "nvim-treesitter/nvim-treesitter-context",
+
+        'windwp/nvim-ts-autotag',
+        'JoosepAlviste/nvim-ts-context-commentstring',
+        'andymass/vim-matchup',
+        'mfussenegger/nvim-treehopper',
+
           run = function()
               local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
               ts_update()
@@ -77,6 +83,9 @@ return require("packer").startup(function(use)
 
     -- 5. rainbow
     use("p00f/nvim-ts-rainbow")
+    use({ "kylechui/nvim-surround",
+          config = [[require('config.nvim-surround')]]
+    })
 
 
     -- 6. Show indentation and blankline
@@ -92,14 +101,10 @@ return require("packer").startup(function(use)
     use({ "onsails/lspkind.nvim", event = "VimEnter" })
 
     -- 9. Auto-completion engine
-    use({ "hrsh7th/nvim-cmp", after = "lspkind.nvim",
-          config = [[require('config.nvim-cmp')]] })
+    use({ "hrsh7th/nvim-cmp", after = "lspkind.nvim", config = [[require('config.nvim-cmp')]] })
     use({ "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" })
-    -- buffer auto-completion
     use({ "hrsh7th/cmp-buffer", after = "nvim-cmp" }) 
-    -- path auto-completion
     use({ "hrsh7th/cmp-path", after = "nvim-cmp" })
-    -- cmdline auto-completion
     use({ "hrsh7th/cmp-cmdline", after = "nvim-cmp" }) 
 
     -- 10. Autopairs: [], (), "", '', ete. It relies on nvim-cmp
@@ -115,6 +120,8 @@ return require("packer").startup(function(use)
 
     -- 12. Buffer line
     use({ "akinsho/bufferline.nvim",
+          tag = '*',
+          requires = { 'famiu/bufdelete.nvim' },
           config = [[require('config.nvim-bufferline')]],
     })
 
@@ -127,6 +134,12 @@ return require("packer").startup(function(use)
         require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
       end
     }
+
+    -- cursor motion
+    use({
+        "folke/which-key.nvim",
+        config = [[require('config.nvim-which-key')]],
+    })
 
     -- 14. Better terminal integration
         -- tag = string,
@@ -162,6 +175,28 @@ return require("packer").startup(function(use)
         "folke/trouble.nvim",
         requires = "nvim-tree/nvim-web-devicons",
         config = function() require("trouble").setup{} end,
+    })
+
+    -- 18. 弹出窗口
+    -- use ( "nvim-lua/popup.nvim" )
+
+    -- 19. nvim-notify
+    use ({'rcarriga/nvim-notify',
+          config = [[require('config.nvim-notify')]],
+    })
+
+
+    -- 20. Markdown support
+    use({ "preservim/vim-markdown",
+          "mzlogin/vim-markdown-toc",
+          ft = { "markdown" }
+    })
+    -- Markdown previewer
+    -- install without yarn or npm
+    use({ "iamcco/markdown-preview.nvim",
+        run = function() vim.fn["mkdp#util#install"]() end,
+        setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
+        requires = 'iamcco/mathjax-support-for-mkdp',
     })
 
     -- Automatically set up your configuration after cloning packer.nvim

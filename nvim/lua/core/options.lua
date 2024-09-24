@@ -17,7 +17,7 @@ vim.opt.cursorline = true -- highlight cursor line underneath the cursor horizon
 vim.wo.cursorline = true
 vim.opt.splitbelow = true -- open new vertical split bottom
 vim.opt.splitright = true -- open new horizontal splits right
-vim.opt.termguicolors = true        -- enabl 24-bit RGB color in the TUI
+vim.opt.termguicolors = true -- enabl 24-bit RGB color in the TUI
 vim.opt.signcolumn = "yes"
 vim.opt.showmode = false -- we are experienced, wo don't need the "-- INSERT --" mode hint
 
