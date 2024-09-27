@@ -87,9 +87,12 @@
         "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible"
     },
 
-    {
-        "key": "cmd+k",
-        "command": "workbench.action.focusActiveEditorGroup",
-        "when": "terminalFocus"
-    }
+    // Termial
+    { "key": "cmd+k", "command": "workbench.action.focusActiveEditorGroup", "when": "terminalFocus" },
+
+    // Scrolling popups
+    { "key": "h", "command": "editor.action.scrollLeftHover", "when": "editorHoverFocused" },
+    { "key": "j", "command": "editor.action.scrollDownHover", "when": "editorHoverFocused" },
+    { "key": "k", "command": "editor.action.scrollUpHover", "when": "editorHoverFocused" },
+    { "key": "l", "command": "editor.action.scrollRightHover", "when": "editorHoverFocused" },
 ]

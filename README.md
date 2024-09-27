@@ -7,6 +7,14 @@ dotfiles are how you personalize system.
 ### Create Soft Link
 
 ```bash
+# Input method
+$ brew tap daipeihust/tap
+$ brew install im-select
+
+# Verify
+$ im-select
+com.apple.keylayout.ABC
+
 $ git clone git@github.com:kydance/dotfiles.git ~/.dotfiles
 
 # Mac

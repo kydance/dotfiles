@@ -45,11 +45,12 @@ keymap.set("n", "H", "^") -- 移动光标至行首
 keymap.set("n", "L", "$") -- 移动光标至行尾
 
 -- nvim-tree
-keymap.set("n", "<leader>f", ":NvimTreeToggle<CR>")
+keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
 
 -- buffer line
-keymap.set("n", "<leader>l", ":bnext<CR>")
-keymap.set("n", "<leader>h", ":bprevious<CR>")
+-- keymap.set("n", "<leader>l", ":bnext<CR>")
+-- keymap.set("n", "<leader>h", ":bprevious<CR>")
+keymap.set({"v", "n"}, "gt", "<cmd>BufferLineCycleNext<CR>", opts)
 
 ----------------------------------
 -- Visual mode --

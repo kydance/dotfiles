@@ -8,20 +8,15 @@
     "editor.fontFamily": "'Source Code Pro', 'Hack Nerd Font Mono'",
     "editor.lineNumbers": "relative",
     "editor.guides.bracketPairs": "active",
-    "editor.rulers": [80],
+    "editor.rulers": [100],
     "editor.wordWrap": "on",
     "editor.renderWhitespace": "boundary",
-
-    // minimap
+    "editor.scrollbar.verticalScrollbarSize": 12,
     "editor.minimap.enabled": false,
-    "editor.minimap.renderCharacters": false,
-    "editor.minimap.showSlider": "always",
-    "editor.minimap.maxColumn": 80,
 
     "window.commandCenter": false,
     "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${profileName}",
-    "window.zoomLevel": 0.5,
-
+    "window.zoomLevel": 0.3,
     "workbench.activityBar.location": "hidden",
     "workbench.colorTheme": "Gruvbox Dark Hard",
     "workbench.iconTheme": "material-icon-theme",
@@ -31,7 +26,7 @@
 
     "terminal.integrated.enableMultiLinePasteWarning": "auto",
     "terminal.integrated.defaultProfile.linux": "zsh",
-    "terminal.integrated.defaultProfile.windows": "powershll.exe",
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
     "terminal.integrated.smoothScrolling": true,
     "terminal.integrated.inheritEnv": false,
 
@@ -43,16 +38,22 @@
     "vim.leader": "<space>", // leader - prefix key
     "vim.easymotion": true,
     "vim.useSystemClipboard": true,
-    "vim.useCtrlKeys": true, // 是否由vim接管ctrl+any的按键，而不是vscode
     "vim.replaceWithRegister": true,
     "vim.ignorecase": true,
     "vim.smartcase": true,
-    "vim.smartRelativeLine": true,
     "vim.foldfix": true,
     "vim.hlsearch": true,
-    "vim.highlightedyank.enable": true,  // 被复制时高亮
-    "vim.highlightedyank.duration": 500, // 被复制时高亮
+    "vim.highlightedyank.enable": true,
+    "vim.highlightedyank.duration": 500,
 
+    // Input Method
+    // `brew tap daipeihust/tap && brew install im-select`
+    "vim.autoSwitchInputMethod.enable": true,
+    "vim.autoSwitchInputMethod.defaultIM": "com.apple.keylayout.ABC",
+    "vim.autoSwitchInputMethod.obtainIMCmd": "/opt/homebrew/bin/im-select",
+    "vim.autoSwitchInputMethod.switchIMCmd": "/opt/homebrew/bin/im-select {im}",
+
+    "vim.useCtrlKeys": true, // 是否由vim接管ctrl+any的按键，而不是vscode
     // 由vscode进行处理，而不是vscode-vim插件
     "vim.handleKeys": {
         "<C-d>": true, // 向下滚动半页
@@ -68,9 +69,17 @@
 
     // 普通模式下的非递归按键绑定
     "vim.normalModeKeyBindingsNonRecursive": [
-        // { "before": [ ":" ], "commands": ["workbench.action.showCommands"], "silent": true },
+        { "before": ["<C-t>"], "commands": ["workbench.action.terminal.focus"]},
 
-        { "before": ["<C-j>"], "commands": ["workbench.action.terminal.focus"]},
+        // Split window
+        { "before": ["leader", "v", "p"], "commands": [{ "command": "workbench.action.splitEditorDown" }]},
+        { "before": ["leader", "s", "p"], "commands": [{ "command": "workbench.action.splitEditorRight" }]},
+
+        // Resize window
+        { "before": ["<C-k>"], "commands": [{ "command": "workbench.action.increaseViewHeight" }]},
+        { "before": ["<C-j>"], "commands": [{ "command": "workbench.action.decreaseViewHeight" }]},
+        { "before": ["<C-h>"], "commands": [{ "command": "workbench.action.increaseViewWidth" }]},
+        { "before": ["<C-l>"], "commands": [{ "command": "workbench.action.decreaseViewWidth" }]},
 
         // 语义级 重命名
         { "before": ["leader", "r"],  "commands": [{"command": "editor.action.rename"}] },
@@ -79,12 +88,10 @@
         { "before": ["g", "d"],  "commands": [{"command": "editor.action.revealDefinition"}] },
         { "before": ["g", "r"],  "commands": [{"command": "editor.action.goToReferences"}] },
         { "before": ["g", "i"],  "commands": [{"command": "editor.action.goToImplementation"}] },
-        { "before": ["g", "b"],  "commands": [{"command": "workbench.action.navigateBack"}] },
 
         // 侧边栏：显示与隐藏
-        { "before": ["leader", "e", "f"], "commands": [{"command": "workbench.explorer.fileView.focus"}] },
-
-        { "before": [ "leader", "leader", "e", "f"], "commands": ["workbench.action.toggleActivityBarVisibility"] },
+        { "before": ["leader", "e"], "commands": [{"command": "workbench.explorer.fileView.focus"}] },
+        { "before": [ "leader", "leader", "e"], "commands": ["workbench.action.toggleActivityBarVisibility"] },
 
         { "before": ["leader", "g", "g"], "commands": [{ "command": "workbench.action.quickOpen" }]},
         //  Global find
@@ -94,32 +101,39 @@
         { "before": ["g", "]"], "commands": ["editor.action.marker.nextInFiles"]},
 
         // Source Control Git
-        { "before": [ "leader", "g", "i", "t" ], "commands": ["workbench.scm.focus"] },
+        { "before": [ "leader", "s"], "commands": ["workbench.scm.focus"] },
         // Start to debug
         { "before": [ "leader", "d" ], "commands": ["workbench.action.debug.start"] },
 
+        // save file
         { "before": ["leader","w"], "commands": [":w!" ] },
+        // quit
         { "before": ["leader","q"], "commands": [":q" ] },
-
+        { "before": ["leader", "t"], "commands": [":terminal"] }, 
         // No highlight
         { "before": ["leader", "n", "h"], "commands": [":nohl"] },
         { "before": ["H"], "after": ["^"] },
         { "before": ["L"], "after": ["$"] },
         // Blockwise visual mode
-        {"before": ["\\"], "commands": ["extension.vim_ctrl+v"]},
-
-        { "before": ["leader", "t"], "commands": [":terminal"] }, 
+        { "before": ["\\"], "commands": ["extension.vim_ctrl+v"]},
 
         { "before": ["g", "t"], "commands": [":tabnext"] }, 
         { "before": ["g", "T"], "commands": [":tabprev"] }, 
 
         // project-manager
-        {   "before": ["leader", "p", "m"], 
-            "commands": [{
+        { "before": ["leader", "p", "m"],  "commands": [{
                 "command":"workbench.view.extension.project-manager",
                 "when":"viewContainer.workbench.view.extension.project-manager.enabled"
-            }]
-        }
+        }]},
+
+        // Bookmarks
+        { "before": ["<leader>", "m"], "commands": ["bookmarks.toggle"]},
+        { "before": ["<leader>", "b"], "commands": ["bookmarks.list"]},
+
+        // PlantUML
+        { "before": ["leader", "p", "t"], "commands": [{
+            "command": "plantuml.exportDocument"
+        }]},
     ],
 
    // 插入模式下的 递归 按键绑定
@@ -138,8 +152,12 @@
         { "before": ["H"], "after": ["^"] },
         { "before": ["L"], "after": ["$"] },
 
+        // 连续内缩 / 外缩
         { "before": [">"], "commands": [ "editor.action.indentLines"] },
-        { "before": ["<"], "commands": [ "editor.action.outdentLines"] }
+        { "before": ["<"], "commands": [ "editor.action.outdentLines"] },
+
+        // Visual 模式下，`p` 粘贴时而不覆盖当前寄存器
+        { "before": ["p"], "after": [ "p", "g", "v", "y"] }
     ],
 
     // -----------------------------------------------------------------
@@ -148,7 +166,7 @@
     "git.openRepositoryInParentFolders": "never",
 
     // -----------------------------------------------------------------
-    // Git
+    // Project Manager
     "projectManager.git.baseFolders": [
         "~/git-space/"
     ],
@@ -332,14 +350,4 @@
     "plantuml.exportOutDir": ".",
     "plantuml.exportFormat": "svg",
     "plantuml.exportSubFolder": false,
-
-    // AI
-    "cloudcode.duetAI.project": "gen-lang-client-0258168990",
-    "cloudcode.duetAI.inlineSuggestions.enableAuto": true,
-    // gongfeng
-    "gongfeng.copilot.enableAutoCompletions": true,
-    "gongfeng.copilot.enableCompletionLanguage": {
-        "scminput": false,
-        "markdown": true
-    }
 }

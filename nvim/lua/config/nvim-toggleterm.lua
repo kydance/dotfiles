@@ -7,7 +7,7 @@ end
 vim.o.shell = "/bin/zsh"
 
 toggleterm.setup({
-    size = 12,
+    size = 24,
     open_mapping = [[<space>t]], --  How to open a new terminal
     hide_numbers = true, -- hide the number column in toggleterm buffers
     direction = 'horizontal',
@@ -35,6 +35,7 @@ function _G.set_terminal_keymaps()
     -- Use <C-\> to toggle terminals when direction='float'
     vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
     vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+
     -- We can use <C-h/j/k/l> to move cursor among windows(including terminal window)
     -- If we set direction='float', these key mappings wont' helpful
     vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
