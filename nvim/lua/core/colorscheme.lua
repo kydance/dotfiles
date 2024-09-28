@@ -1,5 +1,7 @@
--- define your colorscheme here
+local theme = 'gruvbox'
 
-vim.o.background = "dark" -- or "light" for light mode
-vim.cmd([[colorscheme gruvbox]])
-
+local ok, _ = pcall(vim.cmd, "colorscheme " .. theme)
+if not ok then
+    vim.notify('colorscheme ' .. theme .. ' not found!')
+    return
+end

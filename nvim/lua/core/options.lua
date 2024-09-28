@@ -1,6 +1,3 @@
--- local disable_notify = true
-local nerd_fonts = true
-
 -- Hint: use `:h <option>` to figure out the meaning if needed
 
 vim.opt.clipboard = 'unnamedplus' -- use system clipboard
@@ -32,4 +29,6 @@ vim.opt.smartcase = true -- but make it case sensitive if an uppercase is entere
 
 -- word wrap
 vim.opt.wrap = true
+
+vim.o.background = "dark" -- or "light" for light mode
 
