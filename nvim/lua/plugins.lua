@@ -47,7 +47,11 @@ return require("packer").startup(function(use)
     ---------------------------------------
 
     -- Colorschem
-    use ({'ellisonleao/gruvbox.nvim'})
+    use ({'ellisonleao/gruvbox.nvim',
+        -- 'glepnir/zephyr-nvim',
+        -- 'shaunsingh/nord.nvim',
+        requires = 'rktjmp/lush.nvim',
+    })
 
     -- yank
     use ({'gbprod/yanky.nvim',
@@ -110,9 +114,19 @@ return require("packer").startup(function(use)
     })
 
     -- Git integration
-    use ({'tpope/vim-fugitive'})
-    use ({'lewis6991/gitsigns.nvim',
-        config = [[require('config.nvim-gitsigns')]]
+    -- use ({'tpope/vim-fugitive'})
+    -- use ({'lewis6991/gitsigns.nvim',
+    --     config = [[require('config.nvim-gitsigns')]]
+    -- })
+    use ({
+        "NeogitOrg/neogit",
+        requires = {
+            "nvim-lua/plenary.nvim",         -- required
+            "nvim-telescope/telescope.nvim", -- optional
+            "sindrets/diffview.nvim",        -- optional
+            "ibhagwan/fzf-lua",              -- optional
+        },
+        config = function() require'neogit'.setup{} end,
     })
 
     -- Code comment helper
@@ -222,6 +236,11 @@ return require("packer").startup(function(use)
 
     use ({'ray-x/lsp_signature.nvim', event = "VimEnter",
         config = [[require('config.nvim-lsp-signature')]]
+    })
+
+    -- Outline
+    use ({'stevearc/aerial.nvim',
+        config = function() require"config/nvim-aerial" end,
     })
 
     -- Automatically set up your configuration after cloning packer.nvim
