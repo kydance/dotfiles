@@ -1,4 +1,4 @@
-local ok, surround = pcall(require, 'surrounding')
+local ok, surround = pcall(require, 'nvim-surround')
 if not ok then
     return
 end
@@ -23,7 +23,7 @@ surround.setup {
             t = { "`", "`" },
             d = { '"', '"' },
         },
-        prefix = "s",
+        -- prefix = "s",
     },
 }
 

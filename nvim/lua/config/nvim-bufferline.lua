@@ -1,4 +1,9 @@
-require("bufferline").setup{
+local is_ok, nbl= pcall(require, 'bufferline')
+if not is_ok then
+    return
+end
+
+nbl.setup({
     options = {
       diagnostics = "nvim_lsp",
 
@@ -11,7 +16,7 @@ require("bufferline").setup{
         },
       },
   }
-}
+})
 
 vim.cmd [[
   aug buffer_accessed_time

@@ -65,3 +65,7 @@ keymap.set("v", ">", ">gv", opts)
 keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
+keymap.set({'v', 'n'}, 'gH', function ()
+    vim.lsp.buf.signature_help()
+end)
+

@@ -36,6 +36,7 @@ mason_null_ls.setup({
 	ensure_installed = {
 		"black",
 		"stylua",
+        "jq",
 	},
 	automatic_installation = false,
 	-- Sources found installed in mason will automatically be setup for null-ls.

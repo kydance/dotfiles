@@ -34,7 +34,7 @@ vim.cmd([[
 --     run = string, function, or table, -- Specify operations to be run after successful installs/updates of a plugin
 return require("packer").startup(function(use)
     -- Packer can manage itself
-    use('wbthomason/packer.nvim')
+    use({'wbthomason/packer.nvim'})
 
     -- NOTE:
         -- the default search path for `require` is ~/.config/nvim/lua
@@ -47,7 +47,7 @@ return require("packer").startup(function(use)
     ---------------------------------------
 
     -- Colorschem
-    use ('ellisonleao/gruvbox.nvim')
+    use ({'ellisonleao/gruvbox.nvim'})
 
     -- yank
     use ({'gbprod/yanky.nvim',
@@ -72,11 +72,11 @@ return require("packer").startup(function(use)
     -- })
 
     -- File explorer
-    use ('nvim-tree/nvim-web-devicons' ) -- icons
+    use ({'nvim-tree/nvim-web-devicons'}) -- icons
     use ({'nvim-tree/nvim-tree.lua',
         config = [[require('config.nvim-tree')]],
     })
-    use ('christoomey/vim-tmux-navigator') -- Ctrl - hjkl 定位窗口
+    use ({'christoomey/vim-tmux-navigator'}) -- Ctrl - hjkl 定位窗口
 
     -- Treesitter
     use ({'nvim-treesitter/nvim-treesitter',
@@ -85,6 +85,7 @@ return require("packer").startup(function(use)
         end,
 
         requires = {
+            'p00f/nvim-ts-rainbow',
             'nvim-treesitter/nvim-treesitter-textobjects',
             'nvim-treesitter/nvim-treesitter-context',
 
@@ -109,7 +110,7 @@ return require("packer").startup(function(use)
     })
 
     -- Git integration
-    use ('tpope/vim-fugitive')
+    use ({'tpope/vim-fugitive'})
     use ({'lewis6991/gitsigns.nvim',
         config = [[require('config.nvim-gitsigns')]]
     })
@@ -117,7 +118,7 @@ return require("packer").startup(function(use)
     -- Code comment helper
         -- 1. `gcc` to comment a line
         -- 2. select lines in visual mode and run `gc` to comment/uncomment lines
-    use ('tpope/vim-commentary')
+    use ({'tpope/vim-commentary'})
 
     -- Buffer line
     use({ 'akinsho/bufferline.nvim',
@@ -127,7 +128,9 @@ return require("packer").startup(function(use)
     })
 
     -- Todo comments
-    use ('folke/todo-comments.nvim')
+    use ({'folke/todo-comments.nvim',
+        config = function () require("todo-comments").setup({ }) end
+    })
 
     -- Better terminal integration
     use ({'akinsho/toggleterm.nvim',
@@ -176,12 +179,22 @@ return require("packer").startup(function(use)
     --     the default search path for `require` is ~/.config/nvim/lua
     --     use a `.` as a path seperator
     --     the suffix `.lua` is not needed
-    use({ "hrsh7th/nvim-cmp", after = "lspkind.nvim",
-          config = [[require('config.nvim-cmp')]] })
-    use({ "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" })
-    use({ "hrsh7th/cmp-buffer", after = "nvim-cmp" }) -- buffer auto-completion
-    use({ "hrsh7th/cmp-path", after = "nvim-cmp" }) -- path auto-completion
-    use({ "hrsh7th/cmp-cmdline", after = "nvim-cmp" }) -- cmdline auto-completion
+    use({ "hrsh7th/nvim-cmp",
+        after = "lspkind.nvim",
+        config = [[require('config.nvim-cmp')]]
+    })
+    use ({'onsails/lspkind-nvim', after = "nvim-cmp"  })
+    use ({'hrsh7th/cmp-nvim-lsp', after = "nvim-cmp"  })
+    use ({'hrsh7th/cmp-nvim-lsp-signature-help', after = "nvim-cmp" })
+    use ({'hrsh7th/cmp-buffer', after = "nvim-cmp" })
+    use ({'hrsh7th/cmp-path', after = "nvim-cmp" })
+    use ({'hrsh7th/cmp-cmdline',after = "nvim-cmp" })
+    use ({'f3fora/cmp-spell', after = "nvim-cmp" })
+    use ({'hrsh7th/cmp-calc', after = "nvim-cmp" })
+    use ({'hrsh7th/cmp-emoji', after = "nvim-cmp" })
+    use ({'chrisgrieser/cmp_yanky', after = "nvim-cmp" })
+    use ({'lukas-reineke/cmp-rg', after = "nvim-cmp" })
+    use ({"lukas-reineke/cmp-under-comparator", after = "nvim-cmp" })
 
     -- Code snippet engine
     use("L3MON4D3/LuaSnip")
@@ -193,16 +206,23 @@ return require("packer").startup(function(use)
         config = [[require('config.nvim-autopairs')]],
     })
 
-    -- -- Add hooks to LSP to support Linter && Formatter
-    -- use({ "jay-babu/mason-null-ls.nvim",
-    --       after = "plenary.nvim",
-    --       requires = { "jose-elias-alvarez/null-ls.nvim" },
-    --       config = [[require('config.nvim-mason-null-ls')]],
-    -- })
-    -- use( {
-    --     "folke/trouble.nvim",
-    --     config = function() require("trouble").setup{} end,
-    -- })
+    -- LSP Linter && Formatter
+    use({ "jay-babu/mason-null-ls.nvim",
+          after = "plenary.nvim",
+          requires = {
+              "jose-elias-alvarez/null-ls.nvim",
+              "nvimtools/none-ls.nvim",
+          },
+          config = [[require('config.nvim-mason-null-ls')]],
+    })
+
+    use ({'folke/trouble.nvim',
+        config = [[require("config.nvim-trouble")]]
+    })
+
+    use ({'ray-x/lsp_signature.nvim', event = "VimEnter",
+        config = [[require('config.nvim-lsp-signature')]]
+    })
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
@@ -210,3 +230,4 @@ return require("packer").startup(function(use)
         require("packer").sync()
     end
 end)
+

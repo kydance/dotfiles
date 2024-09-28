@@ -1,4 +1,5 @@
 -- local disable_notify = true
+local nerd_fonts = true
 
 -- Hint: use `:h <option>` to figure out the meaning if needed
 
