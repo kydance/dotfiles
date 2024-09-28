@@ -94,3 +94,67 @@ lrwxr-xr-x@ 1 kyden  staff    27B 23 Sep 22:55 nvim -> /Users/kyden/.dotfiles/nv
 > `:vsp[filename]`：vertical split，垂直分屏
 
 ---
+
+## plugins
+
+- `null-ls.nvim` 是一个专为 Neovim 设计的插件，提供了一种优雅的方式来运行各种语言的静态代码分析工具，并将结果实时地显示在缓冲区内。
+- `mason.nvim` 是一个 Neovim 插件管理器，专注于提供一个简单、一致的接口来管理外部工具和语言服务器。
+- `nvim-lspconfig` 是一个 Neovim 插件，用于配置和管理 LSP（Language Server Protocol）客户端，
+与 `mason-null-ls.num` 一起使用，可以提供更强大的代码编辑体验。
+- `Gruvbox.nvim`，一个基于 Gruvbox 社区主题的 Neovim 配色方案，使用 Lua 编写，支持 Treesitter 和语义高亮.
+- `Yanky.nvim` 是一个专为 Neovim 打造的高效插件，旨在提供便捷的复制粘贴功能，增强文本操作体验。
+- `lualine.nvim`
+- `which-key.nvim`
+- File explorer: `nvim-tree/nvim-web-devicons`, `nvim-tree/nvim-tree.lua`, `christoomey/vim-tmux-navigator`
+- Treesitter:
+    `nvim-treesitter/nvim-treesitter`
+    `p00f/nvim-ts-rainbow`,
+    `nvim-treesitter/nvim-treesitter-textobjects`,
+    `nvim-treesitter/nvim-treesitter-context`,
+    `windwp/nvim-ts-autotag`,
+    `JoosepAlviste/nvim-ts-context-commentstring`,
+    `andymass/vim-matchup`,
+    `mfussenegger/nvim-treehopper`
+- Surround:
+    `kylechui/nvim-surround`
+- Autopairs:
+    `windwp/nvim-autopairs`
+- Git integration:
+    `tpope/vim-fugitive`
+- indentation and blankline:
+    `lukas-reineke/indent-blankline.nvim`
+- Git integration:
+    `tpope/vim-fugitive`, `lewis6991/gitsigns.nvim`
+- Code comment helper:
+    `tpope/vim-commentary`
+- Buffer line:
+    `akinsho/bufferline.nvim`, `famiu/bufdelete.nvim`
+- TODO comments
+    `folke/todo-comments.nvim`
+- Telescope:
+    `nvim-telescope/telescope.nvim`
+- Smart motion:
+    `smoka7/hop.nvim`
+- Markdown:
+    `preservim/vim-markdown`,
+    `mzlogin/vim-markdown-toc`,
+    `iamcco/markdown-preview.nvim`
+- LSP syntax diagnostics:
+    `neovim/nvim-lspconfig`, `williamboman/mason.nvim`,
+    `williamboman/mason-lspconfig.nvim`, `mason-org/mason-registry`,
+    `onsails/lspkind.nvim`
+- Auto-completion engine:
+    `hrsh7th/nvim-cmp`, `onsails/lspkind-nvim`, `hrsh7th/cmp-nvim-lsp`,
+    `hrsh7th/cmp-nvim-lsp-signature-help`, `hrsh7th/cmp-buffer`, `hrsh7th/cmp-path`,
+    `hrsh7th/cmp-cmdline`, `f3fora/cmp-spell`, `hrsh7th/cmp-calc` `hrsh7th/cmp-emoji`,
+    `chrisgrieser/cmp_yanky`, `lukas-reineke/cmp-rg`, `lukas-reineke/cmp-under-comparator`
+- Code snippet engine:
+    `L3MON4D3/LuaSnip`, `saadparwaiz1/cmp_luasnip`
+- Autopairs:
+    `windwp/nvim-autopairs`
+- Linter && Formatter
+    `jay-babu/mason-null-ls.nvim`, `jose-elias-alvarez/null-ls.nvim`,
+    `nvimtools/none-ls.nvim`
+- Trouble: `folke/trouble.nvim'`
+- LSP Signature:
+    `ray-x/lsp_signature.nvim`
