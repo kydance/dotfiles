@@ -34,170 +34,175 @@ vim.cmd([[
 --     run = string, function, or table, -- Specify operations to be run after successful installs/updates of a plugin
 return require("packer").startup(function(use)
     -- Packer can manage itself
-    use("wbthomason/packer.nvim")
+    use('wbthomason/packer.nvim')
 
-    -- Note:
-    --     the default search path for `require` is ~/.config/nvim/lua
-    --     use a `.` as a path seperator
-    --     the suffix `.lua` is not needed
+    -- NOTE:
+        -- the default search path for `require` is ~/.config/nvim/lua
+        -- use a `.` as a path seperator
+        -- the suffix `.lua` is not needed
+        -- tag = string, Specifies a git tag to use. Supports '*' for "latest tag"
 
     ---------------------------------------
     -- NOTE: PUT YOUR THIRD PLUGIN HERE --
     ---------------------------------------
 
-    -- 1. colorschem
-    use { "ellisonleao/gruvbox.nvim" }
+    -- Colorschem
+    use ('ellisonleao/gruvbox.nvim')
 
-    -- 2. status line
-    use { 'nvim-lualine/lualine.nvim', 
-            requires = { 'nvim-tree/nvim-web-devicons', opt = true },
-            config = [[require('config.nvim-lualine')]]
-    }
-
-    -- 3. File explorer
-    use({ "nvim-tree/nvim-tree.lua",
-          requires = {
-                -- optional
-              "nvim-tree/nvim-web-devicons",
-          },
-          config = [[require('config.nvim-tree')]],
-    })
-    use("christoomey/vim-tmux-navigator") -- Ctrl - hjkl 定位窗口
-
-    -- 4. Treesitter
-    use({ "nvim-treesitter/nvim-treesitter",
-          "nvim-treesitter/nvim-treesitter-textobjects",
-          "nvim-treesitter/nvim-treesitter-context",
-
-        'windwp/nvim-ts-autotag',
-        'JoosepAlviste/nvim-ts-context-commentstring',
-        'andymass/vim-matchup',
-        'mfussenegger/nvim-treehopper',
-
-          run = function()
-              local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
-              ts_update()
-          end,
-          config = [[require('config.nvim-treesitter')]],
+    -- yank
+    use ({'gbprod/yanky.nvim',
+        config = function() require'yanky'.setup{} end,
     })
 
-    -- 5. rainbow
-    use("p00f/nvim-ts-rainbow")
-    use({ "kylechui/nvim-surround",
-          config = [[require('config.nvim-surround')]]
+    -- Status line
+    use ({'nvim-lualine/lualine.nvim',
+        config = [[require('config.nvim-lualine')]]
     })
 
-
-    -- 6. Show indentation and blankline
-    use { 'lukas-reineke/indent-blankline.nvim', config = [[require('config.nvim-indent-blankline')]] }
-
-    -- 7. Git integration
-    use("tpope/vim-fugitive")
-    use({ "lewis6991/gitsigns.nvim",
-          config = [[require('config.nvim-gitsigns')]]
+    -- Which key
+    use ({'folke/which-key.nvim',
+        config = [[require('config.nvim-which-key')]],
     })
 
-    -- 8. Vscode-like pictograms
-    use({ "onsails/lspkind.nvim", event = "VimEnter" })
+    -- -- nvim-notify
+    use ( 'nvim-lua/plenary.nvim' )
+    -- use ( "nvim-lua/popup.nvim" )
+    -- use ({'rcarriga/nvim-notify',
+    --       config = [[require('config.nvim-notify')]],
+    -- })
 
-    -- 9. Auto-completion engine
-    use({ "hrsh7th/nvim-cmp", after = "lspkind.nvim", config = [[require('config.nvim-cmp')]] })
-    use({ "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" })
-    use({ "hrsh7th/cmp-buffer", after = "nvim-cmp" }) 
-    use({ "hrsh7th/cmp-path", after = "nvim-cmp" })
-    use({ "hrsh7th/cmp-cmdline", after = "nvim-cmp" }) 
+    -- File explorer
+    use ('nvim-tree/nvim-web-devicons' ) -- icons
+    use ({'nvim-tree/nvim-tree.lua',
+        config = [[require('config.nvim-tree')]],
+    })
+    use ('christoomey/vim-tmux-navigator') -- Ctrl - hjkl 定位窗口
 
-    -- 10. Autopairs: [], (), "", '', ete. It relies on nvim-cmp
-    use({ "windwp/nvim-autopairs",
-        after = "nvim-cmp",
-        config = [[require('config.nvim-autopairs')]],
+    -- Treesitter
+    use ({'nvim-treesitter/nvim-treesitter',
+        run = function()
+            require('nvim-treesitter.install').update({ with_sync = true })
+        end,
+
+        requires = {
+            'nvim-treesitter/nvim-treesitter-textobjects',
+            'nvim-treesitter/nvim-treesitter-context',
+
+            'windwp/nvim-ts-autotag',
+            'JoosepAlviste/nvim-ts-context-commentstring',
+            'andymass/vim-matchup',
+            'mfussenegger/nvim-treehopper',
+        },
+
+        config = [[require('config.nvim-treesitter')]],
     })
 
-    -- 11. Code comment helper
+    -- Surround
+    use ({'kylechui/nvim-surround',
+        tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+        config = [[require('config.nvim-surrounding')]],
+    })
+
+    -- Show indentation and blankline
+    use ({'lukas-reineke/indent-blankline.nvim',
+        config = [[require('config.nvim-indent-blankline')]]
+    })
+
+    -- Git integration
+    use ('tpope/vim-fugitive')
+    use ({'lewis6991/gitsigns.nvim',
+        config = [[require('config.nvim-gitsigns')]]
+    })
+
+    -- Code comment helper
         -- 1. `gcc` to comment a line
         -- 2. select lines in visual mode and run `gc` to comment/uncomment lines
-    use("tpope/vim-commentary")
+    use ('tpope/vim-commentary')
 
-    -- 12. Buffer line
-    use({ "akinsho/bufferline.nvim",
+    -- Buffer line
+    use({ 'akinsho/bufferline.nvim',
           tag = '*',
           requires = { 'famiu/bufdelete.nvim' },
           config = [[require('config.nvim-bufferline')]],
     })
 
-    -- 13. Smart motion
-        -- FIXME 不知如何使用
-    use {'smoka7/hop.nvim',
-      tag = '*', -- optional but strongly recommended
-      config = function()
-        -- you can configure Hop the way you like here; see :h hop-config
-        require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
-      end
-    }
+    -- Todo comments
+    use ('folke/todo-comments.nvim')
 
-    -- cursor motion
-    use({
-        "folke/which-key.nvim",
-        config = [[require('config.nvim-which-key')]],
+    -- Better terminal integration
+    use ({'akinsho/toggleterm.nvim',
+        tag = "*",
+        config = [[require('config.nvim-toggleterm')]],
     })
 
-    -- 14. Better terminal integration
-        -- tag = string,
-        -- Specifies a git tag to use. Supports '*' for "latest tag"
-    use({ "akinsho/toggleterm.nvim",
-          tag = "*",
-          config = [[require('config.nvim-toggleterm')]],
+    -- Telescope
+    use ({'nvim-telescope/telescope.nvim',
+        config = [[require('config.nvim-telescope')]],
     })
 
-    -- 15. Todo
-    use({ "folke/todo-comments.nvim",
-          config = function() require"todo-comments".setup{} end
+    -- Smart motion
+    use ({'smoka7/hop.nvim',
+        tag = '*', -- optional but strongly recommended
+        config = [[require('config.nvim-hop')]],
     })
 
-    -- 16. Telescope
-    use({ "nvim-telescope/telescope.nvim",
-      requires = { { "nvim-lua/plenary.nvim" } },
-      config = [[require('config.nvim-telescope')]],
-    })
-
-    -- 17. LSP manager
-    use({ "williamboman/mason.nvim" })
-    use({ "williamboman/mason-lspconfig.nvim" })
-    use({ "neovim/nvim-lspconfig" })
-    -- Add hooks to LSP to support Linter && Formatter
-    use({ "nvim-lua/plenary.nvim" })
-    use({ "jay-babu/mason-null-ls.nvim",
-          after = "plenary.nvim",
-          requires = { "jose-elias-alvarez/null-ls.nvim" },
-          config = [[require('config.nvim-mason-null-ls')]],
-    })
-    use( {
-        "folke/trouble.nvim",
-        requires = "nvim-tree/nvim-web-devicons",
-        config = function() require("trouble").setup{} end,
-    })
-
-    -- 18. 弹出窗口
-    -- use ( "nvim-lua/popup.nvim" )
-
-    -- 19. nvim-notify
-    use ({'rcarriga/nvim-notify',
-          config = [[require('config.nvim-notify')]],
-    })
-
-
-    -- 20. Markdown support
-    use({ "preservim/vim-markdown",
-          "mzlogin/vim-markdown-toc",
+    -- Markdown support
+    use ({'preservim/vim-markdown',
+          'mzlogin/vim-markdown-toc',
           ft = { "markdown" }
     })
     -- Markdown previewer
-    -- install without yarn or npm
-    use({ "iamcco/markdown-preview.nvim",
+    use ({'iamcco/markdown-preview.nvim',
         run = function() vim.fn["mkdp#util#install"]() end,
         setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
         requires = 'iamcco/mathjax-support-for-mkdp',
     })
+
+    -- LSP syntax diagnostics
+    use ({"neovim/nvim-lspconfig" })
+    use ({"williamboman/mason.nvim",
+        requires = {
+            "williamboman/mason-lspconfig.nvim",
+            "mason-org/mason-registry",
+        },
+        config = [[require('lsp')]],
+    })
+
+    -- Vscode-like pictograms
+    use ({'onsails/lspkind.nvim', event = 'VimEnter' })
+
+    -- Auto-completion engine
+    -- Note:
+    --     the default search path for `require` is ~/.config/nvim/lua
+    --     use a `.` as a path seperator
+    --     the suffix `.lua` is not needed
+    use({ "hrsh7th/nvim-cmp", after = "lspkind.nvim",
+          config = [[require('config.nvim-cmp')]] })
+    use({ "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" })
+    use({ "hrsh7th/cmp-buffer", after = "nvim-cmp" }) -- buffer auto-completion
+    use({ "hrsh7th/cmp-path", after = "nvim-cmp" }) -- path auto-completion
+    use({ "hrsh7th/cmp-cmdline", after = "nvim-cmp" }) -- cmdline auto-completion
+
+    -- Code snippet engine
+    use("L3MON4D3/LuaSnip")
+    use({ "saadparwaiz1/cmp_luasnip", after = { "nvim-cmp", "LuaSnip" } })
+
+    -- Autopairs: [], (), "", '', ete. It relies on nvim-cmp
+    use ({'windwp/nvim-autopairs',
+        after = 'nvim-cmp',
+        config = [[require('config.nvim-autopairs')]],
+    })
+
+    -- -- Add hooks to LSP to support Linter && Formatter
+    -- use({ "jay-babu/mason-null-ls.nvim",
+    --       after = "plenary.nvim",
+    --       requires = { "jose-elias-alvarez/null-ls.nvim" },
+    --       config = [[require('config.nvim-mason-null-ls')]],
+    -- })
+    -- use( {
+    --     "folke/trouble.nvim",
+    --     config = function() require("trouble").setup{} end,
+    -- })
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
@@ -205,4 +210,3 @@ return require("packer").startup(function(use)
         require("packer").sync()
     end
 end)
-

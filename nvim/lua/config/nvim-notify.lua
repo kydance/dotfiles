@@ -1,4 +1,4 @@
--- if not require'options'.disable_notify then
+-- if not require'core.options'.disable_notify then
 --     vim.notify = require('notify')
 --     vim.notify.setup {
 --         background_colour = "#000000",

@@ -1,6 +1,9 @@
--- https://github.com/folke/which-key.nvim
+local ok, whichkey = pcall(require, 'whihckey')
+if not ok then
+    return
+end
 
-require("which-key").setup {
+whichkey.setup {
     plugins = {
         marks = true, -- shows a list of your marks on ' and `
         registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode

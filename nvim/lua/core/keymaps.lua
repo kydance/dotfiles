@@ -35,7 +35,8 @@ keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
 -- 文件
 keymap.set("n", "<leader>w", ":w!<CR>") -- Save file
-keymap.set("n", "<leader>q", ":q<CR>") -- Quit file
+-- keymap.set("n", "<leader>q", ":q<CR>") -- Quit file
+keymap.set("n", "<leader>q", ":Bdelete<CR>") -- close buffer
 
 -- 取消高亮
 keymap.set("n", "<leader>nh", ":nohl<CR>")
@@ -51,6 +52,7 @@ keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
 -- keymap.set("n", "<leader>l", ":bnext<CR>")
 -- keymap.set("n", "<leader>h", ":bprevious<CR>")
 keymap.set({"v", "n"}, "gt", "<cmd>BufferLineCycleNext<CR>", opts)
+keymap.set({"v", "n"}, "gT", "<cmd>BufferLineMovePrev<CR>", opts)
 
 ----------------------------------
 -- Visual mode --

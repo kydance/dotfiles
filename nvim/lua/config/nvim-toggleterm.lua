@@ -10,7 +10,7 @@ toggleterm.setup({
     size = 24,
     open_mapping = [[<space>t]], --  How to open a new terminal
     hide_numbers = true, -- hide the number column in toggleterm buffers
-    direction = 'horizontal',
+    direction = 'float', -- 'vertical' | 'horizontal' | 'tab' | 'float',
     close_on_exit = true, -- close the terminal window when the process exits
     shell = vim.o.shell, -- change the default shell
     shade_filetypes = {},
@@ -58,3 +58,4 @@ local htop = Terminal:new({ cmd = 'htop', hidden = true })
 function _HTOP_TOGGLE()
     htop:toggle()
 end
+

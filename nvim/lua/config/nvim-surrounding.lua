@@ -1,4 +1,4 @@
-local ok, lualine = pcall(require, 'surround')
+local ok, surround = pcall(require, 'surrounding')
 if not ok then
     return
 end

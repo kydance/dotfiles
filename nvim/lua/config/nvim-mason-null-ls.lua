@@ -2,7 +2,6 @@ local mason_ok, mason = pcall(require, "mason")
 if not mason_ok then
 	return
 end
-
 mason.setup()
 
 local null_ls_ok, null_ls = pcall(require, "null-ls")
@@ -11,7 +10,11 @@ if not null_ls_ok then
 end
 
 local sources = {
-	null_ls.builtins.formatting.black.with({ extra_args = { "--target-version", "py310" } }),
+	null_ls.builtins.formatting.black.with({
+        extra_args = {
+            "--target-version", "py312"
+        }
+    }),
 	null_ls.builtins.formatting.stylua,
 }
 

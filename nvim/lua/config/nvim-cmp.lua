@@ -22,6 +22,7 @@ cmp.setup({
 
     mapping = cmp.mapping.preset.insert({
         -- Use <C-b/f> to scroll the docs
+        -- XXX
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
 
@@ -66,7 +67,7 @@ cmp.setup({
         -- customize the appearance of the completion menu
         format = lspkind.cmp_format({
             -- show only symbol annotations
-            mode = "symbol_text",
+            mode = "symbol_text", -- symbol
             -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
             maxwidth = 100,
             -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
