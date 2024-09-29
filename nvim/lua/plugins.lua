@@ -48,8 +48,6 @@ return require("packer").startup(function(use)
 
     -- Colorschem
     use ({'ellisonleao/gruvbox.nvim',
-        -- 'glepnir/zephyr-nvim',
-        -- 'shaunsingh/nord.nvim',
         requires = 'rktjmp/lush.nvim',
     })
 
@@ -229,6 +227,13 @@ return require("packer").startup(function(use)
               "nvimtools/none-ls.nvim",
           },
           config = [[require('config.nvim-mason-null-ls')]],
+    })
+
+    -- LSP Rename
+    use ({'smjonas/inc-rename.nvim',
+        config = function()
+            require("inc_rename").setup({})
+        end,
     })
 
     use ({'folke/trouble.nvim',

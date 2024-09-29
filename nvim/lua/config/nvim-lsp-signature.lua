@@ -7,7 +7,7 @@ if not ok then
 end
 
 cfg.setup({
-    bind = true,
+    bind = false,
     doc_lines = 0,
     handler_opts = {
         border = "single",
@@ -29,7 +29,7 @@ cfg.setup({
     toggle_key = '<M-p>',
     toggle_key_flip_floatwin_setting = true,
     select_signature_key = '<M-n>',
-    timer_interval = 80,
+    timer_interval = 40,
     -- transparency = 1,
 })
 

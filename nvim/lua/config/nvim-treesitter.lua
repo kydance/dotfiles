@@ -1,11 +1,11 @@
 -- Treesitter
 
-local is_ok, cfg = pcall(require, 'nvim-treesitter')
+local is_ok, treesitter = pcall(require, 'treesitter')
 if not is_ok then
     return
 end
 
-cfg.setup({
+treesitter.setup({
     -- A list of parser names, or "all" (the four listed parsers should always be installed)
     ensure_installed = {
         'c', 'cmake', 'comment', 'cpp',
@@ -31,7 +31,7 @@ cfg.setup({
     auto_install = true,
 
     -- List of parsers to ignore installing (for "all")
-    ignore_install = { "javascript" },
+    -- ignore_install = { "javascript" },
 
     ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
     -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
@@ -45,17 +45,17 @@ cfg.setup({
         -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
         -- the name of the parser)
         -- if you want to disable the module for some languages you can pass a list to the `disable` option.
-        disable = {
-
-        },
+        -- disable = {
+        --     "rust",
+        -- },
         -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-        disable = function(lang, buf)
-            local max_filesize = 1000 * 1024 -- 1000 KB
-            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-            if ok and stats and stats.size > max_filesize then
-                return true
-            end
-        end,
+        -- disable = function(lang, buf)
+        --     local max_filesize = 1000 * 1024 -- 1000 KB
+        --     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        --     if ok and stats and stats.size > max_filesize then
+        --         return true
+        --     end
+        -- end,
 
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
         -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
@@ -64,19 +64,10 @@ cfg.setup({
         additional_vim_regex_highlighting = false,
     },
 
-    -- rainbow = {
-    --     enable = true,
-    --     -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
-    --     extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-    --     max_file_lines = nil, -- Do not enable for files with more than n lines, int
-    --     -- colors = {}, -- table of hex strings
-    --     -- termcolors = {} -- table of colour name strings
-    -- },
-
-    -- Indentation based on treesitter for the = operator. NOTE: This is an experimental feature.
-    -- indent = {
-    --     enable = true
-    -- },
+    rainbow = {
+        enable = false,
+        extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    },
 
     incremental_selection = {
         enable = true,
@@ -92,6 +83,12 @@ cfg.setup({
         },
     },
 })
+
+vim.g.skip_ts_context_commentstring_module = true
+
+vim.g.matchup_matchparen_offscreen = { method = "status" }
+vim.g.matchup_surround_enabled = 1
+vim.g.matchup_delim_noskips = 2
 
 -- Hints:
 --   A uppercase letter followed `z` means recursive

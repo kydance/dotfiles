@@ -1,17 +1,16 @@
 -- Trouble
 
-local is_ok, cfg= pcall(require, 'trouble')
+local is_ok, trouble= pcall(require, 'trouble')
 if not is_ok then
     return
 end
 
-cfg.setup({
+trouble.setup({
     icons = {
         indent = {
             top           = "│ ",
             middle        = "├╴",
-            -- last          = "└╴",
-            last          = "╰╴",
+            last          = "└╴",
             fold_open     = " ",
             fold_closed   = " ",
             ws            = "  ",
@@ -51,10 +50,11 @@ cfg.setup({
     },
 })
 
+vim.keymap.set('n', "<leader>xx", "<cmd>Trouble<cr>")
+
 vim.cmd [[
 augroup trouble_setlocal
-autocmd!
-autocmd FileType trouble setlocal wrap
+    autocmd!
+    autocmd FileType trouble setlocal wrap
 augroup END
 ]]
-

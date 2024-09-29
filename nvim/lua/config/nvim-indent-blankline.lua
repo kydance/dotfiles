@@ -1,6 +1,6 @@
 -- indent blank
 
-local is_ok, cfg = pcall(require, "indent-blankline")
+local is_ok, ibl = pcall(require, "ibl")
 
 if not is_ok then
 	return
@@ -31,6 +31,6 @@ end)
 
 vim.g.rainbow_delimiters = { highlight = highlight }
 
-cfg.setup { scope = { highlight = highlight } }
+ibl.setup { scope = { highlight = highlight } }
 
 hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)

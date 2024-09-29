@@ -54,3 +54,8 @@ keymap.set("v", ">", ">gv", opts)
 -- 单行或多行移动
 keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+-- IncRename
+vim.keymap.set("n", "<leader>r", function()
+    return ":IncRename " .. vim.fn.expand("<cword>")
+end, { expr = true })
