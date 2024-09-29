@@ -63,8 +63,10 @@ local on_attach = function(client, bufnr)
 
     vim.api.nvim_create_autocmd({'CursorHold', 'CursorHoldI'}, {callback = vim.lsp.buf.document_highlight, buffer = bufnr})
     vim.api.nvim_create_autocmd({'CursorMoved', 'CursorMovedI'}, {callback = vim.lsp.buf.clear_references, buffer = bufnr})
-    vim.api.nvim_create_autocmd({'TextChangedI', 'TextChangedP'}, {callback = vim.lsp.buf.signature_help, buffer = bufnr})
+    -- 输入时显示函数签名
+    -- vim.api.nvim_create_autocmd({'TextChangedI', 'TextChangedP'}, {callback = vim.lsp.buf.signature_help, buffer = bufnr})
 
+    -- format
     vim.keymap.set('n', '<space>f', function()
         vim.lsp.buf.format({
             async = true,

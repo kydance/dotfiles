@@ -28,29 +28,21 @@ keymap.set("n", "<leader>sh", "<C-w>s") -- 垂直新增窗口
 
 -- Resize with arrows
 -- delta: 2 lines
-keymap.set("n", "<C-Up>", ":resize -2<CR>", opts)
+keymap.set("n", "<C-Uper>", ":resize -2<CR>", opts)
 keymap.set("n", "<C-Down>", ":resize +2<CR>", opts)
 keymap.set("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
 -- 文件
 keymap.set("n", "<leader>w", ":w!<CR>") -- Save file
--- keymap.set("n", "<leader>q", ":q<CR>") -- Quit file
-keymap.set("n", "<leader>q", ":Bdelete<CR>") -- close buffer
+keymap.set("n", "<leader>q", ":q<CR>") -- Quit file
 
 -- 取消高亮
 keymap.set("n", "<leader>nh", ":nohl<CR>")
 
 -- 光标快速移动
-keymap.set("n", "H", "^") -- 移动光标至行首
-keymap.set("n", "L", "$") -- 移动光标至行尾
-
--- nvim-tree
-keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
-
--- buffer line
-keymap.set({"v", "n"}, "gt", "<cmd>BufferLineCycleNext<CR>", opts)
-keymap.set({"v", "n"}, "gT", "<cmd>BufferLineCyclePrev<CR>", opts)
+keymap.set({"n", "v"}, "H", "^") -- 移动光标至行首
+keymap.set({"n", "v"}, "L", "$") -- 移动光标至行尾
 
 ----------------------------------
 -- Visual mode --
@@ -62,7 +54,3 @@ keymap.set("v", ">", ">gv", opts)
 -- 单行或多行移动
 keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 keymap.set("v", "K", ":m '<-2<CR>gv=gv")
-
-keymap.set({'v', 'n'}, 'gH', function ()
-    vim.lsp.buf.signature_help()
-end)

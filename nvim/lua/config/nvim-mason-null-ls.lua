@@ -16,7 +16,7 @@ end
 local sources = {
 	cfg_null_ls.builtins.formatting.black.with({
         extra_args = {
-            "--target-version", "py312"
+            "--target-version", "py310"
         }
     }),
 	cfg_null_ls.builtins.formatting.stylua,

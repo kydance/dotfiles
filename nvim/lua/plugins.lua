@@ -119,16 +119,16 @@ return require("packer").startup(function(use)
         config = [[require('config.nvim-gitsigns')]]
     })
 
-    -- use ({
-    --     "NeogitOrg/neogit",
-    --     requires = {
-    --         "nvim-lua/plenary.nvim",         -- required
-    --         "nvim-telescope/telescope.nvim", -- optional
-    --         "sindrets/diffview.nvim",        -- optional
-    --         "ibhagwan/fzf-lua",              -- optional
-    --     },
-    --     config = function() require'neogit'.setup{} end,
-    -- })
+    use ({
+        "NeogitOrg/neogit",
+        requires = {
+            "nvim-lua/plenary.nvim",         -- required
+            "nvim-telescope/telescope.nvim", -- optional
+            "sindrets/diffview.nvim",        -- optional
+            "ibhagwan/fzf-lua",              -- optional
+        },
+        config = function() require'neogit'.setup{} end,
+    })
 
     -- Code comment helper
         -- 1. `gcc` to comment a line

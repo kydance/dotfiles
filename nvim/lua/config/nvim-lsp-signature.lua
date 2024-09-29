@@ -10,7 +10,7 @@ cfg.setup({
     bind = true,
     doc_lines = 0,
     handler_opts = {
-        border = "double",
+        border = "single",
     },
 
     floating_window = true,
@@ -32,3 +32,7 @@ cfg.setup({
     timer_interval = 80,
     -- transparency = 1,
 })
+
+vim.keymap.set('n', 'gH', function ()
+    vim.lsp.buf.signature_help()
+end)

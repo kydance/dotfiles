@@ -7,18 +7,31 @@ end
 
 cfg.setup({
     options = {
-      diagnostics = "nvim_lsp",
+        diagnostics = "nvim_lsp",
+        mode = 'buffers',
 
-      offsets = {
-        {
+        offsets = {{
             filetype = "NvimTree",
             text = "File Explorer",
             highlight = "Directory",
-            text_align = "left"
-        },
-      },
-  }
+            text_align = "left",
+            padding = 1,
+        }},
+    }
 })
+
+
+-- buffer line
+vim.keymap.set({"v", "n"}, "gt", "<cmd>BufferLineCycleNext<CR>")
+vim.keymap.set({"v", "n"}, "gT", "<cmd>BufferLineCyclePrev<CR>")
+vim.keymap.set({'n'}, 'ZZ', function()
+    if vim.bo.modified then
+        vim.cmd.write()
+    end
+    local buf = vim.fn.bufnr()
+    cfg.cycle(-1)
+    vim.cmd.bdelete(buf)
+end)
 
 vim.cmd [[
     aug buffer_accessed_time

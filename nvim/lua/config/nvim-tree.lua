@@ -101,13 +101,10 @@ end
 cfg.setup({
     sort_by = "case_sensitive",
     on_attach = on_attach,
-    renderer = {
-        group_empty = true,
-    },
-    filters = {
-        dotfiles = true,
-    },
-    diagnostics = {
-        enable = true,
-    },
+    renderer = { group_empty = true },
+    filters = { dotfiles = false },
+    diagnostics = { enable = true },
 })
+
+-- 
+vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
