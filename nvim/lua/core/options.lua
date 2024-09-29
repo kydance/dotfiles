@@ -32,3 +32,4 @@ vim.opt.wrap = true
 
 vim.o.background = "dark" -- or "light" for light mode
 
+-- transparent_color

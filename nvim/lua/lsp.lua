@@ -17,7 +17,6 @@ require('mason-lspconfig').setup({
       'clangd', -- C/C++
       'marksman', -- Markdown
       'lua_ls', -- Lua
-      'bashls', -- bash
       'cmake', -- CMake
     },
 })
@@ -61,6 +60,10 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
     vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+
+    vim.api.nvim_create_autocmd({'CursorHold', 'CursorHoldI'}, {callback = vim.lsp.buf.document_highlight, buffer = bufnr})
+    vim.api.nvim_create_autocmd({'CursorMoved', 'CursorMovedI'}, {callback = vim.lsp.buf.clear_references, buffer = bufnr})
+    vim.api.nvim_create_autocmd({'TextChangedI', 'TextChangedP'}, {callback = vim.lsp.buf.signature_help, buffer = bufnr})
 
     vim.keymap.set('n', '<space>f', function()
         vim.lsp.buf.format({
