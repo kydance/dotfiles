@@ -1,9 +1,11 @@
-local is_ok, aerial = pcall(require, 'aerial')
+-- Outline Component
+
+local is_ok, cfg = pcall(require, 'aerial')
 if not is_ok then
     return
 end
 
-aerial.setup({
+cfg.setup({
     -- optionally use on_attach to set keymaps when aerial has attached to a buffer
     -- on_attach = function(bufnr)
     --     -- Jump forwards/backwards with '{' and '}'
@@ -32,4 +34,3 @@ local found_telescope, telescope = pcall(require, "telescope")
 if found_telescope then
     telescope.load_extension("aerial")
 end
-

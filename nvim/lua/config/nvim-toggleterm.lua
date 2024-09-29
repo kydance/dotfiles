@@ -1,4 +1,6 @@
-local ok, toggleterm = pcall(require, 'toggleterm')
+-- Terminal
+
+local ok, cfg = pcall(require, 'toggleterm')
 if not ok then
     return
 end
@@ -6,13 +8,14 @@ end
 -- Custom shell
 vim.o.shell = "/bin/zsh"
 
-toggleterm.setup({
-    size = 24,
-    open_mapping = [[<space>t]], --  How to open a new terminal
-    hide_numbers = true, -- hide the number column in toggleterm buffers
-    direction = 'float', -- 'vertical' | 'horizontal' | 'tab' | 'float',
-    close_on_exit = true, -- close the terminal window when the process exits
+cfg.setup({
     shell = vim.o.shell, -- change the default shell
+    open_mapping = [[<C-t>]], --  How to open a new terminal
+
+    size = 24,
+    hide_numbers = true, -- hide the number column in toggleterm buffers
+    direction = 'horizontal', -- 'vertical' | 'horizontal' | 'tab' | 'float',
+    close_on_exit = true, -- close the terminal window when the process exits
     shade_filetypes = {},
     float_opts = {
         -- The border key is *almost* the same as 'nvim_open_win'

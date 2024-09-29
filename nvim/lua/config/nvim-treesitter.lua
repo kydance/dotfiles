@@ -1,9 +1,11 @@
-local is_ok, configs = pcall(require, 'nvim-treesitter')
+-- Treesitter
+
+local is_ok, cfg = pcall(require, 'nvim-treesitter')
 if not is_ok then
     return
 end
 
-configs.setup({
+cfg.setup({
     -- A list of parser names, or "all" (the four listed parsers should always be installed)
     ensure_installed = {
         'c', 'cmake', 'comment', 'cpp',
@@ -75,6 +77,7 @@ configs.setup({
     -- indent = {
     --     enable = true
     -- },
+
     incremental_selection = {
         enable = true,
         -- init_selection: in normal mode, start incremental selection.
@@ -107,4 +110,3 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'Buf
         vim.opt.foldlevel = 99
     end
 })
-

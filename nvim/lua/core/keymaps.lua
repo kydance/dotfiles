@@ -49,10 +49,8 @@ keymap.set("n", "L", "$") -- 移动光标至行尾
 keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
 
 -- buffer line
--- keymap.set("n", "<leader>l", ":bnext<CR>")
--- keymap.set("n", "<leader>h", ":bprevious<CR>")
 keymap.set({"v", "n"}, "gt", "<cmd>BufferLineCycleNext<CR>", opts)
-keymap.set({"v", "n"}, "gT", "<cmd>BufferLineMovePrev<CR>", opts)
+keymap.set({"v", "n"}, "gT", "<cmd>BufferLineCyclePrev<CR>", opts)
 
 ----------------------------------
 -- Visual mode --
@@ -68,4 +66,3 @@ keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 keymap.set({'v', 'n'}, 'gH', function ()
     vim.lsp.buf.signature_help()
 end)
-

@@ -1,10 +1,12 @@
-local ok, lsp_signature = pcall(require, "lsp-signature")
+-- LSP signature
+
+local ok, cfg = pcall(require, "lsp_signature")
 
 if not ok then
     return
 end
 
-lsp_signature.setup({
+cfg.setup({
     bind = true,
     doc_lines = 0,
     handler_opts = {
@@ -30,4 +32,3 @@ lsp_signature.setup({
     timer_interval = 80,
     -- transparency = 1,
 })
-

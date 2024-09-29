@@ -114,5 +114,3 @@ lspconfig.lua_ls.setup {
         },
     },
 }
-
-lspconfig.bashls.setup({})

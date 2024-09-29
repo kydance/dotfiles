@@ -1,9 +1,11 @@
-local is_ok, trouble = pcall(require, 'trouble')
+-- Trouble
+
+local is_ok, cfg= pcall(require, 'trouble')
 if not is_ok then
     return
 end
 
-trouble.setup({
+cfg.setup({
     icons = {
         indent = {
             top           = "│ ",

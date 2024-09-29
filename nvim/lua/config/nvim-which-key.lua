@@ -1,9 +1,11 @@
-local ok, whichkey = pcall(require, 'whihckey')
+-- Which key
+
+local ok, cfg = pcall(require, 'whihc-key')
 if not ok then
     return
 end
 
-whichkey.setup {
+cfg.setup {
     plugins = {
         marks = true, -- shows a list of your marks on ' and `
         registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
@@ -14,4 +16,3 @@ whichkey.setup {
         },
     },
 }
-

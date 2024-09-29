@@ -1,4 +1,6 @@
-local ok, nvim_tree = pcall(require, "nvim-tree")
+-- File Explorer Tree
+
+local ok, cfg = pcall(require, "nvim-tree")
 if not ok then
     return
 end
@@ -96,7 +98,7 @@ end
 
 -- Hint: :help nvim-tree-default-mappings
 -- setup with some options
-nvim_tree.setup({
+cfg.setup({
     sort_by = "case_sensitive",
     on_attach = on_attach,
     renderer = {
@@ -109,4 +111,3 @@ nvim_tree.setup({
         enable = true,
     },
 })
-

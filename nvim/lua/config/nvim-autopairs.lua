@@ -1,9 +1,11 @@
-local is_ok, npairs = pcall(require, 'nvim-autopairs')
+-- Auto pair
+
+local is_ok, cfg = pcall(require, 'nvim-autopairs')
 if not is_ok then
     return
 end
 
-npairs.setup({
+cfg.setup({
     check_ts = true, -- check if treesitter is installed
     disable_filetype = { "TelescopePrompt", "vim" },
     ts_config = {
@@ -20,4 +22,3 @@ cmp.event:on(
     'confirm_done',
     cmp_autopairs.on_confirm_done()
 )
-

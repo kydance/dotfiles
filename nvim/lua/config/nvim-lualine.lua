@@ -1,10 +1,12 @@
-local ok, lualine = pcall(require, 'lualine')
+-- Status Line
+
+local ok, cfg = pcall(require, 'lualine')
 
 if not ok then
     return
 end
 
-lualine.setup {
+cfg.setup {
     options = {
         icons_enabled = true,
         theme = 'auto',
@@ -23,6 +25,7 @@ lualine.setup {
             winbar = 1000,
         }
     },
+
     -- +-------------------------------------------------+
     -- | A | B | C                             X | Y | Z |
     -- +-------------------------------------------------+
@@ -34,6 +37,7 @@ lualine.setup {
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
     },
+
     inactive_sections = {
         lualine_a = {},
         lualine_b = {},
@@ -42,9 +46,9 @@ lualine.setup {
         lualine_y = {},
         lualine_z = {}
     },
+
     tabline = {},
     winbar = {},
     inactive_winbar = {},
     extensions = {}
 }
-

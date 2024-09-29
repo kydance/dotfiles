@@ -1,12 +1,11 @@
-local ok, hop = pcall(require, "hop")
+-- Smart move
+
+local ok, cfg = pcall(require, "hop")
 
 if not ok then
     return
 end
 
-hop.setup({
-    vim.keymap.set('', ',', function()
-        hop.hint_char1({ current_line_only = false })
-    end, {remap=true})
+cfg.setup({
+    vim.keymap.set({'n', 'v'}, ',', function() cfg.hint_char1({ current_line_only = false }) end, { remap=true }),
 })
-

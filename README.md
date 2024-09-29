@@ -97,6 +97,10 @@ lrwxr-xr-x@ 1 kyden  staff    27B 23 Sep 22:55 nvim -> /Users/kyden/.dotfiles/nv
 
 ## plugins
 
+> `config` 文件夹中各个配置文件的执行流程：
+>
+> Neovim 启动时加载配置文件 -> 尝试加载 `xxx` 模块 -> 加载成功，则 call `cfg.setup` 函数
+
 - `null-ls.nvim` 是一个专为 Neovim 设计的插件，提供了一种优雅的方式来运行各种语言的静态代码分析工具，并将结果实时地显示在缓冲区内。
 - `mason.nvim` 是一个 Neovim 插件管理器，专注于提供一个简单、一致的接口来管理外部工具和语言服务器。
 - `nvim-lspconfig` 是一个 Neovim 插件，用于配置和管理 LSP（Language Server Protocol）客户端，

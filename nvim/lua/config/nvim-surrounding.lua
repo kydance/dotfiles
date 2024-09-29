@@ -1,9 +1,11 @@
-local ok, surround = pcall(require, 'nvim-surround')
+-- Surround
+
+local ok, cfg = pcall(require, 'nvim-surround')
 if not ok then
     return
 end
 
-surround.setup {
+cfg.setup {
     context_offset = 100,
     load_autogroups = false,
     mappings_style = "surround",
@@ -26,4 +28,3 @@ surround.setup {
         -- prefix = "s",
     },
 }
-

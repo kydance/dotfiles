@@ -1,36 +1,41 @@
-local mason_ok, mason = pcall(require, "mason")
+--
+
+-- Mason
+local mason_ok, cfg_mason = pcall(require, "mason")
 if not mason_ok then
 	return
 end
-mason.setup()
+cfg_mason.setup()
 
-local null_ls_ok, null_ls = pcall(require, "null-ls")
+-- null_ls
+local null_ls_ok, cfg_null_ls = pcall(require, "null-ls")
 if not null_ls_ok then
 	return
 end
 
 local sources = {
-	null_ls.builtins.formatting.black.with({
+	cfg_null_ls.builtins.formatting.black.with({
         extra_args = {
             "--target-version", "py312"
         }
     }),
-	null_ls.builtins.formatting.stylua,
+	cfg_null_ls.builtins.formatting.stylua,
 }
 
-null_ls.setup({
+cfg_null_ls.setup({
 	debug = false,
 	log_level = "warn",
 	update_in_insert = false,
 	sources = sources,
 })
 
-local mason_null_ls_ok, mason_null_ls = pcall(require, "mason-null-ls")
+-- mason_null_ls
+local mason_null_ls_ok, cfg_mason_null_ls = pcall(require, "mason-null-ls")
 if not mason_null_ls_ok then
 	return
 end
 
-mason_null_ls.setup({
+cfg_mason_null_ls.setup({
 	-- A list of sources to install if they're not already installed.
 	-- This setting has no relation with the `automatic_installation` setting.
 	ensure_installed = {
@@ -43,4 +48,3 @@ mason_null_ls.setup({
 	automatic_setup = true,
 	handlers = {},
 })
-
