@@ -1,94 +1,85 @@
------------------
--- Packer.nvim --
------------------
--- Install Packer automatically if it's not installed(Bootstraping)
--- Hint: string concatenation is done by `..`
-local ensure_packer = function()
-    local fn = vim.fn
-    local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-    if fn.empty(fn.glob(install_path)) > 0 then
-        fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-        vim.cmd([[packadd packer.nvim]])
-        return true
-    end
-    return false
-end
-local packer_bootstrap = ensure_packer()
+return {
+    {
+        'petertriho/nvim-scrollbar',
+        event = 'BufReadPost',
+        config = function()
+            require('scrollbar').setup({
+                -- Nothing
+            })
+        end
+    },
 
--- Reload configurations if we modify plugins.lua
--- Hint
---     <afile> - replaced with the filename of the buffer being manipulated
-vim.cmd([[
-    augroup packer_user_config
-      autocmd!
-      autocmd BufWritePost plugins.lua source <afile> | PackerSync
-    augroup end
-]])
+    -- Colorscheme
+    {'glepnir/zephyr-nvim'},
+    {'shaunsingh/nord.nvim'},
+    {   "ellisonleao/gruvbox.nvim",
+        priority = 1000 ,
+        config = function() require('config.nvim-colorscheme') end
+    },
 
--- Install plugins here - `use ...`
--- Packer.nvim hints
---     after = string or list,           -- Specifies plugins to load before this plugin. See "sequencing" below
---     config = string or function,      -- Specifies code to run after this plugin is loaded
---     requires = string or list,        -- Specifies plugin dependencies. See "dependencies".
---     ft = string or list,              -- Specifies filetypes which load this plugin.
---     run = string, function, or table, -- Specify operations to be run after successful installs/updates of a plugin
-return require("packer").startup(function(use)
-    -- Packer can manage itself
-    use({'wbthomason/packer.nvim'})
+    -- Buffer line
+    { 'akinsho/bufferline.nvim',
+    	version = "*",
+        dependencies = { 'famiu/bufdelete.nvim' },
+        config = function() require('config.nvim-bufferline') end
+    },
 
-    -- NOTE:
-        -- the default search path for `require` is ~/.config/nvim/lua
-        -- use a `.` as a path seperator
-        -- the suffix `.lua` is not needed
-        -- tag = string, Specifies a git tag to use. Supports '*' for "latest tag"
-
-    ---------------------------------------
-    -- NOTE: PUT YOUR THIRD PLUGIN HERE --
-    ---------------------------------------
-
-    -- Colorschem
-    use ({'ellisonleao/gruvbox.nvim',
-        requires = 'rktjmp/lush.nvim',
-    })
-    use('glepnir/zephyr-nvim')
-    use('shaunsingh/nord.nvim')
+    -- which key
+    {'folke/which-key.nvim',
+        config = function() require('config.nvim-which-key') end,
+    },
 
     -- yank
-    use ({'gbprod/yanky.nvim',
-        config = function() require'yanky'.setup{} end,
-    })
+    {'gbprod/yanky.nvim',
+	config = function() require'yanky'.setup{} end
+    },
 
     -- Status line
-    use ({'nvim-lualine/lualine.nvim',
-        config = [[require('config.nvim-lualine')]]
-    })
+    {'nvim-lualine/lualine.nvim',
+        config = function() require('config.nvim-lualine') end
+    },
 
-    -- Which key
-    use ({'folke/which-key.nvim',
-        config = [[require('config.nvim-which-key')]],
-    })
-
-    -- -- nvim-notify
-    use ( 'nvim-lua/plenary.nvim' )
-    -- use ( "nvim-lua/popup.nvim" )
-    -- use ({'rcarriga/nvim-notify',
-    --       config = [[require('config.nvim-notify')]],
-    -- })
+    -- Ctrl - hjkl 定位窗口
+    { 'christoomey/vim-tmux-navigator' },
 
     -- File explorer
-    use ({'nvim-tree/nvim-web-devicons'}) -- icons
-    use ({'nvim-tree/nvim-tree.lua',
-        config = [[require('config.nvim-tree')]],
-    })
-    use ({'christoomey/vim-tmux-navigator'}) -- Ctrl - hjkl 定位窗口
+    {
+        "nvim-tree/nvim-tree.lua",
+        version = "*",
+        lazy = false,
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+        },
 
-    -- Treesitter
-    use ({'nvim-treesitter/nvim-treesitter',
-        run = function()
-            require('nvim-treesitter.install').update({ with_sync = true })
-        end,
+        keys = {
+            {'<leader>e', '<Cmd>NvimTreeFindFileToggle<CR>', mode = {'n', 'i', 't'}},
+        },
+        config = function() require("config.nvim-tree") end
+    },
 
-        requires = {
+    -- Git
+    {
+        'lewis6991/gitsigns.nvim',
+        event = 'BufReadPost',
+        dependencies = {
+            'petertriho/nvim-scrollbar'
+        },
+
+        config = function() require("config.nvim-gitsigns") end
+    },
+    {"NeogitOrg/neogit",
+        dependencies = {
+            "nvim-lua/plenary.nvim",         -- required
+            "nvim-telescope/telescope.nvim", -- optional
+            "sindrets/diffview.nvim",        -- optional
+            "ibhagwan/fzf-lua",              -- optional
+        },
+        config = function() require'neogit'.setup{} end,
+    },
+
+    -- Treesister
+    {'nvim-treesitter/nvim-treesitter',
+	dependencies = {
             'p00f/nvim-ts-rainbow',
             'nvim-treesitter/nvim-treesitter-textobjects',
             'nvim-treesitter/nvim-treesitter-context',
@@ -97,164 +88,155 @@ return require("packer").startup(function(use)
             'JoosepAlviste/nvim-ts-context-commentstring',
             'andymass/vim-matchup',
             'mfussenegger/nvim-treehopper',
-        },
-
-        config = [[require('config.nvim-treesitter')]],
-    })
-
-    -- Surround
-    use ({'kylechui/nvim-surround',
-        tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-        config = [[require('config.nvim-surrounding')]],
-    })
-
-    -- Show indentation and blankline
-    use ({'lukas-reineke/indent-blankline.nvim',
-        config = [[require('config.nvim-indent-blankline')]]
-    })
-
-    -- Git integration
-    use ({'tpope/vim-fugitive'})
-    use ({'lewis6991/gitsigns.nvim',
-        config = [[require('config.nvim-gitsigns')]]
-    })
-
-    use ({
-        "NeogitOrg/neogit",
-        requires = {
-            "nvim-lua/plenary.nvim",         -- required
-            "nvim-telescope/telescope.nvim", -- optional
-            "sindrets/diffview.nvim",        -- optional
-            "ibhagwan/fzf-lua",              -- optional
-        },
-        config = function() require'neogit'.setup{} end,
-    })
-
-    -- Code comment helper
-        -- 1. `gcc` to comment a line
-        -- 2. select lines in visual mode and run `gc` to comment/uncomment lines
-    use ({'tpope/vim-commentary'})
-
-    -- Buffer line
-    use({ 'akinsho/bufferline.nvim',
-          tag = '*',
-          requires = { 'famiu/bufdelete.nvim' },
-          config = [[require('config.nvim-bufferline')]],
-    })
-
-    -- Todo comments
-    use ({'folke/todo-comments.nvim',
-        config = function () require("todo-comments").setup({ }) end
-    })
-
-    -- Better terminal integration
-    use ({'akinsho/toggleterm.nvim',
-        tag = "*",
-        config = [[require('config.nvim-toggleterm')]],
-    })
-
-    -- Telescope
-    use ({'nvim-telescope/telescope.nvim',
-        config = [[require('config.nvim-telescope')]],
-    })
+	},
+	event = 'BufReadPost',
+	build = function()
+		local ts_update = require('nvim-treesitter.install').update({with_sync = true})
+		ts_update()
+	end,
+	config = function()  require("config.nvim-treesitter") end
+    },
 
     -- Smart motion
-    use ({'smoka7/hop.nvim',
-        tag = '*', -- optional but strongly recommended
-        config = [[require('config.nvim-hop')]],
-    })
+    {'smoka7/hop.nvim',
+        config = function() require('config.nvim-hop') end,
+    },
+
+    -- Surround
+    {"kylechui/nvim-surround",
+	version = "*", -- Use for stability; omit to use `main` branch for the latest features
+	event = "VeryLazy",
+	config = function() require("config.nvim-surround") end
+    },
+
+    -- Indente and blankline
+    {'lukas-reineke/indent-blankline.nvim',
+        config = function() require('config.nvim-indent-blankline') end
+    },
+
+    -- Commentary
+    {'tpope/vim-commentary'},
+
+    -- Todo comments
+    {'folke/todo-comments.nvim',
+        config = function () require("todo-comments").setup({ }) end
+    },
+
+    -- terminal integration
+    {'akinsho/toggleterm.nvim',
+        config = function() require('config.nvim-toggleterm') end,
+    },
+
+    -- Telescope
+    {'nvim-telescope/telescope.nvim',
+        event = 'BufReadPost',
+        cmd = {
+            'Glg', 'Gst', 'Diag', 'Tags'
+        },
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'BurntSushi/ripgrep',
+        },
+        config = function() require('config.nvim-telescope') end,
+    },
 
     -- Markdown support
-    use ({'preservim/vim-markdown',
-          'mzlogin/vim-markdown-toc',
-          ft = { "markdown" }
-    })
+    {'preservim/vim-markdown',
+        dependencies = {'mzlogin/vim-markdown-toc'},
+        ft = { "markdown" }
+    },
     -- Markdown previewer
-    use ({'iamcco/markdown-preview.nvim',
+    {'iamcco/markdown-preview.nvim',
         run = function() vim.fn["mkdp#util#install"]() end,
         setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
-        requires = 'iamcco/mathjax-support-for-mkdp',
-    })
+        dependencies = {'iamcco/mathjax-support-for-mkdp'},
+    },
+
 
     -- LSP syntax diagnostics
-    use ({"neovim/nvim-lspconfig" })
-    use ({"williamboman/mason.nvim",
-        requires = {
+    {"neovim/nvim-lspconfig" },
+    {"williamboman/mason.nvim",
+        dependencies = {
             "williamboman/mason-lspconfig.nvim",
             "mason-org/mason-registry",
         },
-        config = [[require('lsp')]],
-    })
+        config = function() require('config.nvim-lspconfig') end,
+    },
 
     -- Vscode-like pictograms
-    use ({'onsails/lspkind.nvim', event = 'VimEnter' })
-
+    {'onsails/lspkind.nvim', event = 'VimEnter'},
     -- Auto-completion engine
-    -- Note:
-    --     the default search path for `require` is ~/.config/nvim/lua
-    --     use a `.` as a path seperator
-    --     the suffix `.lua` is not needed
-    use({ "hrsh7th/nvim-cmp",
-        after = "lspkind.nvim",
-        config = [[require('config.nvim-cmp')]]
-    })
-    use ({'onsails/lspkind-nvim', after = "nvim-cmp"  })
-    use ({'hrsh7th/cmp-nvim-lsp', after = "nvim-cmp"  })
-    use ({'hrsh7th/cmp-nvim-lsp-signature-help', after = "nvim-cmp" })
-    use ({'hrsh7th/cmp-buffer', after = "nvim-cmp" })
-    use ({'hrsh7th/cmp-path', after = "nvim-cmp" })
-    use ({'hrsh7th/cmp-cmdline',after = "nvim-cmp" })
-    use ({'f3fora/cmp-spell', after = "nvim-cmp" })
-    use ({'hrsh7th/cmp-calc', after = "nvim-cmp" })
-    use ({'hrsh7th/cmp-emoji', after = "nvim-cmp" })
-    use ({'chrisgrieser/cmp_yanky', after = "nvim-cmp" })
-    use ({'lukas-reineke/cmp-rg', after = "nvim-cmp" })
-    use ({"lukas-reineke/cmp-under-comparator", after = "nvim-cmp" })
-
-    -- Code snippet engine
-    use("L3MON4D3/LuaSnip")
-    use({ "saadparwaiz1/cmp_luasnip", after = { "nvim-cmp", "LuaSnip" } })
+    {'hrsh7th/nvim-cmp',
+        version = false,
+        event = {'BufReadPre', 'CmdlineEnter'},
+        dependencies = {
+            "L3MON4D3/LuaSnip",
+            'onsails/lspkind-nvim',
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-nvim-lsp-signature-help',
+            'hrsh7th/cmp-buffer',
+            'hrsh7th/cmp-path',
+            'hrsh7th/cmp-cmdline',
+            'f3fora/cmp-spell',
+            'hrsh7th/cmp-calc',
+            'hrsh7th/cmp-emoji',
+            'chrisgrieser/cmp_yanky',
+            'lukas-reineke/cmp-rg',
+            "lukas-reineke/cmp-under-comparator",
+            'quangnguyen30192/cmp-nvim-tags',
+            'saadparwaiz1/cmp_luasnip',
+        },
+        config = function() require('config.nvim-cmp') end
+    },
 
     -- Autopairs: [], (), "", '', ete. It relies on nvim-cmp
-    use ({'windwp/nvim-autopairs',
+    {'windwp/nvim-autopairs',
         after = 'nvim-cmp',
-        config = [[require('config.nvim-autopairs')]],
-    })
+        config = function () require('config.nvim-autopairs') end,
+    },
 
     -- LSP Linter && Formatter
-    use({ "jay-babu/mason-null-ls.nvim",
+    { "jay-babu/mason-null-ls.nvim",
           after = "plenary.nvim",
-          requires = {
+          dependencies = {
               "jose-elias-alvarez/null-ls.nvim",
               "nvimtools/none-ls.nvim",
           },
-          config = [[require('config.nvim-mason-null-ls')]],
-    })
+          config = function() require('config.nvim-mason-null-ls') end,
+    },
 
     -- LSP Rename
-    use ({'smjonas/inc-rename.nvim',
-        config = function()
-            require("inc_rename").setup({})
-        end,
-    })
+    {'smjonas/inc-rename.nvim',
+        config = function() require("inc_rename").setup({}) end,
+    },
 
-    use ({'folke/trouble.nvim',
-        config = [[require("config.nvim-trouble")]]
-    })
+    {'folke/trouble.nvim',
+        config = function () require("config.nvim-trouble") end
+    },
 
-    use ({'ray-x/lsp_signature.nvim', event = "VimEnter",
-        config = [[require('config.nvim-lsp-signature')]]
-    })
+    {'ray-x/lsp_signature.nvim',
+        event = "VimEnter",
+        config = function() require('config.nvim-lsp-signature') end
+    },
 
     -- Outline
-    use ({'stevearc/aerial.nvim',
+    {'stevearc/aerial.nvim',
         config = function() require"config/nvim-aerial" end,
-    })
+    },
 
-    -- Automatically set up your configuration after cloning packer.nvim
-    -- Put this at the end after all plugins
-    if packer_bootstrap then
-        require("packer").sync()
-    end
-end)
+    -- {'mg979/vim-visual-multi',
+	-- keys = {{'<C-n>', mode = {'n', 'v'}}, '<C-Down>', '<C-Up>'},
+	-- config = function()
+	-- 	vim.g.VM_maps = {['I BS'] = ''}
+	-- 	vim.g.VM_silent_exit = 1
+	-- 	vim.g.VM_plugins_compatibilty = {['lualine.nvim'] = {
+	-- 	    test = function() return true end,
+	-- 	    enable = 'lua require("lualine").hide{unhide = true}',
+	-- 	    disable = 'lua require("lualine").hide()',
+	-- 	}}
+	-- 	vim.g.VM_Mono_hl = 'Cursor'
+	-- 	vim.g.VM_Extend_hl  = 'Visual'
+	-- end
+    -- },
+}
 

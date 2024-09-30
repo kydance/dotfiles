@@ -1,4 +1,4 @@
---
+-- Auto-completion engine
 
 local luasnip_ok, luasnip = pcall(require, "luasnip")
 local cmp_ok, cmp = pcall(require, "cmp")

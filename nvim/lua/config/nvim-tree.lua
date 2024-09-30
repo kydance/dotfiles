@@ -1,26 +1,12 @@
--- File Explorer Tree
+util = require("core.util")
 
-local ok, cfg = pcall(require, "nvim-tree")
-if not ok then
+local tree_ok, tree = pcall(require, "nvim-tree")
+local view_ok, view = pcall(require, "nvim-tree.view")
+
+if not tree_ok or not view_ok then
+    util.log_warn("nim-tree init failed.")
     return
 end
-
---
--- This function has been generated from your
---   view.mappings.list
---   view.mappings.custom_only
---   remove_keymaps
---
--- You should add this function to your configuration and set on_attach = on_attach in the nvim-tree setup call.
---
--- Although care was taken to ensure correctness and completeness, your review is required.
---
--- Please check for the following issues in auto generated content:
---   "Mappings removed" is as you expect
---   "Mappings migrated" are correct
---
--- Please see https://github.com/nvim-tree/nvim-tree.lua/wiki/Migrating-To-on_attach for assistance in migrating.
---
 
 local function on_attach(bufnr)
     local api = require("nvim-tree.api")
@@ -94,17 +80,26 @@ local function on_attach(bufnr)
     --
     -- You will need to insert "your code goes here" for any mappings with a custom action_cb
     -- e.g.: vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts("Up"))
+    --
+    -- api.config.mappings.default_on_attach(bufnr)
+    -- vim.keymap.set('n', 'gs', function()
+    --     local node = api.tree.get_node_under_cursor();
+    --     require('telescope.builtin').live_grep(utils.live_grep_opts{search_dirs = {node.absolute_path}})
+    -- end, {buffer = bufnr, silent = true});
 end
 
--- Hint: :help nvim-tree-default-mappings
--- setup with some options
-cfg.setup({
-    sort_by = "case_sensitive",
+tree.setup {
+    renderer = {
+        indent_markers = {enable = true}
+    },
+    hijack_cursor = true,
+    sync_root_with_cwd = true,
     on_attach = on_attach,
+    update_focused_file = {enable = true},
+    view = {preserve_window_proportions = true},
+
+    sort_by = "case_sensitive",
     renderer = { group_empty = true },
     filters = { dotfiles = false },
     diagnostics = { enable = true },
-})
-
--- 
-vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
+}

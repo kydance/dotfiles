@@ -21,7 +21,7 @@ vim.opt.splitright = true -- open new horizontal splits right
 vim.opt.termguicolors = true -- enabl 24-bit RGB color in the TUI
 vim.opt.signcolumn = "yes"
 vim.opt.showmode = false -- we are experienced, wo don't need the "-- INSERT --" mode hint
-vim.opt.scrolloff = 3
+vim.opt.scrolloff = 5
 
 -- Searching
 vim.opt.incsearch = true -- search as characters are entered
@@ -31,5 +31,3 @@ vim.opt.smartcase = true -- but make it case sensitive if an uppercase is entere
 
 -- word wrap
 vim.opt.wrap = true
-
--- transparent_color

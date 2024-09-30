@@ -56,6 +56,7 @@ keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- IncRename
-vim.keymap.set("n", "<leader>r", function()
-    return ":IncRename " .. vim.fn.expand("<cword>")
-end, { expr = true })
+-- vim.keymap.set("n", "<leader>r", function()
+--     return ":IncRename " .. vim.fn.expand("<cword>")
+-- end, { expr = true })
+
