@@ -50,6 +50,8 @@ return require("packer").startup(function(use)
     use ({'ellisonleao/gruvbox.nvim',
         requires = 'rktjmp/lush.nvim',
     })
+    use('glepnir/zephyr-nvim')
+    use('shaunsingh/nord.nvim')
 
     -- yank
     use ({'gbprod/yanky.nvim',

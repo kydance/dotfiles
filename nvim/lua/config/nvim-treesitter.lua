@@ -65,7 +65,7 @@ treesitter.setup({
     },
 
     rainbow = {
-        enable = false,
+        enable = true,
         extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
     },
 
@@ -84,11 +84,10 @@ treesitter.setup({
     },
 })
 
-vim.g.skip_ts_context_commentstring_module = true
-
-vim.g.matchup_matchparen_offscreen = { method = "status" }
-vim.g.matchup_surround_enabled = 1
-vim.g.matchup_delim_noskips = 2
+-- vim.g.skip_ts_context_commentstring_module = true
+-- vim.g.matchup_matchparen_offscreen = { method = "status" }
+-- vim.g.matchup_surround_enabled = 1
+-- vim.g.matchup_delim_noskips = 2
 
 -- Hints:
 --   A uppercase letter followed `z` means recursive
