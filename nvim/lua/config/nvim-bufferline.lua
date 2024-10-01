@@ -2,19 +2,17 @@
 
 local util = require("core.util")
 
-local is_ok, cfg = pcall(require, "bufferline")
+local is_ok, bufferline = pcall(require, "bufferline")
 if not is_ok then
 	return
 end
 
 local hide = { qf = true }
 
-cfg.setup({
+bufferline.setup({
 	options = {
 		mode = "buffers",
 		diagnostics = "nvim_lsp",
-		max_name_length = 30,
-		sort_by = "none",
 		offsets = {
 			{
 				filetype = "NvimTree",
@@ -33,7 +31,7 @@ cfg.setup({
 -- <leader> number
 for i = 1, 9 do
 	vim.keymap.set("n", "<leader>" .. i, function()
-		cfg.go_to(i, true)
+		bufferline.go_to(i, true)
 	end)
 end
 
@@ -47,6 +45,6 @@ vim.keymap.set({ "v", "n" }, "ZZ", function()
 		return
 	end
 	local buf = vim.fn.bufnr()
-	cfg.cycle(-1)
+	bufferline.cycle(-1)
 	vim.cmd.bdelete(buf)
 end)

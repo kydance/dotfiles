@@ -53,6 +53,20 @@ actions.select_horizontal._static_post.select_horizontal = post
 actions.select_vertical._static_post.select_vertical = post
 actions.select_tab._static_post.select_tab = post
 
+telescope.setup({
+	defaults = {
+		mappings = {
+			i = {
+				["<C-v>"] = false,
+			},
+		},
+		file_sorter = sorter,
+		layout_strategy = "vertical",
+		layout_config = { vertical = { preview_cutoff = 30 } },
+		preview = { filesize_limit = 1 },
+	},
+})
+
 local function set_opts(opts)
 	opts = opts or {}
 	opts.bufnr = opts.bufnr or vim.api.nvim_get_current_buf()
@@ -100,16 +114,13 @@ end
 
 vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
--- vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set("n", "<leader>fg", function()
 	builtin.live_grep(util.live_grep_opts({}))
 end)
 vim.keymap.set("n", "<leader>ft", builtin.help_tags, {})
-
 vim.keymap.set("n", "<leader>/", builtin.current_buffer_fuzzy_find)
--- vim.keymap.set('n', '<leader>p', builtin.buffers)
--- vim.keymap.set('n', '<C-p>', builtin.find_files)
-vim.keymap.set("n", "<C-o>", current_buffer_tags)
+vim.keymap.set("n", "<leader>fo", current_buffer_tags)
+
 vim.keymap.set("n", "gd", function()
 	local cword = vim.fn.expand("<cword>")
 	grep_tags({ tag = cword })

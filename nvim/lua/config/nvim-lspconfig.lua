@@ -3,9 +3,9 @@ local telescope_builtin = require("telescope.builtin")
 
 local function on_attach(client_, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
-	vim.keymap.set("n", "<C-o>", function()
-		telescope_builtin.lsp_document_symbols({ symbol_width = 0.8 })
-	end, bufopts)
+	-- vim.keymap.set("n", "<C-o>", function()
+	-- 	telescope_builtin.lsp_document_symbols({ symbol_width = 0.8 })
+	-- end, bufopts)
 	vim.keymap.set("n", "gd", function()
 		telescope_builtin.lsp_definitions({ fname_width = 0.4 })
 	end, bufopts)
