@@ -16,12 +16,12 @@ vim.opt.number = true -- show absolute number
 vim.opt.relativenumber = true -- add numbers to each line on the left side
 vim.opt.cursorline = true -- highlight cursor line underneath the cursor horizontally
 vim.wo.colorcolumn = "120"
+vim.opt.scrolloff = 5
 vim.opt.splitbelow = true -- open new vertical split bottom
 vim.opt.splitright = true -- open new horizontal splits right
 vim.opt.termguicolors = true -- enabl 24-bit RGB color in the TUI
 vim.opt.signcolumn = "yes"
 vim.opt.showmode = false -- we are experienced, wo don't need the "-- INSERT --" mode hint
-vim.opt.scrolloff = 5
 
 -- Searching
 vim.opt.incsearch = true -- search as characters are entered
@@ -46,3 +46,21 @@ vim.o.updatetime = 240
 
 -- Custom shell
 vim.o.shell = "/bin/zsh"
+
+--
+vim.cmd([[
+    augroup colorscheme_mock
+    autocmd!
+    autocmd ColorScheme * hi Normal guibg=none | hi def link LspInlayHint Comment
+    augroup END
+]])
+
+-------------------------------------
+-------------------------------------
+-- NOTE ColorScheme -> trigger
+-- gruvbox, nord, zephyr, tokyonight
+-------------------------------------
+-------------------------------------
+vim.cmd([[
+    silent! colorscheme zephyr
+]])
