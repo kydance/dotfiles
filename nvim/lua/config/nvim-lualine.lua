@@ -1,54 +1,56 @@
 -- Status Line
 
-local ok, cfg = pcall(require, 'lualine')
+local ok, cfg = pcall(require, "lualine")
 
 if not ok then
-    return
+	return
 end
 
-cfg.setup {
-    options = {
-        icons_enabled = true,
-        theme = 'auto',
-        component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = '' },
-        disabled_filetypes = {
-            statusline = {},
-            winbar = {},
-        },
-        ignore_focus = {},
-        always_divide_middle = true,
-        globalstatus = false,
-        refresh = {
-            statusline = 1000,
-            tabline = 1000,
-            winbar = 1000,
-        }
-    },
+cfg.setup({
+	options = {
+		icons_enabled = true,
+		theme = "auto",
+		component_separators = { left = "", right = "" },
+		section_separators = { left = "", right = "" },
+		disabled_filetypes = {
+			statusline = {},
+			winbar = {},
+		},
+		ignore_focus = {},
+		always_divide_middle = true,
+		globalstatus = false,
+		refresh = {
+			statusline = 1000,
+			tabline = 1000,
+			winbar = 1000,
+		},
+	},
 
-    -- +-------------------------------------------------+
-    -- | A | B | C                             X | Y | Z |
-    -- +-------------------------------------------------+
-    sections = {
-        lualine_a = { 'mode' },
-        lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { {'filename', path = 1} },
-        lualine_x = { 'encoding', 'filetype', 'fileformat', {'datetime', style = '%H:%M'}},
-        lualine_y = { 'progress' },
-        lualine_z = { 'location' }
-    },
+	-- +-------------------------------------------------+
+	-- | A | B | C                             X | Y | Z |
+	-- +-------------------------------------------------+
+	sections = {
+		lualine_a = { "mode" },
+		lualine_b = { "branch", "diff", "diagnostics" },
+		lualine_c = { { "filename", path = 1 } },
 
-    inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = { 'filename' },
-        lualine_x = { 'location' },
-        lualine_y = {},
-        lualine_z = {}
-    },
+		-- lualine_x = { 'encoding', 'filetype', 'fileformat', {'datetime', style = '%H:%M'}},
+		lualine_x = { "encoding", "filetype", { "datetime", style = "%H:%M" } },
+		lualine_y = { "progress" },
+		lualine_z = { "location" },
+	},
 
-    tabline = {},
-    winbar = {},
-    inactive_winbar = {},
-    extensions = {}
-}
+	inactive_sections = {
+		lualine_a = {},
+		lualine_b = {},
+		lualine_c = { "filename" },
+		lualine_x = { "location" },
+		lualine_y = {},
+		lualine_z = {},
+	},
+
+	tabline = {},
+	winbar = {},
+	inactive_winbar = {},
+	extensions = {},
+})

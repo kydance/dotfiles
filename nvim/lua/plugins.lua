@@ -1,230 +1,314 @@
 return {
-    {
-        'petertriho/nvim-scrollbar',
-        event = 'BufReadPost',
-        config = function()
-            require('scrollbar').setup({
-                -- Nothing
-            })
-        end
-    },
-
-    -- Colorscheme
-    {'glepnir/zephyr-nvim'},
-    {'shaunsingh/nord.nvim'},
-    {   "ellisonleao/gruvbox.nvim",
-        priority = 1000 ,
-        config = function() require('config.nvim-colorscheme') end
-    },
-
-    -- Buffer line
-    { 'akinsho/bufferline.nvim',
-    	version = "*",
-        dependencies = { 'famiu/bufdelete.nvim' },
-        config = function() require('config.nvim-bufferline') end
-    },
-
-    -- which key
-    {'folke/which-key.nvim',
-        config = function() require('config.nvim-which-key') end,
-    },
-
-    -- yank
-    {'gbprod/yanky.nvim',
-	config = function() require'yanky'.setup{} end
-    },
-
-    -- Status line
-    {'nvim-lualine/lualine.nvim',
-        config = function() require('config.nvim-lualine') end
-    },
-
-    -- Ctrl - hjkl 定位窗口
-    { 'christoomey/vim-tmux-navigator' },
-
-    -- File explorer
-    {
-        "nvim-tree/nvim-tree.lua",
-        version = "*",
-        lazy = false,
-        dependencies = {
-            "nvim-tree/nvim-web-devicons",
-        },
-
-        keys = {
-            {'<leader>e', '<Cmd>NvimTreeFindFileToggle<CR>', mode = {'n', 'i', 't'}},
-        },
-        config = function() require("config.nvim-tree") end
-    },
-
-    -- Git
-    {
-        'lewis6991/gitsigns.nvim',
-        event = 'BufReadPost',
-        dependencies = {
-            'petertriho/nvim-scrollbar'
-        },
-
-        config = function() require("config.nvim-gitsigns") end
-    },
-    {"NeogitOrg/neogit",
-        dependencies = {
-            "nvim-lua/plenary.nvim",         -- required
-            "nvim-telescope/telescope.nvim", -- optional
-            "sindrets/diffview.nvim",        -- optional
-            "ibhagwan/fzf-lua",              -- optional
-        },
-        config = function() require'neogit'.setup{} end,
-    },
-
-    -- Treesister
-    {'nvim-treesitter/nvim-treesitter',
-	dependencies = {
-            'p00f/nvim-ts-rainbow',
-            'nvim-treesitter/nvim-treesitter-textobjects',
-            'nvim-treesitter/nvim-treesitter-context',
-
-            'windwp/nvim-ts-autotag',
-            'JoosepAlviste/nvim-ts-context-commentstring',
-            'andymass/vim-matchup',
-            'mfussenegger/nvim-treehopper',
+	-- Colorscheme
+	{ "glepnir/zephyr-nvim" },
+	{ "folke/tokyonight.nvim" },
+	{
+		"ellisonleao/gruvbox.nvim",
+		priority = 1000,
+		config = function()
+			require("config.nvim-colorscheme")
+		end,
 	},
-	event = 'BufReadPost',
-	build = function()
-		local ts_update = require('nvim-treesitter.install').update({with_sync = true})
-		ts_update()
-	end,
-	config = function()  require("config.nvim-treesitter") end
-    },
 
-    -- Smart motion
-    {'smoka7/hop.nvim',
-        config = function() require('config.nvim-hop') end,
-    },
+	-- which key
+	{
+		"folke/which-key.nvim",
+		config = function()
+			require("config.nvim-which-key")
+		end,
+	},
 
-    -- Surround
-    {"kylechui/nvim-surround",
-	version = "*", -- Use for stability; omit to use `main` branch for the latest features
-	event = "VeryLazy",
-	config = function() require("config.nvim-surround") end
-    },
+	-- Buffer line
+	{
+		"akinsho/bufferline.nvim",
+		event = "BufReadPost",
+		dependencies = { "famiu/bufdelete.nvim" },
+		config = function()
+			require("config.nvim-bufferline")
+		end,
+	},
 
-    -- Indente and blankline
-    {'lukas-reineke/indent-blankline.nvim',
-        config = function() require('config.nvim-indent-blankline') end
-    },
+	-- yank
+	{
+		"gbprod/yanky.nvim",
+		config = function()
+			require("yanky").setup({})
+		end,
+	},
 
-    -- Commentary
-    {'tpope/vim-commentary'},
+	-- Status line
+	{
+		"nvim-lualine/lualine.nvim",
+		config = function()
+			require("config.nvim-lualine")
+		end,
+	},
 
-    -- Todo comments
-    {'folke/todo-comments.nvim',
-        config = function () require("todo-comments").setup({ }) end
-    },
+	-- Ctrl - hjkl 定位窗口
+	{ "christoomey/vim-tmux-navigator" },
 
-    -- terminal integration
-    {'akinsho/toggleterm.nvim',
-        config = function() require('config.nvim-toggleterm') end,
-    },
+	-- File explorer
+	{
+		"nvim-tree/nvim-tree.lua",
+		version = "*",
+		lazy = false,
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("config.nvim-tree")
+		end,
+	},
 
-    -- Telescope
-    {'nvim-telescope/telescope.nvim',
-        event = 'BufReadPost',
-        cmd = {
-            'Glg', 'Gst', 'Diag', 'Tags'
-        },
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-            'BurntSushi/ripgrep',
-        },
-        config = function() require('config.nvim-telescope') end,
-    },
+	-- Outline
+	{
+		"stevearc/aerial.nvim",
+		config = function()
+			require("config/nvim-aerial")
+		end,
+	},
 
-    -- Markdown support
-    {'preservim/vim-markdown',
-        dependencies = {'mzlogin/vim-markdown-toc'},
-        ft = { "markdown" }
-    },
-    -- Markdown previewer
-    {'iamcco/markdown-preview.nvim',
-        run = function() vim.fn["mkdp#util#install"]() end,
-        setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
-        dependencies = {'iamcco/mathjax-support-for-mkdp'},
-    },
+	-- Smart motion
+	{
+		"smoka7/hop.nvim",
+		config = function()
+			require("config.nvim-hop")
+		end,
+	},
 
+	-- Surround
+	{
+		"kylechui/nvim-surround",
+		version = "*", -- Use for stability; omit to use `main` branch for the latest features
+		event = "VeryLazy",
+		config = function()
+			require("config.nvim-surround")
+		end,
+	},
 
-    -- LSP syntax diagnostics
-    {"neovim/nvim-lspconfig" },
-    {"williamboman/mason.nvim",
-        dependencies = {
-            "williamboman/mason-lspconfig.nvim",
-            "mason-org/mason-registry",
-        },
-        config = function() require('config.nvim-lspconfig') end,
-    },
+	-- Indente and blankline
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		---@module "ibl"
+		---@type ibl.config
+		config = function()
+			require("config.nvim-indent-blankline")
+		end,
+	},
 
-    -- Vscode-like pictograms
-    {'onsails/lspkind.nvim', event = 'VimEnter'},
-    -- Auto-completion engine
-    {'hrsh7th/nvim-cmp',
-        version = false,
-        event = {'BufReadPre', 'CmdlineEnter'},
-        dependencies = {
-            "L3MON4D3/LuaSnip",
-            'onsails/lspkind-nvim',
-            'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-nvim-lsp-signature-help',
-            'hrsh7th/cmp-buffer',
-            'hrsh7th/cmp-path',
-            'hrsh7th/cmp-cmdline',
-            'f3fora/cmp-spell',
-            'hrsh7th/cmp-calc',
-            'hrsh7th/cmp-emoji',
-            'chrisgrieser/cmp_yanky',
-            'lukas-reineke/cmp-rg',
-            "lukas-reineke/cmp-under-comparator",
-            'quangnguyen30192/cmp-nvim-tags',
-            'saadparwaiz1/cmp_luasnip',
-        },
-        config = function() require('config.nvim-cmp') end
-    },
+	-- LSP Rename
+	{
+		"smjonas/inc-rename.nvim",
+		config = function()
+			require("inc_rename").setup({})
+		end,
+	},
 
-    -- Autopairs: [], (), "", '', ete. It relies on nvim-cmp
-    {'windwp/nvim-autopairs',
-        after = 'nvim-cmp',
-        config = function () require('config.nvim-autopairs') end,
-    },
+	-- Git
+	{
+		"lewis6991/gitsigns.nvim",
+		event = "BufReadPost",
+		config = function()
+			require("config.nvim-gitsigns")
+		end,
+	},
+	{
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- required
+			"nvim-telescope/telescope.nvim", -- optional
+			"sindrets/diffview.nvim", -- optional
+			"ibhagwan/fzf-lua", -- optional
+		},
+		config = function()
+			require("neogit").setup({})
+		end,
+	},
 
-    -- LSP Linter && Formatter
-    { "jay-babu/mason-null-ls.nvim",
-          after = "plenary.nvim",
-          dependencies = {
-              "jose-elias-alvarez/null-ls.nvim",
-              "nvimtools/none-ls.nvim",
-          },
-          config = function() require('config.nvim-mason-null-ls') end,
-    },
+	-- Commentary
+	{ "tpope/vim-commentary" },
 
-    -- LSP Rename
-    {'smjonas/inc-rename.nvim',
-        config = function() require("inc_rename").setup({}) end,
-    },
+	-- Todo comments
+	{ "folke/todo-comments.nvim", dependencies = { "nvim-lua/plenary.nvim" }, opts = {} },
 
-    {'folke/trouble.nvim',
-        config = function () require("config.nvim-trouble") end
-    },
+	-- terminal integration
+	{
+		"akinsho/toggleterm.nvim",
+		config = function()
+			require("config.nvim-toggleterm")
+		end,
+	},
 
-    {'ray-x/lsp_signature.nvim',
-        event = "VimEnter",
-        config = function() require('config.nvim-lsp-signature') end
-    },
+	-- Telescope
+	{
+		"nvim-telescope/telescope.nvim",
+		event = "BufReadPost",
+		cmd = { "Glg", "Gst", "Diag", "Tags" },
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"BurntSushi/ripgrep",
+		},
+		config = function()
+			require("config.nvim-telescope")
+		end,
+	},
 
-    -- Outline
-    {'stevearc/aerial.nvim',
-        config = function() require"config/nvim-aerial" end,
-    },
+	{
+		"kevinhwang91/nvim-hlslens",
+		event = "BufReadPost",
+		config = function()
+			require("hlslens").setup({})
 
-    -- {'mg979/vim-visual-multi',
+			local opts = { noremap = true, silent = true }
+			vim.keymap.set("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], opts)
+			vim.keymap.set("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], opts)
+			vim.keymap.set(
+				"n",
+				"n",
+				[[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+				opts
+			)
+			vim.keymap.set(
+				"n",
+				"N",
+				[[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+				opts
+			)
+		end,
+	},
+
+	-- Markdown support
+	{
+		"plasticboy/vim-markdown",
+		branch = "master",
+		require = { "godlygeek/tabular" },
+		ft = { "markdown" },
+	},
+	-- Markdown preview
+	{
+		"iamcco/markdown-preview.nvim",
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		ft = { "markdown" },
+		build = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+	},
+
+	-- 代码片段管理
+	{
+		"L3MON4D3/LuaSnip",
+		event = "InsertEnter",
+		config = function()
+			require("config.nvim-luasnip")
+		end,
+	},
+	-- Auto-completion engine
+	{
+		"hrsh7th/nvim-cmp",
+		version = false,
+		event = { "BufReadPre", "CmdlineEnter" },
+		dependencies = {
+			"onsails/lspkind.nvim", -- Vscode-like pictograms
+			"hrsh7th/cmp-nvim-lsp",
+			-- 'hrsh7th/cmp-nvim-lsp-signature-help',
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-cmdline",
+			-- 'f3fora/cmp-spell',
+			-- 'hrsh7th/cmp-calc',
+			-- 'hrsh7th/cmp-emoji',
+			-- 'chrisgrieser/cmp_yanky',
+			"lukas-reineke/cmp-rg",
+			-- "lukas-reineke/cmp-under-comparator",
+			"quangnguyen30192/cmp-nvim-tags",
+			"saadparwaiz1/cmp_luasnip",
+		},
+		config = function()
+			require("config.nvim-cmp")
+		end,
+	},
+
+	-- Autopairs: [], (), "", '', ete. It relies on nvim-cmp
+	{
+		"windwp/nvim-autopairs",
+		evnet = "InsertEnter",
+		config = function()
+			require("config.nvim-autopairs")
+		end,
+	},
+
+	-- Treesister, 增强语法高亮和代码理解能力的工具
+	{
+		"nvim-treesitter/nvim-treesitter",
+		dependencies = {
+			-- "p00f/nvim-ts-rainbow",
+			"nvim-treesitter/nvim-treesitter-textobjects",
+			"nvim-treesitter/nvim-treesitter-context",
+
+			"windwp/nvim-ts-autotag",
+			"JoosepAlviste/nvim-ts-context-commentstring",
+			"andymass/vim-matchup",
+			"mfussenegger/nvim-treehopper",
+		},
+		event = "BufReadPost",
+		build = function()
+			local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
+			ts_update()
+		end,
+		config = function()
+			require("config.nvim-treesitter")
+		end,
+	},
+
+	-- LSP syntax diagnostics
+	{
+		"neovim/nvim-lspconfig",
+		dependencies = { "hrsh7th/cmp-nvim-lsp" },
+		event = "BufReadPre",
+		config = function()
+			require("config.nvim-lspconfig")
+		end,
+	},
+
+	{
+		"williamboman/mason.nvim",
+		dependencies = {
+			"williamboman/mason-lspconfig.nvim",
+			"mason-org/mason-registry",
+		},
+		config = function()
+			require("config.nvim-mason")
+		end,
+	},
+
+	-- LSP Linter && Formatter
+	{
+		"jay-babu/mason-null-ls.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"williamboman/mason.nvim",
+			"nvimtools/none-ls.nvim",
+		},
+		config = function()
+			require("config.nvim-mason-null-ls")
+		end,
+	},
+
+	{
+		"ray-x/lsp_signature.nvim",
+		event = "VimEnter",
+		config = function()
+			require("config.nvim-lsp-signature")
+		end,
+	},
+
+	{
+		"folke/trouble.nvim",
+		config = function()
+			require("config.nvim-trouble")
+		end,
+	},
+
+	-- {'mg979/vim-visual-multi',
 	-- keys = {{'<C-n>', mode = {'n', 'v'}}, '<C-Down>', '<C-Up>'},
 	-- config = function()
 	-- 	vim.g.VM_maps = {['I BS'] = ''}
@@ -237,6 +321,5 @@ return {
 	-- 	vim.g.VM_Mono_hl = 'Cursor'
 	-- 	vim.g.VM_Extend_hl  = 'Visual'
 	-- end
-    -- },
+	-- },
 }
-

@@ -1,8 +1,8 @@
 -- Hint: use `:h <option>` to figure out the meaning if needed
 
-vim.opt.clipboard = 'unnamedplus' -- use system clipboard
-vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-vim.opt.mouse = 'a' -- allow the mouse to be used in Nvim
+vim.opt.clipboard = "unnamedplus" -- use system clipboard
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
+vim.opt.mouse = "a" -- allow the mouse to be used in Nvim
 
 -- Tab
 vim.opt.tabstop = 4 -- number of visual spaces per TAB
@@ -15,7 +15,7 @@ vim.opt.background = "dark"
 vim.opt.number = true -- show absolute number
 vim.opt.relativenumber = true -- add numbers to each line on the left side
 vim.opt.cursorline = true -- highlight cursor line underneath the cursor horizontally
-vim.wo.cursorline = true
+vim.wo.colorcolumn = "120"
 vim.opt.splitbelow = true -- open new vertical split bottom
 vim.opt.splitright = true -- open new horizontal splits right
 vim.opt.termguicolors = true -- enabl 24-bit RGB color in the TUI
@@ -31,3 +31,18 @@ vim.opt.smartcase = true -- but make it case sensitive if an uppercase is entere
 
 -- word wrap
 vim.opt.wrap = true
+
+-- Auto reload file
+vim.o.autoread = true
+vim.bo.autoread = true
+
+-- Not swapfile
+vim.o.backup = false
+vim.o.writebackup = false
+vim.o.swapfile = false
+
+-- Smaller updatetime
+vim.o.updatetime = 240
+
+-- Custom shell
+vim.o.shell = "/bin/zsh"

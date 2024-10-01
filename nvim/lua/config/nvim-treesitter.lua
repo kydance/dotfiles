@@ -1,87 +1,97 @@
 -- Treesitter
 
-local is_ok, treesitter = pcall(require, 'treesitter')
+local util = require("core.util")
+local is_ok, treesitter = pcall(require, "nvim-treesitter")
 if not is_ok then
-    return
+	util.log_warn("treesitter init failed!")
+	return
 end
 
 treesitter.setup({
-    -- A list of parser names, or "all" (the four listed parsers should always be installed)
-    ensure_installed = {
-        'c', 'cmake', 'comment', 'cpp',
-        'dockerfile',
-        'gitignore', 'go', 'gomod',
-        'ini',
-        'json',
-        'latex', 'lua',
-        'make', 'markdown', 'markdown_inline',
-        'python',
-        'rust',
-        'sql',
-        'vim',
-        'yaml',
-        'xml',
-    },
+	-- A list of parser names, or "all" (the four listed parsers should always be installed)
+	ensure_installed = {
+		"c",
+		"cmake",
+		"comment",
+		"cpp",
+		"dockerfile",
+		"gitignore",
+		"go",
+		"gomod",
+		"ini",
+		"json",
+		"latex",
+		"lua",
+		"make",
+		"markdown",
+		"markdown_inline",
+		"python",
+		"rust",
+		"sql",
+		"vim",
+		"yaml",
+		"xml",
+	},
 
-    -- Install parsers synchronously (only applied to `ensure_installed`)
-    sync_install = false,
+	-- Install parsers synchronously (only applied to `ensure_installed`)
+	sync_install = false,
 
-    -- Automatically install missing parsers when entering buffer
-    -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-    auto_install = true,
+	-- Automatically install missing parsers when entering buffer
+	-- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+	auto_install = true,
 
-    -- List of parsers to ignore installing (for "all")
-    -- ignore_install = { "javascript" },
+	-- List of parsers to ignore installing (for "all")
+	-- ignore_install = { "javascript" },
 
-    ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-    -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+	---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+	-- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
 
-    highlight = {
-        -- When `enable` is `true` this will enable the module for all supported languages,
-        -- `false` will disable the whole extension
-        enable = true,
+	highlight = {
+		-- When `enable` is `true` this will enable the module for all supported languages,
+		-- `false` will disable the whole extension
+		enable = true,
 
-        -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-        -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-        -- the name of the parser)
-        -- if you want to disable the module for some languages you can pass a list to the `disable` option.
-        -- disable = {
-        --     "rust",
-        -- },
-        -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-        -- disable = function(lang, buf)
-        --     local max_filesize = 1000 * 1024 -- 1000 KB
-        --     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-        --     if ok and stats and stats.size > max_filesize then
-        --         return true
-        --     end
-        -- end,
+		-- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+		-- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+		-- the name of the parser)
+		-- if you want to disable the module for some languages you can pass a list to the `disable` option.
+		-- disable = {
+		--     "rust",
+		-- },
+		-- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+		-- disable = function(lang, buf)
+		--     local max_filesize = 1000 * 1024 -- 1000 KB
+		--     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+		--     if ok and stats and stats.size > max_filesize then
+		--         return true
+		--     end
+		-- end,
 
-        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-        -- Using this option may slow down your editor, and you may see some duplicate highlights.
-        -- Instead of true it can also be a list of languages
-        additional_vim_regex_highlighting = false,
-    },
+		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+		-- Using this option may slow down your editor, and you may see some duplicate highlights.
+		-- Instead of true it can also be a list of languages
+		additional_vim_regex_highlighting = false,
+	},
 
-    rainbow = {
-        enable = true,
-        extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-    },
+	rainbow = {
+		enable = true,
+		extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+	},
 
-    incremental_selection = {
-        enable = true,
-        -- init_selection: in normal mode, start incremental selection.
-        -- node_incremental: in visual mode, increment to the upper named parent.
-        -- scope_incremental: in visual mode, increment to the upper scope
-        -- node_decremental: in visual mode, decrement to the previous named node.
-        keymaps = {
-            init_selection = "gnn",
-            node_incremental = "grn",
-            scope_incremental = "grc",
-            node_decremental = "grm",
-        },
-    },
+	incremental_selection = {
+		enable = true,
+		-- init_selection: in normal mode, start incremental selection.
+		-- node_incremental: in visual mode, increment to the upper named parent.
+		-- scope_incremental: in visual mode, increment to the upper scope
+		-- node_decremental: in visual mode, decrement to the previous named node.
+		keymaps = {
+			init_selection = "gnn",
+			node_incremental = "grn",
+			scope_incremental = "grc",
+			node_decremental = "grm",
+		},
+	},
 })
 
 -- vim.g.skip_ts_context_commentstring_module = true
@@ -98,11 +108,11 @@ treesitter.setup({
 --   zM: Close all foldings
 --   zR: Open all foldings
 -- source: https://github.com/nvim-treesitter/nvim-treesitter/wiki/Installation
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'BufWinEnter' }, {
-    group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
-    callback = function()
-        vim.opt.foldmethod = 'expr'
-        vim.opt.foldexpr   = 'nvim_treesitter#foldexpr()'
-        vim.opt.foldlevel = 99
-    end
+vim.api.nvim_create_autocmd({ "BufEnter", "BufAdd", "BufNew", "BufNewFile", "BufWinEnter" }, {
+	group = vim.api.nvim_create_augroup("TS_FOLD_WORKAROUND", {}),
+	callback = function()
+		vim.opt.foldmethod = "expr"
+		vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+		vim.opt.foldlevel = 99
+	end,
 })
