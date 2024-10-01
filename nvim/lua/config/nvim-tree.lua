@@ -94,7 +94,17 @@ tree.setup({
 	view = { preserve_window_proportions = true },
 
 	sort_by = "case_sensitive",
-	filters = { dotfiles = false },
+	filters = {
+		dotfiles = false,
+		git_clean = false,
+		no_buffer = false,
+	},
+
+	git = {
+		enable = true,
+		ignore = false, -- 设置为 false 以显示被 .gitignore 忽略的文件
+	},
+
 	diagnostics = { enable = true },
 })
 
