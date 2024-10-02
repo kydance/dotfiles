@@ -240,7 +240,7 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		dependencies = {
-			-- "p00f/nvim-ts-rainbow",
+			"p00f/nvim-ts-rainbow",
 			"nvim-treesitter/nvim-treesitter-textobjects",
 			"nvim-treesitter/nvim-treesitter-context",
 
@@ -249,15 +249,26 @@ return {
 			"andymass/vim-matchup",
 			"mfussenegger/nvim-treehopper",
 		},
-		event = "BufReadPost",
-		build = function()
-			local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
-			ts_update()
-		end,
+		-- event = "BufReadPost",
+		build = ":TSUpdate",
 		config = function()
 			require("config.nvim-treesitter")
 		end,
 	},
+	-- {
+	-- 	"nvim-treesitter/nvim-treesitter",
+	-- 	build = ":TSUpdate",
+	-- 	config = function()
+	-- 		local configs = require("nvim-treesitter.configs")
+	--
+	-- 		configs.setup({
+	-- 			ensure_installed = { "c", "go", "lua", "vim", "vimdoc", "query", "elixir", "heex", "javascript", "html" },
+	-- 			sync_install = false,
+	-- 			highlight = { enable = true },
+	-- 			indent = { enable = true },
+	-- 		})
+	-- 	end,
+	-- },
 
 	-- LSP syntax diagnostics
 	{

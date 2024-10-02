@@ -62,5 +62,5 @@ vim.cmd([[
 -------------------------------------
 -------------------------------------
 vim.cmd([[
-    silent! colorscheme zephyr
+    silent! colorscheme gruvbox
 ]])
