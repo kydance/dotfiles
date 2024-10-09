@@ -16,7 +16,7 @@ cfg.setup({
 	floating_window = true,
 	floating_window_above_cur_line = true,
 	floating_window_off_x = 3,
-	floating_window_off_y = -3,
+	floating_window_off_y = 0,
 	fix_pos = false,
 
 	hint_enable = false,
