@@ -1,7 +1,9 @@
 -- Terminal
 
+local util = require("core.util")
 local ok, cfg = pcall(require, "toggleterm")
 if not ok then
+	util.log_warn("nim-toggleterm init failed.")
 	return
 end
 

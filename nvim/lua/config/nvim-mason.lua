@@ -22,8 +22,10 @@ require("mason-lspconfig").setup({
 })
 
 -- Fomater
+local util = require("core.util")
 local mason_null_ls_ok, mason_null_ls = pcall(require, "mason-null-ls")
 if not mason_null_ls_ok then
+	util.log_warn("nim-mason-null-ls init failed.")
 	return
 end
 

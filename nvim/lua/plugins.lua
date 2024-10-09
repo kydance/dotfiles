@@ -88,8 +88,10 @@ return {
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
+
 		---@module "ibl"
 		---@type ibl.config
+
 		config = function()
 			require("config.nvim-indent-blankline")
 		end,
@@ -115,13 +117,15 @@ return {
 		"NeogitOrg/neogit",
 		dependencies = {
 			"nvim-lua/plenary.nvim", -- required
-			"nvim-telescope/telescope.nvim", -- optional
 			"sindrets/diffview.nvim", -- optional
-			"ibhagwan/fzf-lua", -- optional
+
+			"nvim-telescope/telescope.nvim", -- optional
+			-- "ibhagwan/fzf-lua", -- optional
 		},
-		config = function()
-			require("neogit").setup({})
-		end,
+		config = true,
+		-- config = function()
+		-- 	require("neogit").setup({})
+		-- end,
 	},
 
 	-- Commentary
@@ -152,6 +156,7 @@ return {
 		end,
 	},
 
+	-- Highlight search
 	{
 		"kevinhwang91/nvim-hlslens",
 		event = "BufReadPost",
@@ -249,26 +254,12 @@ return {
 			"andymass/vim-matchup",
 			"mfussenegger/nvim-treehopper",
 		},
-		-- event = "BufReadPost",
+		event = "BufReadPost",
 		build = ":TSUpdate",
 		config = function()
 			require("config.nvim-treesitter")
 		end,
 	},
-	-- {
-	-- 	"nvim-treesitter/nvim-treesitter",
-	-- 	build = ":TSUpdate",
-	-- 	config = function()
-	-- 		local configs = require("nvim-treesitter.configs")
-	--
-	-- 		configs.setup({
-	-- 			ensure_installed = { "c", "go", "lua", "vim", "vimdoc", "query", "elixir", "heex", "javascript", "html" },
-	-- 			sync_install = false,
-	-- 			highlight = { enable = true },
-	-- 			indent = { enable = true },
-	-- 		})
-	-- 	end,
-	-- },
 
 	-- LSP syntax diagnostics
 	{
@@ -318,19 +309,4 @@ return {
 			require("config.nvim-trouble")
 		end,
 	},
-
-	-- {'mg979/vim-visual-multi',
-	-- keys = {{'<C-n>', mode = {'n', 'v'}}, '<C-Down>', '<C-Up>'},
-	-- config = function()
-	-- 	vim.g.VM_maps = {['I BS'] = ''}
-	-- 	vim.g.VM_silent_exit = 1
-	-- 	vim.g.VM_plugins_compatibilty = {['lualine.nvim'] = {
-	-- 	    test = function() return true end,
-	-- 	    enable = 'lua require("lualine").hide{unhide = true}',
-	-- 	    disable = 'lua require("lualine").hide()',
-	-- 	}}
-	-- 	vim.g.VM_Mono_hl = 'Cursor'
-	-- 	vim.g.VM_Extend_hl  = 'Visual'
-	-- end
-	-- },
 }

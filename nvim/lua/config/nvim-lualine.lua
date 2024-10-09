@@ -1,8 +1,10 @@
 -- Status Line
 
+local util = require("core.util")
 local ok, cfg = pcall(require, "lualine")
 
 if not ok then
+	util.log_warn("nim-lualine init failed.")
 	return
 end
 

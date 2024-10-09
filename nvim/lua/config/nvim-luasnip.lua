@@ -1,7 +1,10 @@
 -- LuaSnip
 
+local util = require("core.util")
+
 local ok, luasnip = pcall(require, "luasnip")
 if not ok then
+	util.log_warn("nim-bufferline init failed.")
 	return
 end
 

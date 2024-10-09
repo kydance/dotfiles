@@ -4,6 +4,7 @@ local util = require("core.util")
 
 local is_ok, bufferline = pcall(require, "bufferline")
 if not is_ok then
+	util.log_warn("nim-bufferline init failed.")
 	return
 end
 

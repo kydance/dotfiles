@@ -13,11 +13,13 @@ treesitter.setup({
 		"c",
 		"cmake",
 		"cpp",
+		"css",
 		"dockerfile",
 		"gitignore",
 		"go",
-        "html",
+		"html",
 		"ini",
+		"javascript",
 		"json",
 		"latex",
 		"lua",
@@ -26,6 +28,7 @@ treesitter.setup({
 		"markdown_inline",
 		"python",
 		"rust",
+		"typescript",
 		"sql",
 		"vim",
 		"yaml",
@@ -40,12 +43,19 @@ treesitter.setup({
 	-- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
 	auto_install = true,
 
-	highlight = { enable = true },
+	-- Code highlight
+	highlight = {
+		enable = true,
+		--additional_vim_regex_highlighting = false,
+	},
+	indent = { enable = true },
+
 	rainbow = {
 		enable = true,
 		extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
 	},
 
+	-- 增量选择
 	incremental_selection = {
 		enable = true,
 		-- init_selection: in normal mode, start incremental selection.
@@ -53,18 +63,13 @@ treesitter.setup({
 		-- scope_incremental: in visual mode, increment to the upper scope
 		-- node_decremental: in visual mode, decrement to the previous named node.
 		keymaps = {
-			init_selection = "gnn",
-			node_incremental = "grn",
-			scope_incremental = "grc",
-			node_decremental = "grm",
+			init_selection = "<CR>",
+			node_incremental = "<CR>",
+			node_decremental = "<BS>",
+			scope_incremental = "<TAB>",
 		},
 	},
 })
-
--- vim.g.skip_ts_context_commentstring_module = true
--- vim.g.matchup_matchparen_offscreen = { method = "status" }
--- vim.g.matchup_surround_enabled = 1
--- vim.g.matchup_delim_noskips = 2
 
 -- Hints:
 --   A uppercase letter followed `z` means recursive
@@ -75,11 +80,6 @@ treesitter.setup({
 --   zM: Close all foldings
 --   zR: Open all foldings
 -- source: https://github.com/nvim-treesitter/nvim-treesitter/wiki/Installation
-vim.api.nvim_create_autocmd({ "BufEnter", "BufAdd", "BufNew", "BufNewFile", "BufWinEnter" }, {
-	group = vim.api.nvim_create_augroup("TS_FOLD_WORKAROUND", {}),
-	callback = function()
-		vim.opt.foldmethod = "expr"
-		vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-		vim.opt.foldlevel = 99
-	end,
-})
+vim.wo.foldmethod = "expr"
+vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+vim.wo.foldlevel = 99

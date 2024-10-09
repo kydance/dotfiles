@@ -1,6 +1,9 @@
 -- null_ls format
+
+local util = require("core.util")
 local ok, null_ls = pcall(require, "null-ls")
 if not ok then
+	util.log_warn("nim-null-ls init failed.")
 	return
 end
 

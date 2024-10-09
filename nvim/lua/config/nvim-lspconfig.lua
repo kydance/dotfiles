@@ -1,5 +1,11 @@
-local lspconfig = require("lspconfig")
-local telescope_builtin = require("telescope.builtin")
+local util = require("core.util")
+local lspcfg = require("lspconfig")
+
+local ok_, telescope_builtin = require("telescope.builtin")
+if not ok_ then
+	util.log_warn("nim-telescope_builtin init failed.")
+	return
+end
 
 local function on_attach(client_, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
@@ -51,10 +57,10 @@ local function on_attach(client_, bufnr)
 end
 
 -- Configure each language
-lspconfig.gopls.setup({ on_attach = on_attach })
-lspconfig.clangd.setup({ on_attach = on_attach })
-lspconfig.pylsp.setup({ on_attach = on_attach })
-lspconfig.lua_ls.setup({
+lspcfg.gopls.setup({ on_attach = on_attach })
+lspcfg.clangd.setup({ on_attach = on_attach })
+lspcfg.pylsp.setup({ on_attach = on_attach })
+lspcfg.lua_ls.setup({
 	on_attach = on_attach,
 	settings = {
 		Lua = {

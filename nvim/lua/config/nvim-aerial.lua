@@ -1,7 +1,9 @@
 -- Outline Component
 
+local util = require("core.util")
 local is_ok, cfg = pcall(require, "aerial")
 if not is_ok then
+	util.log_warn("nim-aerial init failed.")
 	return
 end
 

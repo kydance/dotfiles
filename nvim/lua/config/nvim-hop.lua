@@ -1,8 +1,10 @@
 -- Smart move
 
+local util = require("core.util")
 local ok, cfg = pcall(require, "hop")
 
 if not ok then
+	util.log_warn("nim-hop init failed.")
 	return
 end
 

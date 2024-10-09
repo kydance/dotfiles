@@ -1,10 +1,13 @@
 -- Auto-completion engine
 
+local util = require("core.util")
+
 local luasnip_ok, luasnip = pcall(require, "luasnip")
 local cmp_ok, cmp = pcall(require, "cmp")
 local lspkind_ok, lspkind = pcall(require, "lspkind")
 
 if not luasnip_ok or not cmp_ok or not lspkind_ok then
+	util.log_warn("nim-luasnip / cmp / lspkind init failed.")
 	return
 end
 

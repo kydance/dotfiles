@@ -1,8 +1,10 @@
 -- indent blank
 
+local util = require("core.util")
 local is_ok, ibl = pcall(require, "ibl")
 
 if not is_ok then
+	util.log_warn("nim-null-ls init failed.")
 	return
 end
 

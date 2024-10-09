@@ -1,7 +1,9 @@
 -- Auto pair
 
+local util = require("core.util")
 local is_ok, cfg = pcall(require, "nvim-autopairs")
 if not is_ok then
+	util.log_warn("nim-autopairs init failed.")
 	return
 end
 
