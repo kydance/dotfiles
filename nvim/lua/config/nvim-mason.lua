@@ -31,6 +31,7 @@ mason_null_ls.setup({
 	-- A list of sources to install if they're not already installed.
 	-- This setting has no relation with the `automatic_installation` setting.
 	ensure_installed = {
+        "goimports",
 		"black",
 		"stylua",
 		"jq",
