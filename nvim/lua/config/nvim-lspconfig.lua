@@ -1,11 +1,5 @@
-local util = require("core.util")
 local lspcfg = require("lspconfig")
-
-local ok_, telescope_builtin = require("telescope.builtin")
-if not ok_ then
-	util.log_warn("nim-telescope_builtin init failed.")
-	return
-end
+local telescope_builtin = require("telescope.builtin")
 
 local function on_attach(client_, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
