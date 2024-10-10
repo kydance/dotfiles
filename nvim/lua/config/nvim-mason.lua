@@ -1,4 +1,3 @@
--- LSP Manager
 require("mason").setup({
 	ui = {
 		icons = {
@@ -9,6 +8,7 @@ require("mason").setup({
 	},
 })
 
+-- LSP Manager
 require("mason-lspconfig").setup({
 	-- A list of servers to automatically install if they're not already installed
 	ensure_installed = {
@@ -33,10 +33,21 @@ mason_null_ls.setup({
 	-- A list of sources to install if they're not already installed.
 	-- This setting has no relation with the `automatic_installation` setting.
 	ensure_installed = {
-        "goimports",
+		-- golang
+		"gofumpt",
+		"goimports_reviser",
+		"golines",
+
+		-- Python
 		"black",
+
+		-- lua
 		"stylua",
+
+		-- json
 		"jq",
+
+		-- markdown
 		"markdownlint",
 	},
 	automatic_installation = false,
