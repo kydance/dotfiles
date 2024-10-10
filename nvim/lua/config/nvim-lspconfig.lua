@@ -1,4 +1,5 @@
 local lspcfg = require("lspconfig")
+local lsputil = require("lspconfig.util")
 local telescope_builtin = require("telescope.builtin")
 
 local function on_attach(client_, bufnr)
@@ -51,7 +52,12 @@ local function on_attach(client_, bufnr)
 end
 
 -- Configure each language
-lspcfg.gopls.setup({ on_attach = on_attach })
+lspcfg.gopls.setup({
+	on_attach = on_attach,
+	cmd = { "gopls" },
+	filetypes = { "go", "gomod", "gowork", "gotmpl" },
+	root_dir = lsputil.root_pattern("go.work", "go.mod", ".git"),
+})
 lspcfg.clangd.setup({ on_attach = on_attach })
 lspcfg.pylsp.setup({ on_attach = on_attach })
 lspcfg.lua_ls.setup({
