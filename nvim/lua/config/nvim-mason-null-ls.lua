@@ -14,19 +14,24 @@ null_ls.setup({
 	log_level = "warn",
 	update_in_insert = false,
 	sources = {
+		-- Python
 		null_ls.builtins.formatting.black.with({
 			extra_args = {
 				"--target-version",
 				"py312",
 			},
 		}),
+
+		-- Lua
 		null_ls.builtins.formatting.stylua,
 
+		-- Go
 		null_ls.builtins.formatting.gofumpt,
 		null_ls.builtins.formatting.goimports_reviser,
 		null_ls.builtins.formatting.golines,
 	},
 
+	-- auto format when write file
 	on_attach = function(client, bufnr)
 		if client.supports_method("textDocument/formatting") then
 			vim.api.nvim_clear_autocmds({

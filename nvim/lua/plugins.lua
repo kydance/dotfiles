@@ -10,6 +10,39 @@ return {
 		end,
 	},
 
+	{ "MunifTanjim/nui.nvim" },
+	-- Notify
+	{
+		"rcarriga/nvim-notify",
+		lazy = true,
+		event = "VeryLazy",
+		config = function()
+			require("config.nvim-notify")
+		end,
+	},
+
+	-- Noice
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		opts = {
+			-- add any options here
+		},
+
+		dependencies = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+			"rcarriga/nvim-notify",
+		},
+
+		config = function()
+			require("config.nvim-noice")
+		end,
+	},
+
 	-- which key
 	{
 		"folke/which-key.nvim",
