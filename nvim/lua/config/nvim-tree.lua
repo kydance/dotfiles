@@ -102,7 +102,7 @@ tree.setup({
 
 	git = {
 		enable = true,
-		ignore = false, -- 设置为 false 以显示被 .gitignore 忽略的文件
+		ignore = true, -- 设置为 false 以显示被 .gitignore 忽略的文件
 	},
 
 	diagnostics = { enable = true },
