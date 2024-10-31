@@ -86,7 +86,7 @@ local function awk_tags(opts)
 		return
 	end
 	opts.entry_maker = opts.entry_maker or make_entry.gen_from_ctags(opts)
-	opts.finder = finders.new_oneshot_job(vim.tbl_flatten({ "awk", opts.awk, tagfiles }), opts)
+	opts.finder = finders.new_oneshot_job(vim.iter({ "awk", opts.awk, tagfiles }):flatten():totable(), opts)
 
 	return builtin.tags(opts)
 end
@@ -146,12 +146,12 @@ end)
 local git_log = { "git", "log", "--pretty=format:%h %s (%ci) <%an>\n" }
 vim.api.nvim_create_user_command("Glg", function(opts)
 	local commit = opts.args ~= "" and opts.args or nil
-	builtin.git_commits({ initial_mode = "normal", git_command = vim.tbl_flatten({ git_log, commit }) })
+	builtin.git_commits({ initial_mode = "normal", git_command = vim.iter({ git_log, commit }):flatten():totable() })
 end, { nargs = "?" })
 
 vim.api.nvim_create_user_command("Glgb", function(opts)
 	local commit = opts.args ~= "" and opts.args or nil
-	builtin.git_bcommits({ initial_mode = "normal", git_command = vim.tbl_flatten({ git_log, commit }) })
+	builtin.git_bcommits({ initial_mode = "normal", git_command = vim.iter({ git_log, commit }):flatten():totable() })
 end, { nargs = "?" })
 
 vim.api.nvim_create_user_command("Gst", function()
