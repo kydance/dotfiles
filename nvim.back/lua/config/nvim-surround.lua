@@ -1,6 +1,6 @@
--- nvim-surround
+-- Surround
 
-local util = require("util")
+local util = require("core.util")
 local ok, cfg = pcall(require, "nvim-surround")
 if not ok then
 	util.log_warn("nvim-surround init failed.")

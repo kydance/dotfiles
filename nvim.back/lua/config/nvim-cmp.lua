@@ -1,10 +1,17 @@
+-- Auto-completion engine
+
+local util = require("core.util")
+
 local luasnip_ok, luasnip = pcall(require, "luasnip")
 local cmp_ok, cmp = pcall(require, "cmp")
 local lspkind_ok, lspkind = pcall(require, "lspkind")
 
 if not luasnip_ok or not cmp_ok or not lspkind_ok then
+	util.log_warn("nvim-luasnip / cmp / lspkind init failed.")
 	return
 end
+
+vim.g.completeopt = "menu,menuone,noselect,noinsert"
 
 local has_words_before = function()
 	unpack = unpack or table.unpack
@@ -16,25 +23,45 @@ cmp.setup({
 	snippet = {
 		-- REQUIRED - you must specify a snippet engine
 		expand = function(args)
-			require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+			luasnip.lsp_expand(args.body) -- For `luasnip` users.
 		end,
 	},
+
+	-- Set source precedence
+	sources = cmp.config.sources({
+		{ name = "codeium" }, -- For codeium
+		{ name = "nvim_lsp" }, -- For nvim-lsp
+		{ name = "luasnip" }, -- For luasnip user
+
+		{ name = "buffer" }, -- For buffer word completion
+		{ name = "path" }, -- For path completion
+	}),
+
 	mapping = cmp.mapping.preset.insert({
 		-- Use <C-b/f> to scroll the docs
 		["<C-b>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
-		-- Use <C-k/j> to switch in items
-		["<C-k>"] = cmp.mapping.select_prev_item(),
-		["<C-j>"] = cmp.mapping.select_next_item(),
+
 		-- Use <CR>(Enter) to confirm selection
-		-- Accept the currently selected item.
-		-- Set `select` to `false` to only confirm explicitly selected items.
-		["<CR>"] = cmp.mapping.confirm({ select = true }),
+		-- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		["<CR>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				if luasnip.expandable() then
+					luasnip.expand()
+				else
+					cmp.confirm({
+						select = true,
+					})
+				end
+			else
+				fallback()
+			end
+		end),
 
 		-- A super tab
-		-- Source: https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#luasnip
+		-- sourc: https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#luasnip
 		["<Tab>"] = cmp.mapping(function(fallback)
-			-- Hint: if the completion menu is visible select the next one
+			-- Hint: if the completion menu is visible select next one
 			if cmp.visible() then
 				cmp.select_next_item()
 			elseif luasnip.expand_or_locally_jumpable() then
@@ -47,6 +74,7 @@ cmp.setup({
 				fallback()
 			end
 		end, { "i", "s" }), -- i - insert mode; s - select mode
+
 		["<S-Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()
@@ -57,17 +85,25 @@ cmp.setup({
 			end
 		end, { "i", "s" }),
 	}),
+
 	-- Let's configure the item's appearance
 	-- source: https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance
 	formatting = {
-		-- Customize the appearance of the completion menu
+		completion = {
+			border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+			scrollbar = "║",
+		},
+		documentation = {
+			border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+			scrollbar = "║",
+		},
+
+		-- customize the appearance of the completion menu
 		format = lspkind.cmp_format({
-			-- Show only symbol annotations
-			mode = "symbol_text",
-			-- Prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-			maxwidth = 100,
-			-- When the popup menu exceeds maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+			mode = "symbol_text", -- symbol
+			maxwidth = 60,
 			ellipsis_char = "...",
+			show_labelDetails = true, -- show labelDetails in menu. Disabled by default
 
 			-- The function below will be called before any actual modifications from lspkind
 			-- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
@@ -82,13 +118,6 @@ cmp.setup({
 			end,
 		}),
 	},
-	-- Set source precedence
-	sources = cmp.config.sources({
-		{ name = "nvim_lsp" }, -- For nvim-lsp
-		{ name = "luasnip" }, -- For luasnip user
-		{ name = "buffer" }, -- For buffer word completion
-		{ name = "path" }, -- For path completion
-	}),
 })
 
 -- Set configuration for specific filetype.
@@ -102,14 +131,17 @@ cmp.setup.filetype("gitcommit", {
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline({ "/", "?" }, {
+	window = { completion = cmp.config.window.bordered() },
 	mapping = cmp.mapping.preset.cmdline(),
-	sources = {
-		{ name = "buffer" },
-	},
+	sources = { { name = "buffer" } },
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(":", {
+	window = {
+		completion = cmp.config.window.bordered(),
+		documentation = cmp.config.window.bordered(),
+	},
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources({
 		{ name = "path" },

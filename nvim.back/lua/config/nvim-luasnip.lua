@@ -4,7 +4,7 @@ local util = require("core.util")
 
 local ok, luasnip = pcall(require, "luasnip")
 if not ok then
-	util.log_warn("nim-bufferline init failed.")
+	util.log_warn("nvim-bufferline init failed.")
 	return
 end
 

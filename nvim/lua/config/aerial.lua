@@ -1,9 +1,9 @@
--- Outline Component
+-- Outline
 
-local util = require("core.util")
+local util = require("util")
 local is_ok, cfg = pcall(require, "aerial")
 if not is_ok then
-	util.log_warn("nim-aerial init failed.")
+	util.log_warn("aerial init failed.")
 	return
 end
 
@@ -16,11 +16,12 @@ cfg.setup({
 	-- end,
 
 	layout = {
-		max_width = { 40, 0.25 },
+		max_width = { 48, 0.25 },
 		min_width = 16,
 		resize_to_content = true,
 		preserve_equality = true,
 	},
+
 	keymaps = {
 		["q"] = {
 			callback = function()

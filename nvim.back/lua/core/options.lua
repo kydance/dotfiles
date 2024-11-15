@@ -54,6 +54,10 @@ vim.o.swapfile = false
 
 -- Smaller updatetime
 vim.o.updatetime = 240
+vim.o.timeoutlen = 500
+
+-- 补全增强
+vim.o.wildmenu = true
 
 -- Custom shell
 vim.o.shell = "/bin/zsh"
@@ -69,7 +73,7 @@ vim.cmd([[
 -------------------------------------
 -------------------------------------
 -- NOTE ColorScheme -> trigger
--- gruvbox, nord, zephyr, tokyonight
+-- gruvbox, zephyr, tokyonight
 -------------------------------------
 -------------------------------------
 vim.cmd([[

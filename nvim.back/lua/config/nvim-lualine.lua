@@ -4,7 +4,7 @@ local util = require("core.util")
 local ok, cfg = pcall(require, "lualine")
 
 if not ok then
-	util.log_warn("nim-lualine init failed.")
+	util.log_warn("nvim-lualine init failed.")
 	return
 end
 
@@ -37,7 +37,7 @@ cfg.setup({
 		lualine_c = { { "filename", path = 1 } },
 
 		-- lualine_x = { 'encoding', 'filetype', 'fileformat', {'datetime', style = '%H:%M'}},
-		lualine_x = { "encoding", "filetype", { "datetime", style = "%H:%M" } },
+		lualine_x = { "encoding", "filetype", { "datetime", style = "%H:%M:%S" } },
 		lualine_y = { "progress" },
 		lualine_z = { "location" },
 	},

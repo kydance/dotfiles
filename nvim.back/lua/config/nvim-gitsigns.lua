@@ -2,7 +2,7 @@ local util = require("core.util")
 
 local ok, gs = pcall(require, "gitsigns")
 if not ok then
-	util.log_warn("nim-gitsigns init failed.")
+	util.log_warn("nvim-gitsigns init failed.")
 	return
 end
 

@@ -13,7 +13,7 @@ cfg.setup({
 
 	size = 10,
 	hide_numbers = true, -- hide the number column in toggleterm buffers
-	direction = "horizontal", -- 'vertical' | 'horizontal' | 'tab' | 'float',
+	direction = "float", -- "horizontal", -- 'vertical' | 'horizontal' | 'tab' | 'float',
 	close_on_exit = true, -- close the terminal window when the process exits
 	shade_filetypes = {},
 	float_opts = {

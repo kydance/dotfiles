@@ -1,13 +1,13 @@
 -- Auto pair
 
-local util = require("util")
-local is_ok, npairs = pcall(require, "nvim-autopairs")
+local util = require("core.util")
+local is_ok, cfg = pcall(require, "nvim-autopairs")
 if not is_ok then
 	util.log_warn("nvim-autopairs init failed.")
 	return
 end
 
-npairs.setup({
+cfg.setup({
 	check_ts = true, -- check if treesitter is installed
 	map_bs = true,
 	disable_filetype = { "TelescopePrompt" },

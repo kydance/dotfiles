@@ -3,7 +3,7 @@
 local util = require("core.util")
 local ok, which_key = pcall(require, "which-key")
 if not ok then
-	util.log_warn("which-key init failed!")
+	util.log_warn("nvim-which-key init failed!")
 	return
 end
 

@@ -1,10 +1,10 @@
 -- Buffer line
 
-local util = require("core.util")
+local util = require("util")
 
 local is_ok, bufferline = pcall(require, "bufferline")
 if not is_ok then
-	util.log_warn("nim-bufferline init failed.")
+	util.log_warn("bufferline init failed.")
 	return
 end
 

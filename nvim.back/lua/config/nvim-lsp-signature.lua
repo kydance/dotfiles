@@ -4,7 +4,7 @@ local util = require("core.util")
 local ok, cfg = pcall(require, "lsp_signature")
 
 if not ok then
-	util.log_warn("nim-lsp_signature init failed.")
+	util.log_warn("nvim-lsp_signature init failed.")
 	return
 end
 

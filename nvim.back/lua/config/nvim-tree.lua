@@ -1,4 +1,4 @@
-local util = require("util")
+local util = require("core.util")
 
 local tree_ok, tree = pcall(require, "nvim-tree")
 if not tree_ok then
@@ -76,10 +76,13 @@ local function on_attach(bufnr)
 	-- Mappings migrated from view.mappings.list
 	--
 	-- You will need to insert "your code goes here" for any mappings with a custom action_cb
-	vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts("Up"))
-	vim.keymap.set("n", "o", api.node.open.edit, opts("Open"))
-	vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Close Directory"))
-	vim.keymap.set("n", "v", api.node.open.vertical, opts("Open: Vertical Split"))
+	-- e.g.: vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts("Up"))
+	--
+	-- api.config.mappings.default_on_attach(bufnr)
+	-- vim.keymap.set('n', 'gs', function()
+	--     local node = api.tree.get_node_under_cursor();
+	--     require('telescope.builtin').live_grep(utils.live_grep_opts{search_dirs = {node.absolute_path}})
+	-- end, {buffer = bufnr, silent = true});
 end
 
 tree.setup({
@@ -106,9 +109,8 @@ tree.setup({
 })
 
 vim.keymap.set(
-    { "n", "t" },
-    "<leader>e",
-    "<Cmd>NvimTreeFindFileToggle<CR>",
-    { noremap = true, silent = true, nowait = true }
+	{ "n", "t" },
+	"<leader>e",
+	"<Cmd>NvimTreeFindFileToggle<CR>",
+	{ noremap = true, silent = true, nowait = true }
 )
-

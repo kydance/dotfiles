@@ -1,3 +1,4 @@
-require("core.lazy")
-require("core.keymaps")
-require("core.options")
+require("keymaps")
+require("plugins")
+require("lsp")
+require("options")

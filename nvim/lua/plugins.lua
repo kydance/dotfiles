@@ -1,7 +1,42 @@
-return {
+-- Install Lazy.nvim automatically if it's not installed(Bootstraping)
+-- Hint: string concatenation is done by `..`
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
+end
+vim.opt.rtp:prepend(lazypath)
+
+-- After installation, run `checkhealth lazy` to see if everything goes right
+-- Hints:
+--     build: It will be executed when a plugin is installed or updated
+--     config: It will be executed when the plugin loads
+--     event: Lazy-load on event
+--     dependencies: table
+--                   A list of plugin names or plugin specs that should be loaded when the plugin loads.
+--                   Dependencies are always lazy-loaded unless specified otherwise.
+--     ft: Lazy-load on filetype
+--     cmd: Lazy-load on command
+--     init: Functions are always executed during startup
+--     branch: string?
+--             Branch of the repository
+--     main: string?
+--           Specify the main module to use for config() or opts()
+--           , in case it can not be determined automatically.
+--     keys: string? | string[] | LazyKeysSpec table
+--           Lazy-load on key mapping
+--     opts: The table will be passed to the require(...).setup(opts)
+require("lazy").setup({
 	-- Colorscheme
-	{ "glepnir/zephyr-nvim" },
-	{ "folke/tokyonight.nvim" },
+	"tanvirtin/monokai.nvim",
+	"glepnir/zephyr-nvim",
+	"folke/tokyonight.nvim",
 	{
 		"ellisonleao/gruvbox.nvim",
 		priority = 1000,
@@ -10,44 +45,36 @@ return {
 		end,
 	},
 
-	{ "MunifTanjim/nui.nvim" },
+	-- Improve the performance of big file
+	"pteroctopus/faster.nvim",
+
+	-- Status line
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("config.lualine")
+		end,
+	},
+
+	-- UI Component Library
+	"MunifTanjim/nui.nvim",
+
 	-- Notify
 	{
 		"rcarriga/nvim-notify",
 		lazy = true,
 		event = "VeryLazy",
 		config = function()
-			require("config.nvim-notify")
+			require("config.notify")
 		end,
 	},
 
-	-- Noice
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		opts = {
-			-- add any options here
-		},
-
-		dependencies = {
-			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-			"MunifTanjim/nui.nvim",
-			-- OPTIONAL:
-			--   `nvim-notify` is only needed, if you want to use the notification view.
-			--   If not available, we use `mini` as the fallback
-			"rcarriga/nvim-notify",
-		},
-
-		config = function()
-			require("config.nvim-noice")
-		end,
-	},
-
-	-- which key
+	-- Which-key
 	{
 		"folke/which-key.nvim",
 		config = function()
-			require("config.nvim-which-key")
+			require("config.which-key")
 		end,
 	},
 
@@ -57,11 +84,20 @@ return {
 		event = "BufReadPost",
 		dependencies = { "famiu/bufdelete.nvim" },
 		config = function()
-			require("config.nvim-bufferline")
+			require("config.bufferline")
 		end,
 	},
 
-	-- yank
+	-- Show indentation and blankline
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		config = function()
+			require("config.indent-blankline")
+		end,
+	},
+
+	-- yanky
 	{
 		"gbprod/yanky.nvim",
 		config = function()
@@ -69,83 +105,27 @@ return {
 		end,
 	},
 
-	-- Status line
-	{
-		"nvim-lualine/lualine.nvim",
-		config = function()
-			require("config.nvim-lualine")
-		end,
-	},
-
-	-- Ctrl - hjkl 定位窗口
-	{ "christoomey/vim-tmux-navigator" },
-
 	-- File explorer
 	{
 		"nvim-tree/nvim-tree.lua",
-		version = "*",
-		lazy = false,
-		dependencies = { "nvim-tree/nvim-web-devicons" },
+		dependencies = { "nvim-tree/nvim-web-devicons" }, -- optional, for file icons
 		config = function()
 			require("config.nvim-tree")
 		end,
 	},
 
-	-- Outline
-	{
-		"stevearc/aerial.nvim",
-		config = function()
-			require("config/nvim-aerial")
-		end,
-	},
+	-- Git integration
+	"tpope/vim-fugitive",
 
-	-- Smart motion
-	{
-		"smoka7/hop.nvim",
-		config = function()
-			require("config.nvim-hop")
-		end,
-	},
-
-	-- Surround
-	{
-		"kylechui/nvim-surround",
-		version = "*", -- Use for stability; omit to use `main` branch for the latest features
-		event = "VeryLazy",
-		config = function()
-			require("config.nvim-surround")
-		end,
-	},
-
-	-- Indente and blankline
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		main = "ibl",
-
-		---@module "ibl"
-		---@type ibl.config
-
-		config = function()
-			require("config.nvim-indent-blankline")
-		end,
-	},
-
-	-- LSP Rename
-	{
-		"smjonas/inc-rename.nvim",
-		config = function()
-			require("inc_rename").setup({})
-		end,
-	},
-
-	-- Git
+	-- Git decorations
 	{
 		"lewis6991/gitsigns.nvim",
 		event = "BufReadPost",
 		config = function()
-			require("config.nvim-gitsigns")
+			require("config.gitsigns")
 		end,
 	},
+
 	{
 		"NeogitOrg/neogit",
 		dependencies = {
@@ -161,67 +141,88 @@ return {
 		-- end,
 	},
 
+	-- Outline
+	{
+		"stevearc/aerial.nvim",
+		config = function()
+			require("config/aerial")
+		end,
+	},
+
+	-- Smart motion
+	{
+		"smoka7/hop.nvim",
+		config = function()
+			require("config.hop")
+		end,
+	},
+
+	-- Make surrounding easier
+	-- ------------------------------------------------------------------
+	-- Old text                    Command         New text
+	-- ------------------------------------------------------------------
+	-- surr*ound_words             gziw)           (surround_words)
+	-- *make strings               gz$"            "make strings"
+	-- [delete ar*ound me!]        gzd]            delete around me!
+	-- remove <b>HTML t*ags</b>    gzdt            remove HTML tags
+	-- 'change quot*es'            gzc'"           "change quotes"
+	-- delete(functi*on calls)     gzcf            function calls
+	-- ------------------------------------------------------------------
+	{
+		"kylechui/nvim-surround",
+		version = "*", -- Use for stability; omit to use `main` branch for the latest features
+		-- You can use the VeryLazy event for things that can
+		-- load later and are not important for the initial UI
+		event = "VeryLazy",
+		config = function()
+			require("config.nvim-surround")
+		end,
+	},
+
+	-- Ctrl - hjkl 定位窗口
+	{
+		"christoomey/vim-tmux-navigator",
+		cmd = {
+			"TmuxNavigateLeft",
+			"TmuxNavigateDown",
+			"TmuxNavigateUp",
+			"TmuxNavigateRight",
+			"TmuxNavigatePrevious",
+		},
+		keys = {
+			{ "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+			{ "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+			{ "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+			{ "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+			{ "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+		},
+	},
+
 	-- Commentary
 	{ "tpope/vim-commentary" },
 
 	-- Todo comments
-	{ "folke/todo-comments.nvim", dependencies = { "nvim-lua/plenary.nvim" }, opts = {} },
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = {},
+	},
 
-	-- terminal integration
+	-- Better terminal integration
 	{
 		"akinsho/toggleterm.nvim",
 		config = function()
-			require("config.nvim-toggleterm")
-		end,
-	},
-
-	-- Telescope
-	{
-		"nvim-telescope/telescope.nvim",
-		event = "BufReadPost",
-		cmd = { "Glg", "Gst", "Diag", "Tags" },
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"BurntSushi/ripgrep",
-		},
-		config = function()
-			require("config.nvim-telescope")
-		end,
-	},
-
-	-- Highlight search
-	{
-		"kevinhwang91/nvim-hlslens",
-		event = "BufReadPost",
-		config = function()
-			require("hlslens").setup({})
-
-			local opts = { noremap = true, silent = true }
-			vim.keymap.set("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], opts)
-			vim.keymap.set("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], opts)
-			vim.keymap.set(
-				"n",
-				"n",
-				[[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-				opts
-			)
-			vim.keymap.set(
-				"n",
-				"N",
-				[[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-				opts
-			)
+			require("config.toggleterm")
 		end,
 	},
 
 	-- Markdown support
 	{
-		"plasticboy/vim-markdown",
-		branch = "master",
+		"preservim/vim-markdown",
 		require = { "godlygeek/tabular" },
 		ft = { "markdown" },
 	},
-	-- Markdown preview
+	-- Markdown previewer
 	{
 		"iamcco/markdown-preview.nvim",
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
@@ -231,50 +232,31 @@ return {
 		end,
 	},
 
-	-- 代码片段管理
+	-- Fuzzy finder
 	{
-		"L3MON4D3/LuaSnip",
-		event = "InsertEnter",
-		config = function()
-			require("config.nvim-luasnip")
-		end,
-	},
-	-- Auto-completion engine
-	{
-		"hrsh7th/nvim-cmp",
-		version = false,
-		event = { "BufReadPre", "CmdlineEnter" },
+		"nvim-telescope/telescope.nvim",
+		branch = "0.1.x",
+		event = "BufReadPost",
+		cmd = { "Glg", "Gst", "Diag", "Tags" },
 		dependencies = {
-			"onsails/lspkind.nvim", -- Vscode-like pictograms
-			"hrsh7th/cmp-nvim-lsp",
-			-- 'hrsh7th/cmp-nvim-lsp-signature-help',
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-cmdline",
-			-- 'f3fora/cmp-spell',
-			-- 'hrsh7th/cmp-calc',
-			-- 'hrsh7th/cmp-emoji',
-			-- 'chrisgrieser/cmp_yanky',
-			"lukas-reineke/cmp-rg",
-			-- "lukas-reineke/cmp-under-comparator",
-			"quangnguyen30192/cmp-nvim-tags",
-			"saadparwaiz1/cmp_luasnip",
+			"nvim-lua/plenary.nvim",
+			"BurntSushi/ripgrep",
 		},
 		config = function()
-			require("config.nvim-cmp")
+			require("config.telescope")
 		end,
 	},
 
-	-- Autopairs: [], (), "", '', ete. It relies on nvim-cmp
+	-- Autopairs: [], (), "", '', etc
 	{
 		"windwp/nvim-autopairs",
-		evnet = "InsertEnter",
+		event = "InsertEnter",
 		config = function()
 			require("config.nvim-autopairs")
 		end,
 	},
 
-	-- Treesister, 增强语法高亮和代码理解能力的工具
+	-- Treesitter-integration
 	{
 		"nvim-treesitter/nvim-treesitter",
 		dependencies = {
@@ -293,29 +275,27 @@ return {
 			require("config.nvim-treesitter")
 		end,
 	},
-
-	-- LSP syntax diagnostics
+	-- Nvim-treesitter text objects
 	{
-		"neovim/nvim-lspconfig",
-		dependencies = { "hrsh7th/cmp-nvim-lsp" },
-		event = "BufReadPre",
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		dependencies = "nvim-treesitter/nvim-treesitter",
 		config = function()
-			require("config.nvim-lspconfig")
+			require("config.nvim-treesitter-textobjects")
 		end,
 	},
 
+	-- Vscode-like pictograms
 	{
-		"williamboman/mason.nvim",
-		dependencies = {
-			"williamboman/mason-lspconfig.nvim",
-			"mason-org/mason-registry",
-		},
-		config = function()
-			require("config.nvim-mason")
-		end,
+		"onsails/lspkind.nvim",
+		event = { "VimEnter" },
 	},
 
-	-- LSP Linter && Formatter
+	-- LSP manager
+	"williamboman/mason.nvim",
+	"williamboman/mason-lspconfig.nvim",
+	"neovim/nvim-lspconfig",
+
+	-- Add hooks to LSP to support Linter && Formatter
 	{
 		"jay-babu/mason-null-ls.nvim",
 		event = { "BufReadPre", "BufNewFile" },
@@ -324,22 +304,63 @@ return {
 			"nvimtools/none-ls.nvim",
 		},
 		config = function()
-			require("config.nvim-mason-null-ls")
+			-- Note:
+			--     the default search path for `require` is ~/.config/nvim/lua
+			--     use a `.` as a path separator
+			--     the suffix `.lua` is not needed
+			require("config.mason-null-ls")
 		end,
 	},
 
+	-- Auto-completion engine
 	{
-		"ray-x/lsp_signature.nvim",
-		event = "VimEnter",
+		"hrsh7th/nvim-cmp",
+		dependencies = {
+			"lspkind.nvim",
+			"hrsh7th/cmp-nvim-lsp", -- lsp auto-completion
+			"hrsh7th/cmp-buffer", -- buffer auto-completion
+			"hrsh7th/cmp-path", -- path auto-completion
+			"hrsh7th/cmp-cmdline", -- cmdline auto-completion
+		},
 		config = function()
-			require("config.nvim-lsp-signature")
+			require("config.nvim-cmp")
+		end,
+	},
+
+	-- Code snippet engine
+	{
+		"L3MON4D3/LuaSnip",
+		event = "InsertEnter",
+		dependencies = {
+			"rafamadriz/friendly-snippets",
+		},
+	},
+
+	-- LSP Rename
+	{
+		"smjonas/inc-rename.nvim",
+		config = function()
+			require("inc_rename").setup({})
 		end,
 	},
 
 	{
 		"folke/trouble.nvim",
-		config = function()
-			require("config.nvim-trouble")
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = function()
+			require("config.trouble")
 		end,
 	},
-}
+
+	-- Codeium
+	{
+		"Exafunction/codeium.vim",
+		config = function()
+			-- 自定义codeium快捷键，不使用tab接受建议而是用Ctrl+g
+			vim.g.codeium_no_map_tab = 1
+			vim.keymap.set("i", "<C-g>", function()
+				return vim.fn["codeium#Accept"]()
+			end, { expr = true, silent = true })
+		end,
+	},
+})
