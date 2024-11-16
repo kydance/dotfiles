@@ -5,7 +5,7 @@
     "editor.smoothScrolling": true,
     "editor.cursorBlinking": "smooth",
     "editor.cursorSmoothCaretAnimation": "on",
-    "editor.fontFamily": "'Source Code Pro', 'Hack Nerd Font Mono'",
+    "editor.fontFamily": "'Hack Nerd Font Mono', 'Fira Code', 'Source Code Pro'",
     "editor.lineNumbers": "relative",
     "editor.guides.bracketPairs": "active",
     "editor.rulers": [100],
@@ -13,24 +13,30 @@
     "editor.renderWhitespace": "boundary",
     "editor.scrollbar.verticalScrollbarSize": 12,
     "editor.minimap.enabled": false,
+    "editor.scrollbar.horizontal": "hidden",
+    "editor.scrollbar.vertical":"auto",
+    "editor.cursorStyle": "line",
 
     "window.commandCenter": false,
     "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${profileName}",
     "window.zoomLevel": 0.3,
-    "workbench.activityBar.location": "hidden",
-    "workbench.colorTheme": "Gruvbox Dark Hard",
     "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "Dracula Theme",
     "workbench.layoutControl.enabled": false,
     "workbench.list.smoothScrolling": true,
-    "workbench.colorCustomizations": { "statusBar.background": "#005f5f" },
+    "workbench.panel.showLabels": false,
+    "workbench.activityBar.location": "hidden",
+    "workbench.colorCustomizations": { 
+        "statusBar.background": "#005f5f",
+        "statusBar.foreground": "#e6e7e8",
+        "terminal.foreground": "#839395",
+    },
 
     "terminal.integrated.enableMultiLinePasteWarning": "auto",
     "terminal.integrated.defaultProfile.linux": "zsh",
     "terminal.integrated.defaultProfile.windows": "PowerShell",
     "terminal.integrated.smoothScrolling": true,
     "terminal.integrated.inheritEnv": false,
-
-    "files.autoSave": "onFocusChange",
 
     // -----------------------------------------------------------------
     // Vim
@@ -44,7 +50,7 @@
     "vim.foldfix": true,
     "vim.hlsearch": true,
     "vim.highlightedyank.enable": true,
-    "vim.highlightedyank.duration": 500,
+    "vim.highlightedyank.duration": 800,
 
     // Input Method
     // `brew tap daipeihust/tap && brew install im-select`
@@ -56,24 +62,22 @@
     "vim.useCtrlKeys": true, // 是否由vim接管ctrl+any的按键，而不是vscode
     // 由vscode进行处理，而不是vscode-vim插件
     "vim.handleKeys": {
-        "<C-d>": true, // 向下滚动半页
-        "<C-f>": true, // 向下滚动一页
-        "<C-e>": true, // 向下滚动一行
         "<C-s>": true,
         "<C-z>": false,
-        "<C-a>": true,
-        "<C-c>": true,
-        "<C-v>": true,
         "<C-x>": true
     },
 
-    // 普通模式下的非递归按键绑定
     "vim.normalModeKeyBindingsNonRecursive": [
-        { "before": ["<C-t>"], "commands": ["workbench.action.terminal.focus"]},
+        // Terminal focus
+        { "before": ["<C-t>"], "commands": [{ "command":"workbench.action.terminal.focus" }]},
+
+        // Undo and Redo
+        { "before": ["u"], "commands": [{ "command":"undo" }]},
+        { "before": ["C-r"], "commands": [{ "command":"redo" }]},
 
         // Split window
-        { "before": ["leader", "v", "p"], "commands": [{ "command": "workbench.action.splitEditorDown" }]},
-        { "before": ["leader", "s", "p"], "commands": [{ "command": "workbench.action.splitEditorRight" }]},
+        { "before": ["leader", "s", "v"], "commands": [{ "command": "workbench.action.splitEditorDown" }]},
+        { "before": ["leader", "s", "h"], "commands": [{ "command": "workbench.action.splitEditorRight" }]},
 
         // Resize window
         { "before": ["<C-k>"], "commands": [{ "command": "workbench.action.increaseViewHeight" }]},
@@ -81,44 +85,66 @@
         { "before": ["<C-h>"], "commands": [{ "command": "workbench.action.increaseViewWidth" }]},
         { "before": ["<C-l>"], "commands": [{ "command": "workbench.action.decreaseViewWidth" }]},
 
-        // 语义级 重命名
-        { "before": ["leader", "r"],  "commands": [{"command": "editor.action.rename"}] },
+        { "before": ["<leader>", "h"], "commands": [{ "command": "workbench.action.focusLeftGroup" }]},
+        { "before": ["<leader>", "j"], "commands": [{ "command": "workbench.action.focusBelowGroup" }]},
+        { "before": ["<leader>", "k"], "commands": [{ "command": "workbench.action.focusAboveGroup" }]},
+        { "before": ["<leader>", "l"], "commands": [{ "command": "workbench.action.focusRightGroup" }]},
 
-        { "before": ["g", "h"],  "commands": [{"command": "editor.action.showHover"}] },
+        // 语义级 重命名
+        { "before": ["leader", "r", "n"],  "commands": [{"command": "editor.action.rename"}] },
+        // Open Recent
+        { "before": ["<leader>", "r", "f"],  "commands": [{"command": "workbench.action.openRecent"}] },
+        // 
+        { "before": ["K"],  "commands": [{"command": "editor.action.showHover"}] },
         { "before": ["g", "d"],  "commands": [{"command": "editor.action.revealDefinition"}] },
         { "before": ["g", "r"],  "commands": [{"command": "editor.action.goToReferences"}] },
         { "before": ["g", "i"],  "commands": [{"command": "editor.action.goToImplementation"}] },
+
+        // Line Home / End
+        { "before": ["H"], "after": ["^"] },
+        { "before": ["L"], "after": ["$"] },
 
         // 侧边栏：显示与隐藏
         { "before": ["leader", "e"], "commands": [{"command": "workbench.explorer.fileView.focus"}] },
         { "before": [ "leader", "leader", "e"], "commands": ["workbench.action.toggleActivityBarVisibility"] },
 
-        { "before": ["leader", "g", "g"], "commands": [{ "command": "workbench.action.quickOpen" }]},
+        // Zen mode
+        { "before": ["leader", "z"], "commands": [{
+            "command": "workbench.action.toggleZenMode",
+            "when": "!isAuxiliaryWindowFocusedContext"
+        }]},
+        // Quick open
+        { "before": ["leader", "o"], "commands": [{ "command": "workbench.action.quickOpen" }]},
         //  Global find
-        { "before": ["leader", "g", "f"], "commands": [{ "command": "workbench.view.search" }]},
+        { "before": ["leader", "f", "g"], "commands": [{ "command": "workbench.view.search" }]},
 
-        { "before": ["g", "["], "commands": ["editor.action.marker.prevInFiles"]},
-        { "before": ["g", "]"], "commands": ["editor.action.marker.nextInFiles"]},
+        // Trouble
+        { "before": ["[", "d"], "commands": ["editor.action.marker.prevInFiles"]},
+        { "before": ["]", "d"], "commands": ["editor.action.marker.nextInFiles"]},
 
         // Source Control Git
-        { "before": [ "leader", "s"], "commands": ["workbench.scm.focus"] },
+        { "before": [ "leader", "g"], "commands": ["workbench.scm.focus"] },
         // Start to debug
         { "before": [ "leader", "d" ], "commands": ["workbench.action.debug.start"] },
-
         // save file
         { "before": ["leader","w"], "commands": [":w!" ] },
-        // quit
+        // Format file
+        { "before": ["<leader>", "="], "commands": ["editor.action.formatDocument"]},
+
+        // Quit
         { "before": ["leader","q"], "commands": [":q" ] },
+        // Terminal
         { "before": ["leader", "t"], "commands": [":terminal"] }, 
+
+        // Tab Next
+        { "before": ["g", "t"], "commands": ["workbench.action.nextEditorInGroup"] }, 
+        { "before": ["g", "T"], "commands": ["workbench.action.previousEditorInGroup"] }, 
+
         // No highlight
         { "before": ["leader", "n", "h"], "commands": [":nohl"] },
-        { "before": ["H"], "after": ["^"] },
-        { "before": ["L"], "after": ["$"] },
-        // Blockwise visual mode
-        { "before": ["\\"], "commands": ["extension.vim_ctrl+v"]},
 
-        { "before": ["g", "t"], "commands": [":tabnext"] }, 
-        { "before": ["g", "T"], "commands": [":tabprev"] }, 
+        // Todo tree
+        { "before": ["leader", "t", "d"],  "commands": [{"command": "todo-tree-view.focus"}]},
 
         // project-manager
         { "before": ["leader", "p", "m"],  "commands": [{
@@ -136,28 +162,23 @@
         }]},
     ],
 
-   // 插入模式下的 递归 按键绑定
     "vim.insertModeKeyBindings": [
-        { "before": ["j", "k"], "after": ["<Esc>"] } 
-    ],
+        { "before": ["j", "k"], "after": ["<Esc>"] },
 
-    "vim.commandLineModeKeyBindingsNonRecursive": [
-    ],
-
-    // 可视模式下的递归按键绑定
-    "vim.operatorPendingModeKeyBindings": [
+        // cursor move
+        { "before": ["C-n"], "commands": ["cursorDown"] },
+        { "before": ["C-p"], "commands": ["cursorUp"] },
     ],
 
     "vim.visualModeKeyBindings": [
-        { "before": ["H"], "after": ["^"] },
-        { "before": ["L"], "after": ["$"] },
-
-        // 连续内缩 / 外缩
         { "before": [">"], "commands": [ "editor.action.indentLines"] },
         { "before": ["<"], "commands": [ "editor.action.outdentLines"] },
 
         // Visual 模式下，`p` 粘贴时而不覆盖当前寄存器
-        { "before": ["p"], "after": [ "p", "g", "v", "y"] }
+        { "before": ["p"], "after": [ "p", "g", "v", "y"] },
+
+        { "before": ["H"], "after": ["^"] },
+        { "before": ["L"], "after": ["$"] },
     ],
 
     // -----------------------------------------------------------------
@@ -176,49 +197,17 @@
     "todo-tree.regex.regex": "((%|#|\"\"\"|'''|//|<!--|^\\s*\\*)\\s*($TAGS)|^\\s*- \\[( |x|X)\\])",
     "todo-tree.regex.regexCaseSensitive": true,
     "todo-tree.tree.showCountsInTree": true,
-    "todo-tree.general.tags": [
-        "TODO",     // 代表未完成事项
-        "FIXME",    // 代表需要修复的事项
-        "NOTE",     // 添加一些说明文字
-        "TAG",      // TAG
-        "BUG",      // 代表必须修复的 BUG
-        "XXX"       // 代表标识处代码虽然实现了功能，但是实现的方法有待商榷，希望将来能改进
-    ],
+    "todo-tree.general.tags": [ "TODO", "FIXME", "NOTE", "TAG", "BUG", "XXX" ],
     "todo-tree.highlights.defaultHighlight": {
-        "gutterIcon": true,
-        "rulerLane": "right",
-        "foreground": "#ffffff",
-        "background": "#2e5e18",
-        "iconColour": "#38ad01"
+        "gutterIcon": true, "rulerLane": "right",
+        "foreground": "#ffffff", "background": "#2e5e18", "iconColour": "#38ad01"
     },
     "todo-tree.highlights.customHighlight": {
-        "FIXME": {
-            "icon": "flame",
-            "foreground": "#000000",
-            "background": "#FF0000",
-            "iconColour": "#FF0000"
-        },
-        "BUG": {
-            "icon": "bug",
-            "foreground": "#000000",
-            "background": "#00FF00",
-            "iconColour": "#00FF00"
-        },
-        "TAG": {
-            "icon": "tag",
-            "background": "#0b7c69",
-            "iconColour": "#0b7c69"
-        },
-        "NOTE": {
-            "icon": "note",
-            "background": "#7675cf",
-            "iconColour": "#7675cf"
-        },
-        "XXX": {
-            "icon": "beaker",
-            "background": "#FFA500",
-            "iconColour": "#FFA500"
-        }
+        "FIXME": { "background": "#FF0000", "iconColour": "#FF0000" },
+        "BUG": {  "background": "#008000", "iconColour": "#008000" },
+        "TAG": { "icon": "tag", "background": "#0b7c69", "iconColour": "#0b7c69" },
+        "NOTE": { "icon": "note", "background": "#7675cf", "iconColour": "#7675cf" },
+        "XXX": { "icon": "beaker", "background": "#FFA500", "iconColour": "#FFA500" }
     },
 
     // -----------------------------------------------------------------
@@ -233,22 +222,17 @@
 
     // -----------------------------------------------------------------
     // Golang
-    "gopls": {  "ui.semanticTokens": true },
+    "gopls": {  
+        "ui.semanticTokens": true,
+        "formatting.gofumpt": true,
+    },
     "go.toolsManagement.autoUpdate": true,
     "go.inlayHints.parameterNames": false,
     "go.lintTool": "golangci-lint",
     "go.lintFlags": [ "--fast" ],
-
-    // -----------------------------------------------------------------
-    // remote SSH
-    "remote.SSH.remotePlatform": {
-        "*.devcloud.woa.com": "linux",
-        "DevCloud": "linux"
-    },
     
     // -----------------------------------------------------------------
     // Clangd
-    "C_Cpp.intelliSenseEngine": "disabled",
     "clangd.onConfigChanged": "restart",
     "clangd.path": "/usr/bin/clangd",
     "clangd.arguments": [
@@ -346,6 +330,7 @@
     "latex-workshop.message.error.show": false,
     "latex-workshop.message.warning.show": false,
 
+    // -----------------------------------------------------------------
     // plantuml
     "plantuml.exportOutDir": ".",
     "plantuml.exportFormat": "svg",
