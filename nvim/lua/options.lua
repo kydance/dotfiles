@@ -1,17 +1,32 @@
 -- Hint: use `:h <option>` to figure out the meaning if needed
 
--- vim.g.clipboard = {
---     name = "OSC 52",
---     copy = {
---         ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
---         ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
---     },
---     paste = {
---         ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
---         ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
---     },
--- }
-vim.opt.clipboard = "unnamedplus" -- use system clipboard
+function paste(reg)
+	return function(lines)
+		local content = vim.fn.getreg('"')
+		return vim.split(content, "\n")
+	end
+end
+
+if os.getenv("SSH_TTY") == nil then -- 本地环境
+	vim.opt.clipboard = "unnamedplus" -- use system clipboard
+else
+	vim.opt.clipboard = "unnamedplus" -- use system clipboard
+
+	-- if vim.env.TMUX then
+	vim.g.clipboard = {
+		name = "tmux-clipboard",
+		copy = {
+			["+"] = "tmux load-buffer -w -",
+			["*"] = "tmux load-buffer -w -",
+		},
+		paste = {
+			["+"] = paste("+"),
+			["*"] = paste("*"),
+		},
+		-- cache_enabled = 0,
+	}
+	-- end
+end
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.mouse = "a" -- allow the mouse to be used in Nvim
@@ -26,7 +41,7 @@ vim.opt.expandtab = true -- tabs are spaces, mainly because of python
 vim.opt.number = true -- show absolute number
 vim.opt.relativenumber = true -- add numbers to each line on the left side
 vim.opt.cursorline = true -- highlight cursor line underneath the cursor horizontally
-vim.wo.colorcolumn = "120"
+vim.wo.colorcolumn = "100"
 vim.opt.scrolloff = 5
 vim.opt.splitbelow = true -- open new vertical split bottom
 vim.opt.splitright = true -- open new horizontal splits right
@@ -62,20 +77,21 @@ vim.o.wildmenu = true
 -- Custom shell
 vim.o.shell = "/bin/zsh"
 
--- --
--- vim.cmd([[
---     augroup colorscheme_mock
---     autocmd!
---     autocmd ColorScheme * hi Normal guibg=none | hi def link LspInlayHint Comment
---     augroup END
--- ]])
+--
+vim.cmd([[
+    augroup colorscheme_mock
+    autocmd!
+    autocmd ColorScheme * hi Normal guibg=none | hi def link LspInlayHint Comment
+    augroup END
+]])
 
 -------------------------------------
 -------------------------------------
 -- NOTE ColorScheme -> trigger
 -- gruvbox, zephyr, tokyonight
+-- silent! colorscheme gruvbox
 -------------------------------------
 -------------------------------------
 vim.cmd([[
-    silent! colorscheme gruvbox 
+    silent! colorscheme zephyr
 ]])

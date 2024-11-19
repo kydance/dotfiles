@@ -45,6 +45,15 @@ require("lazy").setup({
 		end,
 	},
 
+	-- scallbar
+	{
+		"petertriho/nvim-scrollbar",
+		event = "BufReadPost",
+		config = function()
+			require("scrollbar").setup()
+		end,
+	},
+
 	-- Improve the performance of big file
 	"pteroctopus/faster.nvim",
 

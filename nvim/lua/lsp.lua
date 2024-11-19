@@ -136,11 +136,6 @@ lspconfig.lua_ls.setup({
 	},
 })
 
-lspconfig.rust_analyzer.setup({
-	-- source: https://rust-analyzer.github.io/manual.html#nvim-lsp
-	on_attach = on_attach,
-})
-
 -- Case 1. For CMake Users
 --     $ cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
 -- Case 2. For Bazel Users, use https://github.com/hedronvision/bazel-compile-commands-extractor

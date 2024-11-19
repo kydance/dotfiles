@@ -33,7 +33,7 @@ keymap.set("n", "<leader>l", ":vertical resize +2<CR>", opts)
 
 -- 文件
 keymap.set("n", "<leader>w", ":w!<CR>") -- Save file
--- keymap.set("n", "<leader>q", ":q<CR>") -- Quit file
+keymap.set("n", "<leader>q", ":q<CR>") -- Quit file
 
 -- 取消高亮
 keymap.set("n", "<leader>nh", ":nohl<CR>")
@@ -52,6 +52,7 @@ keymap.set("v", ">", ">gv", opts)
 -- 单行或多行移动
 keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+keymap.set({ "n" }, "J", "5j")
 
 -- Visual mode, 粘贴不要复制
 keymap.set("v", "p", '"_dP', opts)

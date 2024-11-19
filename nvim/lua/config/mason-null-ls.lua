@@ -30,7 +30,6 @@ mason_null_ls.setup({
 		-- golang
 		"gofumpt",
 		"goimports_reviser",
-		"golines",
 
 		-- Python
 		"black",
@@ -110,7 +109,7 @@ null_ls.setup({
 		-- Go
 		null_ls.builtins.formatting.gofumpt,
 		null_ls.builtins.formatting.goimports_reviser,
-		null_ls.builtins.formatting.golines,
+		null_ls.builtins.diagnostics.golangci_lint,
 	},
 
 	-- auto format when write file
