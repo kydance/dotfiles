@@ -23,6 +23,11 @@ $ git clone https://github.com/kydance/dotfiles.git ~/.dotfiles
 # Mac
 $ ln -s ~/.dotfiles/vscode/keybindings.json /Users/<YourUserName>/Library/Application\ Support/Code/User/keybindings.json
 $ ln -s ~/.dotfiles/vscode/settings.json /Users/<YourUserName>/Library/Application\ Support/Code/User/settings.json
+
+$ ln -s ~/.dotfiles/windsurf/keybindings.json /Users/<YourUserName>/Library/Application\ Support/Windsurf/User/keybindings.json
+$ ln -s ~/.dotfiles/windsurf/settings.json /Users/<YourUserName>/Library/Application\ Support/Windsurf/User/settings.json
+
+$ ln -s ~/.dotfiles/.zshrc ~/.zshrc
 ```
 
 ---

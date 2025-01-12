@@ -3,7 +3,8 @@
     "editor.fontSize": 16,
     "editor.inlineSuggest.enabled": true,
     "editor.smoothScrolling": true,
-    "editor.cursorBlinking": "smooth",
+    "editor.cursorStyle": "line",
+    "editor.cursorBlinking": "solid",
     "editor.cursorSmoothCaretAnimation": "on",
     "editor.fontFamily": "'Hack Nerd Font Mono', 'Fira Code', 'Source Code Pro'",
     "editor.lineNumbers": "relative",
@@ -15,25 +16,20 @@
     "editor.minimap.enabled": false,
     "editor.scrollbar.horizontal": "hidden",
     "editor.scrollbar.vertical":"auto",
-    "editor.cursorStyle": "line",
 
-    "chat.commandCenter.enabled": false,
-    "window.commandCenter": false, // disable command center
+    "window.customTitleBarVisibility": "windowed",
     "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${profileName}",
-    "window.customTitleBarVisibility": "window",
-    "window.zoomLevel": 0.7,
-
+    "window.zoomLevel": 0.3,
+    "workbench.activityBar.location": "hidden",
     "workbench.iconTheme": "material-icon-theme",
     "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
     "workbench.layoutControl.enabled": false,
     "workbench.list.smoothScrolling": true,
-    "workbench.panel.showLabels": false,
-    "workbench.activityBar.location": "hidden",
     "workbench.colorCustomizations": {
         "statusBar.background": "#005f5f",
         "statusBar.foreground": "#e6e7e8",
         "terminal.foreground": "#839395",
-        "editorCursor.foreground": "#ffcc00"
+         "editorCursor.foreground": "#ffcc00",
     },
 
     "terminal.integrated.enableMultiLinePasteWarning": "auto",
@@ -163,7 +159,12 @@
         // PlantUML
         { "before": ["leader", "p", "t"], "commands": [{
             "command": "plantuml.exportDocument"
-        }]}
+        }]},
+
+        // Generate commit message
+        { "before": ["leader", "c", "m"], "commands": [{
+            "command": "windsurf.generateCommitMessage"
+        }]},
     ],
 
     "vim.insertModeKeyBindings": [
@@ -171,7 +172,7 @@
 
         // cursor move
         { "before": ["C-n"], "commands": ["cursorDown"] },
-        { "before": ["C-p"], "commands": ["cursorUp"] }
+        { "before": ["C-p"], "commands": ["cursorUp"] },
     ],
 
     "vim.visualModeKeyBindings": [
@@ -182,19 +183,16 @@
         { "before": ["p"], "after": [ "p", "g", "v", "y"] },
 
         { "before": ["H"], "after": ["^"] },
-        { "before": ["L"], "after": ["$"] }
+        { "before": ["L"], "after": ["$"] },
     ],
 
     // -----------------------------------------------------------------
     // Git
     "git.autofetch": true,
     "git.openRepositoryInParentFolders": "never",
-
-    // Gitlens
     "gitlens.codeLens.enabled": false,
     "gitlens.statusBar.enabled": false,
     "gitlens.hovers.enabled": false,
-    "gitlens.graph.layout": "editor",
 
     // -----------------------------------------------------------------
     // Project Manager
@@ -234,7 +232,7 @@
     // Golang
     "gopls": {  
         "ui.semanticTokens": true,
-        "formatting.gofumpt": true
+        "formatting.gofumpt": true,
     },
     "go.formatTool": "gofumpt",
     "go.toolsManagement.autoUpdate": true,
@@ -346,4 +344,23 @@
     "plantuml.exportOutDir": ".",
     "plantuml.exportFormat": "svg",
     "plantuml.exportSubFolder": false,
+
+    // -----------------------------------------------------------------
+    // remote SSH
+    "remote.SSH.remotePlatform": {
+        "*.devcloud.woa.com": "linux",
+        "DevCloud": "linux"
+    },
+    "remote.autoForwardPortsSource": "hybrid",
+
+    // -----------------------------------------------------------------
+    // AI
+    "windsurf.showInlayHintShortcuts": false,
+    "windsurf.showSelectionActions": false,
+    "windsurf.cascadeOpenOnReload": false,
+    "windsurf.autocompleteSpeed": "fast",
+    "gitlens.graph.layout": "editor",
+    "git.confirmSync": false,
+    "gitlens.ai.model": "xai:grok-beta",
+    "codingcopilot.enableCodelens": false,
 }
