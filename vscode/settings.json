@@ -3,7 +3,7 @@
     "editor.fontSize": 16,
     "editor.inlineSuggest.enabled": true,
     "editor.smoothScrolling": true,
-    "editor.cursorBlinking": "smooth",
+    "editor.cursorBlinking":"solid",
     "editor.cursorSmoothCaretAnimation": "on",
     "editor.fontFamily": "'Hack Nerd Font Mono', 'Fira Code', 'Source Code Pro'",
     "editor.lineNumbers": "relative",
@@ -21,9 +21,8 @@
     "window.commandCenter": false, // disable command center
     "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${profileName}",
     "window.customTitleBarVisibility": "window",
-    "window.zoomLevel": 0.7,
-
-    "workbench.iconTheme": "material-icon-theme",
+    "window.zoomLevel": 0.3,
+    "workbench.iconTheme": "Monokai Pro (Filter Spectrum) Icons",
     "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
     "workbench.layoutControl.enabled": false,
     "workbench.list.smoothScrolling": true,
@@ -33,7 +32,7 @@
         "statusBar.background": "#005f5f",
         "statusBar.foreground": "#e6e7e8",
         "terminal.foreground": "#839395",
-        "editorCursor.foreground": "#ffcc00"
+         "editorCursor.foreground": "#91d696"
     },
 
     "terminal.integrated.enableMultiLinePasteWarning": "auto",
@@ -51,9 +50,11 @@
     "vim.replaceWithRegister": true,
     "vim.ignorecase": true,
     "vim.smartcase": true,
+    "vim.smartRelativeLine": true,
     "vim.foldfix": true,
     "vim.hlsearch": true,
     "vim.highlightedyank.enable": true,
+    "vim.highlightedyank.color": "#a9dc7680",
     "vim.highlightedyank.duration": 800,
 
     // Input Method
@@ -113,14 +114,11 @@
         { "before": [ "leader", "leader", "e"], "commands": ["workbench.action.toggleActivityBarVisibility"] },
 
         // Zen mode
-        { "before": ["leader", "z"], "commands": [{
-            "command": "workbench.action.toggleZenMode",
-            "when": "!isAuxiliaryWindowFocusedContext"
-        }]},
+        { "before": ["leader", "z"], "commands": [{"command": "workbench.action.toggleZenMode", "when": "!isAuxiliaryWindowFocusedContext" }]},
         // Quick open
         { "before": ["leader", "o"], "commands": [{ "command": "workbench.action.quickOpen" }]},
         //  Global find
-        { "before": ["leader", "f", "g"], "commands": [{ "command": "workbench.view.search" }]},
+        { "before": ["leader", "f"], "commands": [{ "command": "workbench.action.findInFiles" }]},
 
         // Trouble
         { "before": ["[", "d"], "commands": ["editor.action.marker.prevInFiles"]},
@@ -195,6 +193,7 @@
     "gitlens.statusBar.enabled": false,
     "gitlens.hovers.enabled": false,
     "gitlens.graph.layout": "editor",
+    "gitlens.ai.model": "google:gemini-2.0-flash-exp",
 
     // -----------------------------------------------------------------
     // Project Manager
@@ -345,5 +344,5 @@
     // plantuml
     "plantuml.exportOutDir": ".",
     "plantuml.exportFormat": "svg",
-    "plantuml.exportSubFolder": false,
+    "plantuml.exportSubFolder": false
 }

@@ -1,10 +1,11 @@
 // Place your key bindings in this file to override the defaults
 [
 
-    {  // Outline
-        "key": "F12", 
-        // "command": "outline.toggleVisibility",
-        "command": "outline.focus",
+    {  /* Outline */ "key": "F12", "command": "outline.focus" },
+    { // Toggle File Explorer Sidebar
+        "key": "space e",
+        "command": "workbench.action.toggleSidebarVisibility",
+        "when": "filesExplorerFocus && !inputFocus"
     },
     { // Refresh File Explorer
         "key": "R",
@@ -103,8 +104,19 @@
         "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible"
     },
 
-    // Termial
-    {
+    // -------------------------
+    { // Next Quick Open
+        "key": "tab",
+        "command": "workbench.action.quickOpenSelectNext",
+        "when": "inQuickOpen"
+    },
+    { // Prev Quick Open
+        "key": "shift+tab",
+        "command": "workbench.action.quickOpenSelectPrevious",
+        "when": "inQuickOpen"
+    },
+ 
+    { // Termial
         "key": "escape",
         "command": "workbench.action.focusActiveEditorGroup",
         "when": "terminalFocus"
@@ -114,9 +126,5 @@
     { "key": "h", "command": "editor.action.scrollLeftHover", "when": "editorHoverFocused" },
     { "key": "j", "command": "editor.action.scrollDownHover", "when": "editorHoverFocused" },
     { "key": "k", "command": "editor.action.scrollUpHover", "when": "editorHoverFocused" },
-    {
-        "key": "l",
-        "command": "editor.action.scrollRightHover",
-        "when": "editorHoverFocused"
-    }
+    { "key": "l", "command": "editor.action.scrollRightHover", "when": "editorHoverFocused" }
 ]
