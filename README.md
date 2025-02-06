@@ -37,7 +37,7 @@ $ ln -s ~/.dotfiles/.zshrc ~/.zshrc
 ### Requirements
 
 - [Neovim 0.9+](https://github.com/neovim/neovim/releases)
-- [Nerd Font]()
+- [Nerd Font](https://www.nerdfonts.com/)
 
 ### Install and Verify
 

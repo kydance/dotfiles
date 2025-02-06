@@ -20,9 +20,9 @@
     "chat.commandCenter.enabled": false,
     "window.commandCenter": false, // disable command center
     "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${profileName}",
-    "window.customTitleBarVisibility": "window",
+    "window.customTitleBarVisibility": "windowed",
     "window.zoomLevel": 0.3,
-    "workbench.iconTheme": "Monokai Pro (Filter Spectrum) Icons",
+    "workbench.iconTheme": "material-icon-theme",
     "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
     "workbench.layoutControl.enabled": false,
     "workbench.list.smoothScrolling": true,
@@ -36,6 +36,7 @@
     },
 
     "terminal.integrated.enableMultiLinePasteWarning": "auto",
+    "terminal.integrated.defaultProfile.osx": "zsh",
     "terminal.integrated.defaultProfile.linux": "zsh",
     "terminal.integrated.defaultProfile.windows": "PowerShell",
     "terminal.integrated.smoothScrolling": true,
@@ -148,15 +149,8 @@
         // Todo tree
         { "before": ["leader", "t", "d"],  "commands": [{"command": "todo-tree-view.focus"}]},
 
-        // project-manager
-        { "before": ["leader", "p", "m"],  "commands": [{
-                "command":"workbench.view.extension.project-manager",
-                "when":"viewContainer.workbench.view.extension.project-manager.enabled"
-        }]},
-
-        // Bookmarks
-        { "before": ["<leader>", "m"], "commands": ["bookmarks.toggle"]},
-        { "before": ["<leader>", "b"], "commands": ["bookmarks.list"]},
+        // EasyMotion
+        { "before": [","], "after": ["leader", "leader", "s"] },
 
         // PlantUML
         { "before": ["leader", "p", "t"], "commands": [{
@@ -265,7 +259,7 @@
 
     // -----------------------------------------------------------------
     // LaTex
-    "latex-workshop.latex.outDir": "%DIR%",
+    "latex-workshop.latex.outDir": "%DIR%/output",
     "latex-workshop.latex.tools": [
         {
             "name": "xelatex",
@@ -304,10 +298,7 @@
     ],
     "latex-workshop.latex.recipes": [
         { "name": "xelatex", "tools": ["xelatex"] },
-        { "name": "pdflatex", "tools": ["pdflatex"] },
-        { "name": "xe->bibtex->xe*2", "tools": ["xelatex", "bibtex", "xelatex", "xelatex"] },
         { "name": "xe->biber->xe*2", "tools": ["xelatex", "biber", "xelatex", "xelatex"] },
-        { "name": "pdf->bib->pdf*2", "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"] }
     ],
     "latex-workshop.view.pdf.viewer": "tab",
     "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click",

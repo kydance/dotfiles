@@ -145,7 +145,7 @@ alias ga="git add"
 
 # kitty
 alias icat="kitty +kitten icat"
-alias ssh="kitty +kitten ssh"
+# alias ssh="kitty +kitten ssh"
 
 # moonshot key
 MOONSHOT="sk-NhXW5IVS1wR5eMMX2iM73O21K3rHr94noYQuMK1PpAB2NDMG"
@@ -153,6 +153,9 @@ export PATH=$MOONSHOT:$PATH
 
 # Added by Windsurf
 export PATH="/Users/kyden/.codeium/windsurf/bin:$PATH"
+
+# Viper demo
+export VIPER_DEMO_APP_PORT=9099
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
