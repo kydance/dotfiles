@@ -1,31 +1,19 @@
 -- Hint: use `:h <option>` to figure out the meaning if needed
 
-function paste(reg)
-	return function(lines)
-		local content = vim.fn.getreg('"')
-		return vim.split(content, "\n")
-	end
-end
-
-if os.getenv("SSH_TTY") == nil then -- 本地环境
-	vim.opt.clipboard = "unnamedplus" -- use system clipboard
-else
-	vim.opt.clipboard = "unnamedplus" -- use system clipboard
-
-	-- if vim.env.TMUX then
+-- vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard:append("unnamedplus")
+if vim.fn.exists("$SSH_TTY") == 1 and vim.fn.exists("$TMUX") == nil then
 	vim.g.clipboard = {
-		name = "tmux-clipboard",
+		name = "OSC 52",
 		copy = {
-			["+"] = "tmux load-buffer -w -",
-			["*"] = "tmux load-buffer -w -",
+			["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+			["*"] = require("vim.ui.clipboard.osc52").copy("*"),
 		},
 		paste = {
-			["+"] = paste("+"),
-			["*"] = paste("*"),
+			["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+			["*"] = require("vim.ui.clipboard.osc52").paste("*"),
 		},
-		-- cache_enabled = 0,
 	}
-	-- end
 end
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
