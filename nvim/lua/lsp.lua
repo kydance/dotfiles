@@ -19,6 +19,7 @@ require("mason-lspconfig").setup({
 		"marksman", -- Markdown
 		"lua_ls", -- lua_ls
 		"cmake", -- CMake
+		"bashls", -- Bash
 	},
 })
 
@@ -29,13 +30,12 @@ require("mason-lspconfig").setup({
 --     - on_attach: a lua callback function to run after LSP attaches to a given buffer.
 local lspconfig = require("lspconfig")
 local lsputil = require("lspconfig.util")
-local telescope_builtin = require("telescope.builtin")
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer.
 local on_attach = function(client, bufnr)
 	-- Enable completion triggered by <c-x><c-o>
-	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+	vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 
 	if client.name == "rust_analyzer" then
 		-- WARNING: This feature requires Neovim 0.10 or later.
@@ -60,10 +60,28 @@ local on_attach = function(client, bufnr)
 		{ "CursorMoved", "CursorMovedI" },
 		{ callback = vim.lsp.buf.clear_references, buffer = bufnr }
 	)
-	vim.api.nvim_create_autocmd(
-		{ "TextChangedI", "TextChangedP" },
-		{ callback = vim.lsp.buf.signature_help, buffer = bufnr }
-	)
+	-- Configure signature help to show without focusing
+	vim.api.nvim_create_autocmd({ "TextChangedI", "TextChangedP" }, {
+		callback = function()
+			-- Show signature help without focusing the floating window
+			local params = vim.lsp.util.make_position_params(0, "utf-8")
+			vim.lsp.buf_request(bufnr, "textDocument/signatureHelp", params, function(err, result, ctx, config)
+				if result and result.signatures and #result.signatures > 0 then
+					-- Use vim.lsp.handlers directly instead of deprecated vim.lsp.with
+					local old_handler = vim.lsp.handlers["textDocument/signatureHelp"]
+					vim.lsp.handlers["textDocument/signatureHelp"] = function(_, result, ctx, config)
+						config = config or {}
+						config.focus = false -- This prevents focus from moving to the signature window
+						config.border = "rounded"
+						return old_handler(_, result, ctx, config)
+					end
+					-- Call the handler directly with the results
+					vim.lsp.handlers["textDocument/signatureHelp"](err, result, ctx, {})
+				end
+			end)
+		end,
+		buffer = bufnr,
+	})
 
 	-- vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
 	-- vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
@@ -86,9 +104,9 @@ local on_attach = function(client, bufnr)
 			-- Predicate used to filter clients. Receives a client as
 			-- argument and must return a boolean. Clients matching the
 			-- predicate are included.
-			filter = function(client)
+			filter = function(_client)
 				-- NOTE: If an LSP contains a formatter, we don't need to use null-ls at all.
-				return client.name == "null-ls" or client.name == "hls"
+				return _client.name == "null-ls" or _client.name == "hls"
 			end,
 		})
 	end, { range = true })
@@ -150,7 +168,16 @@ lspconfig.clangd.setup({
 -- Customized on_attach function.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions.
 local opts = { noremap = true, silent = true }
-vim.keymap.set("n", "<space>d", vim.diagnostic.open_float, opts)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
+-- Updated to use the non-deprecated diagnostic functions
+vim.keymap.set("n", "<space>d", function()
+	vim.diagnostic.open_float()
+end, opts)
+vim.keymap.set("n", "[d", function()
+	vim.diagnostic.goto_prev()
+end, opts)
+vim.keymap.set("n", "]d", function()
+	vim.diagnostic.goto_next()
+end, opts)
+vim.keymap.set("n", "<space>q", function()
+	vim.diagnostic.setloclist()
+end, opts)

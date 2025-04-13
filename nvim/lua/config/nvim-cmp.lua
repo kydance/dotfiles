@@ -3,9 +3,11 @@ local cmp_ok, cmp = pcall(require, "cmp")
 local lspkind_ok, lspkind = pcall(require, "lspkind")
 
 if not luasnip_ok or not cmp_ok or not lspkind_ok then
+	vim.notify("nvim-cmp or its dependencies failed to load", vim.log.levels.ERROR)
 	return
 end
 
+-- Helper function to check if there are words before cursor position
 local has_words_before = function()
 	unpack = unpack or table.unpack
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -16,8 +18,19 @@ cmp.setup({
 	snippet = {
 		-- REQUIRED - you must specify a snippet engine
 		expand = function(args)
-			require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+			luasnip.lsp_expand(args.body) -- For `luasnip` users.
 		end,
+	},
+	-- Add window configuration for better appearance
+	window = {
+		completion = cmp.config.window.bordered({
+			border = "rounded",
+			winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+		}),
+		documentation = cmp.config.window.bordered({
+			border = "rounded",
+			winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+		}),
 	},
 	mapping = cmp.mapping.preset.insert({
 		-- Use <C-b/f> to scroll the docs
@@ -26,6 +39,10 @@ cmp.setup({
 		-- Use <C-k/j> to switch in items
 		["<C-k>"] = cmp.mapping.select_prev_item(),
 		["<C-j>"] = cmp.mapping.select_next_item(),
+		-- Use <C-Space> to trigger completion
+		["<C-Space>"] = cmp.mapping.complete(),
+		-- Use <C-e> to abort completion
+		["<C-e>"] = cmp.mapping.abort(),
 		-- Use <CR>(Enter) to confirm selection
 		-- Accept the currently selected item.
 		-- Set `select` to `false` to only confirm explicitly selected items.
@@ -82,13 +99,19 @@ cmp.setup({
 			end,
 		}),
 	},
-	-- Set source precedence
+	-- Set source precedence with proper priority
 	sources = cmp.config.sources({
-		{ name = "nvim_lsp" }, -- For nvim-lsp
-		{ name = "luasnip" }, -- For luasnip user
-		{ name = "buffer" }, -- For buffer word completion
-		{ name = "path" }, -- For path completion
+		{ name = "nvim_lsp", priority = 1000 }, -- For nvim-lsp
+		{ name = "luasnip", priority = 750 }, -- For luasnip user
+		{ name = "buffer", priority = 500 }, -- For buffer word completion
+		{ name = "path", priority = 250 }, -- For path completion
 	}),
+
+	-- Add performance settings
+	performance = {
+		max_view_entries = 20, -- Limit the number of items shown at once
+		fetching_timeout = 500, -- Timeout for fetching completions
+	},
 })
 
 -- Set configuration for specific filetype.
@@ -116,4 +139,16 @@ cmp.setup.cmdline(":", {
 	}, {
 		{ name = "cmdline" },
 	}),
+	-- Allow non-prefix matching in command mode
+	matching = { disallow_symbol_nonprefix_matching = false },
 })
+
+-- Set up LSP capabilities for nvim-cmp
+-- This ensures LSP servers use nvim-cmp for autocompletion
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+local has_cmp_lsp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
+if has_cmp_lsp then
+	capabilities = cmp_lsp.default_capabilities(capabilities)
+	-- Make this available to lspconfig
+	vim.g.cmp_capabilities = capabilities
+end

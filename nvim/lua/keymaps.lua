@@ -33,7 +33,7 @@ keymap.set("n", "<leader>l", ":vertical resize +2<CR>", opts)
 
 -- 文件
 keymap.set("n", "<leader>w", ":w!<CR>") -- Save file
-keymap.set("n", "<leader>q", ":q<CR>") -- Quit file
+keymap.set("n", "<leader>q", "ZZ") -- Quit file
 
 -- 取消高亮
 keymap.set("n", "<leader>nh", ":nohl<CR>")

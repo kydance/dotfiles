@@ -41,8 +41,9 @@ vim.opt.expandtab = true -- tabs are spaces, mainly because of python
 vim.opt.number = true -- show absolute number
 vim.opt.relativenumber = true -- add numbers to each line on the left side
 vim.opt.cursorline = true -- highlight cursor line underneath the cursor horizontally
+-- vim.opt.guicursor = ""
 vim.wo.colorcolumn = "100"
-vim.opt.scrolloff = 5
+vim.opt.scrolloff = 8
 vim.opt.splitbelow = true -- open new vertical split bottom
 vim.opt.splitright = true -- open new horizontal splits right
 vim.opt.termguicolors = true -- enabl 24-bit RGB color in the TUI
@@ -88,10 +89,10 @@ vim.cmd([[
 -------------------------------------
 -------------------------------------
 -- NOTE ColorScheme -> trigger
--- gruvbox, zephyr, tokyonight
+-- gruvbox, zephyr, tokyonight, monokai_ristretto
 -- silent! colorscheme gruvbox
 -------------------------------------
 -------------------------------------
 vim.cmd([[
-    silent! colorscheme gruvbox
+    silent! colorscheme monokai_ristretto
 ]])

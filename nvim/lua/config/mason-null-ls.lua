@@ -1,25 +1,23 @@
 -- null_ls Format
---
+
 local util = require("util")
 local mason_ok, mason = pcall(require, "mason")
 if not mason_ok then
-	util.log_warn("mason init failed.")
+	util.log_warn("mason load failed.")
 	return
 end
 
 local null_ls_ok, null_ls = pcall(require, "null-ls")
 if not null_ls_ok then
-	util.log_warn("null-ls init failed.")
+	util.log_warn("null-ls load failed.")
 	return
 end
 
 local mason_null_ls_ok, mason_null_ls = pcall(require, "mason-null-ls")
 if not mason_null_ls_ok then
-	util.log_warn("mason-null-ls init failed.")
+	util.log_warn("mason-null-ls load failed.")
 	return
 end
-
--- Hint:
 
 mason.setup()
 
@@ -59,19 +57,19 @@ mason_null_ls.setup({
 		-- Hint: see https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTIN_CONFIG.md
 		--       to check what we can configure for each source
 		-- function() end, -- disables automatic setup of all null-ls sources
-		black = function(source_name, methods)
+		black = function(_, _)
 			null_ls.register(null_ls.builtins.formatting.black)
 		end,
-		stylua = function(source_name, methods)
+		stylua = function(_, _)
 			null_ls.register(null_ls.builtins.formatting.stylua)
 		end,
-		rubyformat = function(source_name, methods)
+		rubyformat = function(_, _)
 			null_ls.register(null_ls.builtins.formatting.rubyfmt)
 		end,
-		clangformat = function(source_name, methods)
+		clangformat = function(_, _)
 			null_ls.register(null_ls.builtins.formatting.clang_format)
 		end,
-		ocamlformat = function(source_name, methods)
+		ocamlformat = function(_, _)
 			null_ls.register(null_ls.builtins.formatting.ocamlformat.with({
 				-- Add more arguments to a source's defaults
 				-- Default: { "--enable-outside-detected-project", "--name", "$FILENAME", "-" }

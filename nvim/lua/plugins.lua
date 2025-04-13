@@ -45,15 +45,6 @@ require("lazy").setup({
 		end,
 	},
 
-	-- scallbar
-	{
-		"petertriho/nvim-scrollbar",
-		event = "BufReadPost",
-		config = function()
-			require("scrollbar").setup()
-		end,
-	},
-
 	-- Improve the performance of big file
 	"pteroctopus/faster.nvim",
 
@@ -284,14 +275,6 @@ require("lazy").setup({
 			require("config.nvim-treesitter")
 		end,
 	},
-	-- Nvim-treesitter text objects
-	{
-		"nvim-treesitter/nvim-treesitter-textobjects",
-		dependencies = "nvim-treesitter/nvim-treesitter",
-		config = function()
-			require("config.nvim-treesitter-textobjects")
-		end,
-	},
 
 	-- Vscode-like pictograms
 	{
@@ -367,7 +350,7 @@ require("lazy").setup({
 		config = function()
 			-- 自定义codeium快捷键，不使用tab接受建议而是用Ctrl+g
 			vim.g.codeium_no_map_tab = 1
-			vim.keymap.set("i", "<C-g>", function()
+			vim.keymap.set("i", "<C-Enter>", function()
 				return vim.fn["codeium#Accept"]()
 			end, { expr = true, silent = true })
 		end,

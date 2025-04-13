@@ -1,29 +1,30 @@
 -- Status Line
 
 local util = require("util")
-local ok, cfg = pcall(require, "lualine")
+local ok, lualine = pcall(require, "lualine")
 if not ok then
-	util.log_warn("lualine init failed.")
+	util.log_warn("lualine load failed")
 	return
 end
 
-cfg.setup({
+-- Configure lualine with better defaults
+lualine.setup({
 	options = {
 		icons_enabled = true,
 		theme = "auto",
 		component_separators = { left = "", right = "" },
 		section_separators = { left = "", right = "" },
 		disabled_filetypes = {
-			statusline = {},
+			statusline = { "dashboard", "alpha" },
 			winbar = {},
 		},
-		ignore_focus = {},
+		ignore_focus = { "NvimTree", "neo-tree", "Outline" },
 		always_divide_middle = true,
-		globalstatus = false,
+		globalstatus = true, -- Use Neovim's global statusline
 		refresh = {
-			statusline = 1000,
-			tabline = 1000,
-			winbar = 1000,
+			statusline = 100,
+			tabline = 100,
+			winbar = 100,
 		},
 	},
 
@@ -32,22 +33,41 @@ cfg.setup({
 	-- +-------------------------------------------------+
 	sections = {
 		lualine_a = { "mode" },
+
 		lualine_b = { "branch", "diff", "diagnostics" },
-        lualine_c = { {
-            "filename",
 
-            -- Path configurations
-            -- 0: Just the filename
-            -- 1: Relative path
-            -- 2: Absolute path
-            -- 3: Absolute path, with tilde as the home directory
-            -- 4: Filename and parent dir, with tilde as the home directory
-            path = 3
-        } },
+		lualine_c = {
+			{
+				"filename",
 
+				-- Path configurations
+				-- 0: Just the filename
+				-- 1: Relative path
+				-- 2: Absolute path
+				-- 3: Absolute path, with tilde as the home directory
+				-- 4: Filename and parent dir, with tilde as the home directory
+				path = 3,
+				symbols = {
+					modified = "●",
+					readonly = "",
+					unnamed = "[No Name]",
+				},
+			},
+		},
 
-		-- lualine_x = { 'encoding', 'filetype', 'fileformat', {'datetime', style = '%H:%M'}},
-		lualine_x = { "encoding", "filetype", { "datetime", style = "%H:%M" } },
+		lualine_x = {
+			"encoding",
+			"fileformat",
+			"filetype",
+			{
+				"filesize",
+				cond = function()
+					return vim.fn.getfsize(vim.fn.expand("%:p")) > 0
+				end,
+			},
+			{ "datetime", style = "%H:%M:%S" },
+		},
+
 		lualine_y = { "progress" },
 		lualine_z = { "location" },
 	},
@@ -61,8 +81,13 @@ cfg.setup({
 		lualine_z = {},
 	},
 
-	tabline = {},
+	tabline = {}, -- Let another plugin handle the tabline
 	winbar = {},
 	inactive_winbar = {},
-	extensions = {},
+	extensions = {
+		"nvim-tree",
+		"toggleterm",
+		"quickfix",
+		"fugitive",
+	},
 })
