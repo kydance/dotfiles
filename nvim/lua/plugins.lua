@@ -346,12 +346,20 @@ require("lazy").setup({
 
 	-- Codeium
 	{
-		"Exafunction/codeium.vim",
+		"Exafunction/windsurf.vim",
 		config = function()
-			-- 自定义codeium快捷键，不使用tab接受建议而是用Ctrl+g
 			vim.g.codeium_no_map_tab = 1
-			vim.keymap.set("i", "<C-Enter>", function()
+			vim.keymap.set("i", "<C-g>", function()
 				return vim.fn["codeium#Accept"]()
+			end, { expr = true, silent = true })
+			vim.keymap.set("i", "<C-;>", function()
+				return vim.fn["codeium#CycleCompletions"](1)
+			end, { expr = true, silent = true })
+			vim.keymap.set("i", "<C-,>", function()
+				return vim.fn["codeium#CycleCompletions"](-1)
+			end, { expr = true, silent = true })
+			vim.keymap.set("i", "<C-x>", function()
+				return vim.fn["codeium#Clear"]()
 			end, { expr = true, silent = true })
 		end,
 	},

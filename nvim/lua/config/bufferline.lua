@@ -47,7 +47,7 @@ bufferline.setup({
 				text = "Outline",
 				highlight = "Directory",
 				text_align = "left",
-				padding = 1,
+				padding = 0,
 			},
 		},
 
@@ -57,7 +57,7 @@ bufferline.setup({
 		end,
 
 		-- 排序规则
-		sort_by = "insert_after_current", -- 插入到当前缓冲区后面
+		sort_by = "last", -- insert it to the end of the list
 	},
 
 	-- 高亮组设置
@@ -79,7 +79,7 @@ bufferline.setup({
 for i = 1, 9 do
 	vim.keymap.set("n", "<leader>" .. i, function()
 		bufferline.go_to(i, true)
-	end, { desc = "Go to buffer " .. i })
+	end, { desc = "Go to b " .. i })
 end
 
 -- 2. 使用 gt/gT 在缓冲区之间切换
@@ -98,7 +98,6 @@ vim.keymap.set({ "v", "n" }, "ZZ", function()
 end, { desc = "Close current buffer" })
 
 -- 4. 添加更多实用的快捷键
-
 vim.keymap.set("n", "<leader>bc", "<cmd>BufferLinePickClose<CR>", { desc = "选择关闭缓冲区" })
 vim.keymap.set(
 	"n",
