@@ -76,7 +76,7 @@ tree.setup({
 	-- Git integration
 	git = {
 		enable = true,
-		ignore = true, -- 设置为 false 以显示被 .gitignore 忽略的文件
+		ignore = false, -- 设置为 false 以显示被 .gitignore 忽略的文件
 		timeout = 500, -- Timeout for git status check
 	},
 
