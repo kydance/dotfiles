@@ -135,10 +135,9 @@ require("lazy").setup({
 			"nvim-telescope/telescope.nvim", -- optional
 			-- "ibhagwan/fzf-lua", -- optional
 		},
-		config = true,
-		-- config = function()
-		-- 	require("neogit").setup({})
-		-- end,
+		config = function()
+			require("config.neogit")
+		end,
 	},
 
 	-- Outline
@@ -222,13 +221,14 @@ require("lazy").setup({
 		require = { "godlygeek/tabular" },
 		ft = { "markdown" },
 	},
-	-- Markdown previewer
+
+	-- Markdown preview
 	{
-		"iamcco/markdown-preview.nvim",
-		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-		ft = { "markdown" },
-		build = function()
-			vim.fn["mkdp#util#install"]()
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+
+		config = function()
+			require("config.render-markdown")
 		end,
 	},
 

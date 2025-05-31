@@ -1,19 +1,36 @@
 -- Hint: use `:h <option>` to figure out the meaning if needed
 
--- vim.opt.clipboard = "unnamedplus"
-vim.opt.clipboard:append("unnamedplus")
-if vim.fn.exists("$SSH_TTY") == 1 and vim.fn.exists("$TMUX") == nil then
-	vim.g.clipboard = {
-		name = "OSC 52",
-		copy = {
-			["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-			["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-		},
-		paste = {
-			["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-			["*"] = require("vim.ui.clipboard.osc52").paste("*"),
-		},
-	}
+-- Remote
+if vim.fn.exists("$SSH_TTY") == 1 then
+	-- NON-Tmux
+	if vim.fn.exists("$TMUX") == nil then
+		vim.g.clipboard = {
+			name = "OSC 52",
+			copy = {
+				["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+				["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+			},
+			paste = {
+				["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+				["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+			},
+		}
+	else -- Tmux
+		vim.g.clipboard = {
+			name = "tmux",
+
+			copy = {
+				["+"] = "tmux load-buffer -",
+				["*"] = "tmux load-buffer -",
+			},
+			paste = {
+				["+"] = "tmux save-buffer -",
+				["*"] = "tmux save-buffer -",
+			},
+		}
+	end
+else -- Local
+	vim.opt.clipboard = "unnamedplus"
 end
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
