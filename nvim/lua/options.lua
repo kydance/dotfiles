@@ -1,36 +1,22 @@
 -- Hint: use `:h <option>` to figure out the meaning if needed
 
--- Remote
-if vim.fn.exists("$SSH_TTY") == 1 then
-	-- NON-Tmux
-	if vim.fn.exists("$TMUX") == nil then
-		vim.g.clipboard = {
-			name = "OSC 52",
-			copy = {
-				["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-				["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-			},
-			paste = {
-				["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-				["*"] = require("vim.ui.clipboard.osc52").paste("*"),
-			},
-		}
-	else -- Tmux
-		vim.g.clipboard = {
-			name = "tmux",
+util = require("util")
 
-			copy = {
-				["+"] = "tmux load-buffer -",
-				["*"] = "tmux load-buffer -",
-			},
-			paste = {
-				["+"] = "tmux save-buffer -",
-				["*"] = "tmux save-buffer -",
-			},
-		}
-	end
-else -- Local
-	vim.opt.clipboard = "unnamedplus"
+-- Clipboard
+vim.opt.clipboard = "unnamedplus"
+if vim.fn.exists("$SSH_TTY") == 1 and vim.fn.exists("$TMUX") == 0 then
+	util.log_info("SSH_TTY detected")
+	vim.g.clipboard = {
+		name = "osc52",
+		copy = {
+			["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+			["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+		},
+		paste = {
+			["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+			["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+		},
+	}
 end
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
@@ -94,7 +80,7 @@ vim.cmd([[
 -------------------------------------
 -------------------------------------
 -- NOTE ColorScheme -> trigger
--- gruvbox, zephyr, tokyonight, monokai_ristretto
+-- gruvbox, zephyr, tokyonight, monokai_ristretto, dracula
 -- silent! colorscheme gruvbox
 -------------------------------------
 -------------------------------------
