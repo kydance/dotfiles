@@ -3,7 +3,7 @@
 local util = require("util")
 local is_ok, aerial = pcall(require, "aerial")
 if not is_ok then
-	util.log_warn("aerial load failed, please check your config")
+	util.log_warn("aerial load failed")
 	return
 end
 
@@ -14,7 +14,6 @@ aerial.setup({
 		vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr, desc = "PrevSymbol" })
 		vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr, desc = "NextSymbol" })
 
-		vim.keymap.set("n", "<F12>", "<cmd>AerialToggle!<CR>", { buffer = bufnr, desc = "ToggleOutline" })
 		vim.keymap.set("n", "<leader>as", "<cmd>AerialNavToggle<CR>", { buffer = bufnr, desc = "SymbolQuickNav" })
 	end,
 
@@ -87,6 +86,9 @@ aerial.setup({
 	highlight_on_hover = true, -- 悬停时高亮符号
 	highlight_on_jump = 300, -- 跳转后高亮持续时间（毫秒）
 })
+
+-- You probably also want to set a keymap to toggle aerial
+vim.keymap.set("n", "<F12>", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aerial" })
 
 -- Telescope 集成
 local found_telescope, telescope = pcall(require, "telescope")

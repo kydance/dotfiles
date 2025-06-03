@@ -14,7 +14,36 @@ local has_words_before = function()
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+local kind_icons = {
+	Text = "",
+	Method = "󰆧",
+	Function = "󰊕",
+	Constructor = "",
+	Field = "󰇽",
+	Variable = "󰂡",
+	Class = "󰠱",
+	Interface = "",
+	Module = "",
+	Property = "󰜢",
+	Unit = "",
+	Value = "󰎠",
+	Enum = "",
+	Keyword = "󰌋",
+	Snippet = "",
+	Color = "󰏘",
+	File = "󰈙",
+	Reference = "",
+	Folder = "󰉋",
+	EnumMember = "",
+	Constant = "󰏿",
+	Struct = "",
+	Event = "",
+	Operator = "󰆕",
+	TypeParameter = "󰅲",
+}
+
 cmp.setup({
+	view = { entries = "custom" },
 	snippet = {
 		-- REQUIRED - you must specify a snippet engine
 		expand = function(args)
@@ -79,23 +108,32 @@ cmp.setup({
 	formatting = {
 		-- Customize the appearance of the completion menu
 		format = lspkind.cmp_format({
-			-- Show only symbol annotations
+			-- Show only symbol annotations "text_symbol"
 			mode = "symbol_text",
 			-- Prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-			maxwidth = 100,
+			maxwidth = 50,
 			-- When the popup menu exceeds maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
 			ellipsis_char = "...",
 
 			-- The function below will be called before any actual modifications from lspkind
 			-- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
 			before = function(entry, vim_item)
-				vim_item.menu = ({
-					nvim_lsp = "[Lsp]",
-					luasnip = "[Luasnip]",
-					buffer = "[File]",
-					path = "[Path]",
-				})[entry.source.name]
-				return vim_item
+				if not lspkind_ok then
+					-- This concatenates the icons with the name of the item kind
+					vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
+					vim_item.menu = ({
+						nvim_lsp = "[Lsp]",
+						luasnip = "[LuaSnip]",
+						nvim_lua = "[Lua]",
+						buffer = "[Buffer]",
+						path = "[Path]",
+						latex_symbols = "[Latex]",
+					})[entry.source.name]
+					return vim_item
+				else
+					-- From lspkind
+					return lspkind.cmp_format()(entry, vim_item)
+				end
 			end,
 		}),
 	},

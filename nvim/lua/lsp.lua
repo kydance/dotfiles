@@ -147,9 +147,7 @@ lspconfig.lua_ls.setup({
 				library = vim.api.nvim_get_runtime_file("", true),
 			},
 			-- Do not send telemetry data containing a randomized but unique identifier.
-			telemetry = {
-				enable = false,
-			},
+			telemetry = { enable = false },
 		},
 	},
 })

@@ -57,6 +57,25 @@ require("lazy").setup({
 		end,
 	},
 
+	-- Scrollbar
+	{
+		"petertriho/nvim-scrollbar",
+		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+		config = function()
+			require("scrollbar").setup({
+				handlers = {
+					cursor = true,
+					diagnostic = true,
+					gitsigns = true, -- Requires gitsigns
+					handle = true,
+					search = false, -- Requires hlslens
+					ale = false, -- Requires ALE
+				},
+				set_highlights = true,
+			})
+		end,
+	},
+
 	-- UI Component Library
 	"MunifTanjim/nui.nvim",
 
@@ -323,9 +342,12 @@ require("lazy").setup({
 	{
 		"L3MON4D3/LuaSnip",
 		event = "InsertEnter",
-		dependencies = {
-			"rafamadriz/friendly-snippets",
-		},
+		dependencies = { "rafamadriz/friendly-snippets" },
+		config = function()
+			require("luasnip.loaders.from_vscode").load({
+				include = { "c", "cpp", "go", "python", "sh", "json", "lua", "gitcommit", "sql", "markdown" },
+			})
+		end,
 	},
 
 	-- LSP Rename

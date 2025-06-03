@@ -4,7 +4,7 @@ util = require("util")
 
 -- Clipboard
 vim.opt.clipboard = "unnamedplus"
-if vim.fn.exists("$SSH_TTY") == 1 and vim.fn.exists("$TMUX") == 0 then
+if vim.fn.exists("$SSH_TTY") == 1 then
 	util.log_info("SSH_TTY detected")
 	vim.g.clipboard = {
 		name = "osc52",
