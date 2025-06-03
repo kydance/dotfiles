@@ -17,10 +17,14 @@ aerial.setup({
 		vim.keymap.set("n", "<leader>as", "<cmd>AerialNavToggle<CR>", { buffer = bufnr, desc = "SymbolQuickNav" })
 	end,
 
+	-- Automatically open aerial when entering supported buffers.
+	-- This can be a function (see :help aerial-open-automatic)
+	open_automatic = true,
+
 	layout = {
 		default_direction = "right",
-		max_width = { 40, 0.2 },
-		min_width = 20,
+		max_width = { 64, 0.2 },
+		min_width = 24,
 		width = nil, -- automatic
 		resize_to_content = true,
 		preserve_equality = true,
