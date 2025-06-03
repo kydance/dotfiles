@@ -366,6 +366,20 @@ require("lazy").setup({
 		end,
 	},
 
+	-- PlantUML syntax
+	{
+		"aklt/plantuml-syntax",
+		ft = "plantuml",
+	},
+	-- PlantUML preview
+	{
+		"weirongxu/plantuml-previewer.vim",
+		ft = "plantuml",
+		dependencies = {
+			"tyru/open-browser.vim",
+		},
+	},
+
 	-- Codeium
 	{
 		"Exafunction/windsurf.vim",

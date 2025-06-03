@@ -32,15 +32,15 @@ keymap.set("n", "<leader>l", ":vertical resize +2<CR>", opts)
 -- keymap.set("n", "<C-l>", "<C-w>l", opts)
 
 -- 文件
-keymap.set("n", "<leader>w", ":w!<CR>") -- Save file
-keymap.set("n", "<leader>q", "ZZ") -- Quit file
+keymap.set("n", "<leader>w", ":w!<CR>", { desc = "Save" }) -- Save file
+keymap.set("n", "<leader>q", ":wq<CR>", { desc = "Save and quit" }) -- Quit file
 
 -- 取消高亮
 keymap.set("n", "<leader>nh", ":nohl<CR>")
 
 -- 光标快速移动
-keymap.set({ "n", "v" }, "H", "^") -- 移动光标至行首
-keymap.set({ "n", "v" }, "L", "$") -- 移动光标至行尾
+keymap.set({ "n", "v" }, "H", "^", { desc = "Move to start of line" }) -- 移动光标至行首
+keymap.set({ "n", "v" }, "L", "$", { desc = "Move to end of line" }) -- 移动光标至行尾
 
 ----------------------------------
 -- Visual mode --
